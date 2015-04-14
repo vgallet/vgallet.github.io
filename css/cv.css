@@ -1,0 +1,40 @@
+body {
+    margin: 5px;
+    color: #342800 !important;
+}
+
+.logo {
+    margin-bottom: 0 !important;
+    float: right;
+}
+
+.experience {
+    border-bottom: solid 1px #ddd;
+}
+
+.experience-bottom {
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+.experience-summary {
+    font-size: 12px;
+}
+
+.panel-body {
+    padding: 10px !important;
+}
+
+
+.header {
+    font-weight: bold;
+    text-align: center;
+    font-size: 19px;
+    color: white !important;
+    background-color: #639BF1 !important;
+    background-image: none !important;
+    -webkit-print-color-adjust: exact;
+}
+
+
+
