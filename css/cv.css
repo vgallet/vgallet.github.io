@@ -25,6 +25,9 @@ body {
     padding: 10px !important;
 }
 
+.page-break {
+    page-break-before: always;
+}
 
 .header {
     font-weight: bold;
