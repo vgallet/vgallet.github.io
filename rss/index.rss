@@ -1,4 +1,4 @@
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>Untitled RSS Feed</title><description>Untitled RSS Feed</description><link>http://localhost:2368/</link><generator>Ghost 0.11</generator><lastBuildDate>Thu, 06 Apr 2017 17:11:22 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Les Journées du Logiciel Libre de Lyon</title><description>&lt;p&gt;Le weekend du 1er avril a eu lieu la 18ème édition des &lt;a href="http://www.jdll.org/"&gt;Journées du logiciel libre&lt;/a&gt; à Lyon. Les JDLL, c'est un programme très riche, proposant des conférences, des ateliers et des animations autour du numérique et des technologies du libre.&lt;/p&gt;
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>Untitled RSS Feed</title><description>Untitled RSS Feed</description><link>http://localhost:2368/</link><generator>Ghost 0.11</generator><lastBuildDate>Sat, 15 Apr 2017 07:42:06 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Les Journées du Logiciel Libre de Lyon</title><description>&lt;p&gt;Le weekend du 1er avril a eu lieu la 18ème édition des &lt;a href="http://www.jdll.org/"&gt;Journées du logiciel libre&lt;/a&gt; à Lyon. Les JDLL, c'est un programme très riche, proposant des conférences, des ateliers et des animations autour du numérique et des technologies du libre.&lt;/p&gt;
 
 &lt;p&gt;Avant de vous présenter ce que j'ai pu découvrir,&lt;/p&gt;</description><link>http://localhost:2368/2017/04/02/les-journees-du-logiciel-libre-de-lyon-2/</link><guid isPermaLink="false">d6f34e73-0efb-49c6-9ea9-9b3f8cf1241f</guid><category>jdll</category><dc:creator>Victor GALLET</dc:creator><pubDate>Sun, 02 Apr 2017 11:24:18 GMT</pubDate><media:content url="http://localhost:2368/content/images/2017/04/DSC_0068.JPG" medium="image"/><content:encoded>&lt;img src="http://localhost:2368/content/images/2017/04/DSC_0068.JPG" alt="Les Journées du Logiciel Libre de Lyon"&gt;&lt;p&gt;Le weekend du 1er avril a eu lieu la 18ème édition des &lt;a href="http://www.jdll.org/"&gt;Journées du logiciel libre&lt;/a&gt; à Lyon. Les JDLL, c'est un programme très riche, proposant des conférences, des ateliers et des animations autour du numérique et des technologies du libre.&lt;/p&gt;
 
@@ -8,7 +8,7 @@
 
 &lt;p&gt;&lt;img src="http://localhost:2368/content/images/2017/04/DSC_0068-1.JPG" alt="Les Journées du Logiciel Libre de Lyon"&gt;&lt;/p&gt;
 
-&lt;p&gt;Pour démarrer, je me suis rendu au village associatif pour découvrir ce que propose les stands.&lt;/p&gt;
+&lt;p&gt;Pour démarrer, je me suis rendu au village associatif pour découvrir ce que proposent les stands.&lt;/p&gt;
 
 &lt;h6 id="mozilla"&gt;Mozilla&lt;/h6&gt;
 
@@ -22,7 +22,7 @@
 
 &lt;p&gt;&lt;img src="http://localhost:2368/content/images/2017/04/Capture-du-2017-04-01-23-21-23.png" alt="Les Journées du Logiciel Libre de Lyon"&gt;&lt;/p&gt;
 
-&lt;p&gt;Ainsi, vous pourrez définir vos comptes personnels dans un container dédié, puis définir vos informations de connexion professionnelle dans un autre conteneur. &lt;br&gt;
+&lt;p&gt;Ainsi, vous pourrez définir vos comptes personnels dans un conteneur dédié, puis définir vos informations de connexion professionnelle dans un autre conteneur. &lt;br&gt;
 Une autre fonctionnalité qui a attiré mon attention est "Tab Center". Cette dernière permet d'avoir ses onglets sur le côté et elle se couple très bien aux conteneurs.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src="http://localhost:2368/content/images/2017/04/tab-center-1.ceef2f45.jpg" alt="Les Journées du Logiciel Libre de Lyon"&gt;&lt;/p&gt;
@@ -41,7 +41,7 @@ Une autre fonctionnalité qui a attiré mon attention est "Tab Center". Cette de
 
 &lt;h4 id="postgresqletlarplication"&gt;PostgreSQL et la réplication&lt;/h4&gt;
 
-&lt;p&gt;J'ai terminé en assistant à une conférence autour de PostgreSQL et de la réplication. Cette dernière fût animée par Laetitia Avrot. En ce cours laps de temps, Laetitia a résumé les principales différences entre les bases de données SGBDR et NoSQL. Puis, elle nous a présenté les différents types de réplication, suivant quelle version de PostgreSQL et avec quels outils. Enfin, elle a terminé en présentant suivant les problématiques et les cas d'usages, quels type de réplication sont les plus adaptés. Ce fût une présentation très dense, très dynamique et très bonne! &lt;br&gt;
+&lt;p&gt;J'ai terminé en assistant à une conférence autour de PostgreSQL et de la réplication. Cette dernière fut animée par Laetitia Avrot. En ce cours laps de temps, Laetitia a résumé les principales différences entre les bases de données SGBDR et NoSQL. Puis, elle nous a présenté les différents types de réplication, suivant quelle version de PostgreSQL et avec quels outils. Enfin, elle a terminé en présentant suivant les problématiques et les cas d'usages, quels types de réplication sont les plus adaptés. Ce fut une présentation très dense, très dynamique et très bonne! &lt;br&gt;
 Pour terminer, je vous conseille également le blog de Laetitia Avrot : &lt;a href="https://laetitia-avrot.blogspot.fr/p/but-de-ce-blog.html"&gt;https://laetitia-avrot.blogspot.fr/p/but-de-ce-blog.html&lt;/a&gt;. Elle y répertorie des astuces, des explications autour de l'univers des base de données.&lt;/p&gt;
 
-&lt;p&gt;Mon passage aux JDLL fût bref car je n'ai pas pu assister à toutes les conférences qui me faisaient envie. Malgré cela, les JDLL sont un rendez-vous auxquels j'assiste tous les ans et que j'aime beaucoup car l'ambiance y est excellente. On y trouve des sujets couvrant un panel très large de domaines et c'est gratuit! Je ne peux que vous encourager à vous y rendre. A l'année prochaine!&lt;/p&gt;</content:encoded></item></channel></rss>
+&lt;p&gt;Mon passage aux JDLL fut bref car je n'ai pas pu assister à toutes les conférences qui me faisaient envie. Malgré cela, les JDLL sont un rendez-vous auquel j'assiste tous les ans et que j'aime beaucoup car l'ambiance y est excellente. On y trouve des sujets couvrant un panel très large de domaines et c'est gratuit! Je ne peux que vous encourager à vous y rendre. A l'année prochaine!&lt;/p&gt;</content:encoded></item></channel></rss>
