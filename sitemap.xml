@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/</loc>
+    <lastmod>2019-11-30T20:23:38+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/cgroup/</loc>
+    <lastmod>2019-11-30T20:23:38+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/posts/limit-memory-consumption/</loc>
+    <lastmod>2019-11-30T20:23:38+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/linux/</loc>
+    <lastmod>2019-11-30T20:23:38+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/memory/</loc>
+    <lastmod>2019-11-30T20:23:38+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/posts/</loc>
+    <lastmod>2019-11-30T20:23:38+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/</loc>
+    <lastmod>2019-11-30T20:23:38+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/docker/</loc>
+    <lastmod>2019-11-30T20:11:44+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/posts/dockerize-tests/</loc>
+    <lastmod>2019-11-30T20:11:44+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/java/</loc>
+    <lastmod>2019-11-30T20:11:44+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/testcontainers/</loc>
+    <lastmod>2019-11-30T20:11:44+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/tests/</loc>
+    <lastmod>2019-11-30T20:11:44+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/builder/</loc>
+    <lastmod>2019-11-30T20:06:38+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/posts/builder-pattern/</loc>
+    <lastmod>2019-11-30T20:06:38+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/design-pattern/</loc>
+    <lastmod>2019-11-30T20:06:38+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/junit/</loc>
+    <lastmod>2019-11-30T19:47:12+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/junit4/</loc>
+    <lastmod>2019-11-30T19:47:12+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/junit5/</loc>
+    <lastmod>2019-11-30T19:47:12+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/posts/migration-junit4-junit5/</loc>
+    <lastmod>2019-11-30T19:47:12+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/tags/</loc>
+  </url>
+  
+</urlset>
