@@ -1,0 +1,331 @@
+<!doctype html>
+
+<html lang="en-us">
+
+<head>
+  <title>VGA</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="The HTML5 Herald" />
+  <meta name="author" content="Victor" /><meta name="generator" content="Hugo 0.60.1" />
+    
+
+  <meta property="og:title" content="How to see and limit memory consumption of an application ?" />
+<meta property="og:description" content="How to see and limit memory consumption of an application ?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://vgallet.github.io/posts/limit-memory-consumption/" />
+<meta property="article:published_time" content="2019-11-30T20:23:38+01:00" />
+<meta property="article:modified_time" content="2019-11-30T20:23:38+01:00" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="How to see and limit memory consumption of an application ?"/>
+<meta name="twitter:description" content="How to see and limit memory consumption of an application ?"/>
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" />
+  <script src="https://kit.fontawesome.com/b76b73e8e8.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" />
+  <link rel="stylesheet" type="text/css" href="/css/styles.css" /></head>
+
+<body>
+  <div id="container">
+    <header>
+      <h1>
+                <a href="/">VGA</a>
+            </h1>
+
+      <ul id="social-media">
+             <li>
+               <a href="https://github.com/https://github.com/vgallet/" title="GitHub">
+               <i class="fab fa-github fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://twitter.com/https://twitter.com/GalletVictor" title="Twitter">
+               <i class="fab fa-twitter fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://linkedin.com/in/https://www.linkedin.com/in/gallet-victor-047285109/" title="LinkedIn">
+               <i class="fab fa-linkedin fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://stackoverflow.com/https://stackoverflow.com/users/4787113/victor-gallet" title="StackOverflow">
+               <i class="fab fa-stack-overflow fa-lg"></i>
+               </a>
+             </li>
+      </ul>
+      
+    </header>
+
+    
+<nav>
+    <ul>
+        
+    </ul>
+</nav>
+
+    <main>
+
+
+
+
+<article>
+
+    <h1>Builder Pattern, a first step to DSL</h1>
+
+    
+        <aside>
+    <ul>
+        <li>
+            <time class="post-date" datetime="2019-11-30T20:06:38&#43;01:00">Nov 30, 2019</time>
+        </li>
+        
+        <li>
+            Categories:
+            <em>
+                
+                    
+                    <a href="/categories/java">java</a>
+                
+                    , 
+                    <a href="/categories/design-pattern">design pattern</a>
+                
+                    , 
+                    <a href="/categories/builder">builder</a>
+                
+            </em>
+        </li>
+        
+
+        
+
+        <li>5 minutes read</li>
+    </ul>
+</aside>
+
+    
+
+    <hr>
+<p><strong>NOTE</strong></p>
+<p>Originally published at <a href="https://dev.to/vga/builder-pattern-a-first-step-to-dsl-47de">dev.to</a> on Dec 5, 2018</p>
+<hr>
+<p>When you are looking for an explanation of Builder pattern, you will probably find some articles all showing a class dedicated to creating an object. It's quite simple and we can go deeper with this pattern.</p>
+<p>Let's start from the beginning with the class <code>Person</code> below:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span> <span style="color:#f92672">{</span>
+
+   <span style="color:#66d9ef">private</span> String firstname<span style="color:#f92672">;</span>
+
+   <span style="color:#66d9ef">private</span> String lastname<span style="color:#f92672">;</span>
+
+   <span style="color:#66d9ef">private</span> String nickname<span style="color:#f92672">;</span>
+
+   <span style="color:#66d9ef">private</span> String email<span style="color:#f92672">;</span>
+
+   <span style="color:#66d9ef">private</span> String gender<span style="color:#f92672">;</span>
+
+   <span style="color:#66d9ef">private</span> String country<span style="color:#f92672">;</span>
+
+   <span style="color:#66d9ef">private</span> String city<span style="color:#f92672">;</span>
+
+   <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Person</span><span style="color:#f92672">(</span>String firstname<span style="color:#f92672">,</span> String lastname<span style="color:#f92672">,</span> String nickname<span style="color:#f92672">,</span> String email<span style="color:#f92672">,</span> String gender<span style="color:#f92672">,</span> String country<span style="color:#f92672">,</span> String city<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+       <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">firstname</span> <span style="color:#f92672">=</span> firstname<span style="color:#f92672">;</span>
+       <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">lastname</span> <span style="color:#f92672">=</span> lastname<span style="color:#f92672">;</span>
+       <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">nickname</span> <span style="color:#f92672">=</span> nickname<span style="color:#f92672">;</span>
+       <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">email</span> <span style="color:#f92672">=</span> email<span style="color:#f92672">;</span>
+       <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">gender</span> <span style="color:#f92672">=</span> gender<span style="color:#f92672">;</span>
+       <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">country</span> <span style="color:#f92672">=</span> country<span style="color:#f92672">;</span>
+       <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">city</span> <span style="color:#f92672">=</span> city<span style="color:#f92672">;</span>
+   <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><p>As we can see from this piece of code, there will be problems when creating a new Person object:</p>
+<ul>
+<li>constructor that's too big,</li>
+<li>constructor parameters have all the same type. We have to remember the right order of each parameter when using it. In fact, we are façing a common code smell: <strong>primitive obsession</strong>. You can take a look at this <a href="https://refactoring.guru/smells/primitive-obsession">article</a> which explains how to recognize and deal with them.</li>
+<li>How can we set up constraints? It can be difficult to check nullity or to ensure consistency between fields.</li>
+</ul>
+<p>So to deal with some of these points, we can add several constructors. For example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Person</span><span style="color:#f92672">(</span>String firstname<span style="color:#f92672">,</span> String lastname<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+   <span style="color:#66d9ef">this</span><span style="color:#f92672">(</span>firstname<span style="color:#f92672">,</span> lastname<span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Person</span><span style="color:#f92672">(</span>String firstname<span style="color:#f92672">,</span> String lastname<span style="color:#f92672">,</span> String nickname<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+   <span style="color:#66d9ef">this</span><span style="color:#f92672">(</span>firstname<span style="color:#f92672">,</span> lastname<span style="color:#f92672">,</span> nickname<span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Person</span><span style="color:#f92672">(</span>String firstname<span style="color:#f92672">,</span> String lastname<span style="color:#f92672">,</span> String nickname<span style="color:#f92672">,</span> String email<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+   <span style="color:#66d9ef">this</span><span style="color:#f92672">(</span>firstname<span style="color:#f92672">,</span> lastname<span style="color:#f92672">,</span> nickname<span style="color:#f92672">,</span> email<span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><p>By adding different constructors to our class Person, the result is that <strong>building responsibility is delegated to the client</strong>. The developer who wants to create an object Person has to know which constructor to use and why. Moreover, the resulting code is difficult to read and to understand :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Person john <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Person<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;john&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;smith&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;john&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+</code></pre></div><p>In this simple piece of code, it's difficult to know where the first name, last name, and nickname parameters are. We have to go through the source code to check on which fields will be initialized. An handy solution is to create a builder class to address this readability problem.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PersonBuilder</span> <span style="color:#f92672">{</span>
+
+   <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> Person person<span style="color:#f92672">;</span>
+
+   <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">PersonBuilder</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+       person <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Person<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+   <span style="color:#f92672">}</span>
+
+   <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> PersonBuilder <span style="color:#a6e22e">builder</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+       <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> PersonBuilder<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+   <span style="color:#f92672">}</span>
+
+   <span style="color:#66d9ef">public</span> PersonBuilder <span style="color:#a6e22e">withFirstname</span><span style="color:#f92672">(</span>String firstname<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+       <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>firstname <span style="color:#f92672">=</span><span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+           <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IllegalArgumentException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;firstname must be not null&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+       <span style="color:#f92672">}</span>
+       person<span style="color:#f92672">.</span><span style="color:#a6e22e">setFirstname</span><span style="color:#f92672">(</span>firstname<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+       <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">;</span>
+   <span style="color:#f92672">}</span>
+
+   <span style="color:#66d9ef">public</span> PersonBuilder <span style="color:#a6e22e">withLastname</span><span style="color:#f92672">(</span>String lastname<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+       <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>lastname <span style="color:#f92672">=</span><span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+           <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IllegalArgumentException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;lastname must be not null&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+       <span style="color:#f92672">}</span>
+       person<span style="color:#f92672">.</span><span style="color:#a6e22e">setLastname</span><span style="color:#f92672">(</span>lastname<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+       <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">;</span>
+   <span style="color:#f92672">}</span>
+   
+  <span style="color:#f92672">.</span><span style="color:#f92672">.</span><span style="color:#f92672">.</span>
+
+   <span style="color:#66d9ef">public</span> Person <span style="color:#a6e22e">build</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+       <span style="color:#66d9ef">return</span> person<span style="color:#f92672">;</span>
+   <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Then, we can use it like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Person john <span style="color:#f92672">=</span> PersonBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">builder</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span>
+   <span style="color:#f92672">.</span><span style="color:#a6e22e">withFirstname</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;john&#34;</span><span style="color:#f92672">)</span>
+   <span style="color:#f92672">.</span><span style="color:#a6e22e">withLastname</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;smith&#34;</span><span style="color:#f92672">)</span>
+   <span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+</code></pre></div><p>Great! This solution has the benefit of explicit arguments. We can easily understand what person's first name is. In addition, it was easy to add a not-null constraint for each building method. Furthermore, as each method returns the instance of PersonBuilder, it provides us a pseudo <a href="https://en.wikipedia.org/wiki/Fluent_interface">DomainSpecificLanguage</a>.</p>
+<p>However, unlike a constructor, this builder is not self-explanatory and can be used incorrectly. For example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Person john <span style="color:#f92672">=</span> PersonBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">builder</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span>
+    <span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+</code></pre></div><p>This simplest case reveals a lack of guidance. In fact, it's possible to guide the developer during the creation phase.
+For example, let's say we want to divide the creation process into four steps:</p>
+<ul>
+<li>the developer has to set the first name first,</li>
+<li>then he can set the last name,</li>
+<li>then he can set the email</li>
+<li>and finally he can build a Person object.</li>
+</ul>
+<p>To do this, we have to create four interfaces :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">StepFirstnameBuilder</span> <span style="color:#f92672">{</span>
+
+   StepLastnamePersonBuilder <span style="color:#a6e22e">withFirstname</span><span style="color:#f92672">(</span>String firstname<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>This first step enables the developer to set the first name field and then to use the second step interface <code>StepLastnamePersonBuilder</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"> <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">StepLastnamePersonBuilder</span> <span style="color:#f92672">{</span>
+
+   StepEmailPersonBuilder <span style="color:#a6e22e">withLastname</span><span style="color:#f92672">(</span>String lastname<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">StepEmailPersonBuilder</span> <span style="color:#f92672">{</span>
+
+   FinalStepPersonBuilder <span style="color:#a6e22e">withEmail</span><span style="color:#f92672">(</span>String email<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">FinalStepPersonBuilder</span> <span style="color:#f92672">{</span>
+
+   Person <span style="color:#a6e22e">build</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><p>Finally, after setting all mandatory fields we can access the <code>build</code> method.
+That's it! Now we can modify <code>PersonBuilder</code> class to implement our four steps.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PersonBuilder</span> <span style="color:#66d9ef">implements</span> StepFirstnameBuilder<span style="color:#f92672">,</span> 
+StepLastnamePersonBuilder<span style="color:#f92672">,</span>
+StepEmailPersonBuilder<span style="color:#f92672">,</span>
+FinalStepPersonBuilder <span style="color:#f92672">{</span>
+
+
+   <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> Person person<span style="color:#f92672">;</span>
+
+   <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">PersonBuilder</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+       person <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Person<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+   <span style="color:#f92672">}</span>
+
+   <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> StepFirstnameBuilder <span style="color:#a6e22e">builder</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+       <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> PersonBuilder<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+   <span style="color:#f92672">}</span>
+
+   <span style="color:#a6e22e">@Override</span>
+   <span style="color:#66d9ef">public</span> StepLastnamePersonBuilder <span style="color:#a6e22e">withFirstname</span><span style="color:#f92672">(</span>String firstname<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+       <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>firstname <span style="color:#f92672">=</span><span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+           <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IllegalArgumentException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;firstname must be not null&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+       <span style="color:#f92672">}</span>
+       person<span style="color:#f92672">.</span><span style="color:#a6e22e">setFirstname</span><span style="color:#f92672">(</span>firstname<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+       <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">;</span>
+   <span style="color:#f92672">}</span>
+
+   <span style="color:#a6e22e">@Override</span>
+   <span style="color:#66d9ef">public</span> StepEmailPersonBuilder <span style="color:#a6e22e">withLastname</span><span style="color:#f92672">(</span>String lastname<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+       <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>lastname <span style="color:#f92672">=</span><span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+           <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IllegalArgumentException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;lastname must be not null&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+       <span style="color:#f92672">}</span>
+       person<span style="color:#f92672">.</span><span style="color:#a6e22e">setLastname</span><span style="color:#f92672">(</span>lastname<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+       <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">;</span>
+   <span style="color:#f92672">}</span>
+
+   <span style="color:#a6e22e">@Override</span>
+   <span style="color:#66d9ef">public</span> FinalStepPersonBuilder <span style="color:#a6e22e">withEmail</span><span style="color:#f92672">(</span>String email<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+       person<span style="color:#f92672">.</span><span style="color:#a6e22e">setEmail</span><span style="color:#f92672">(</span>email<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+       <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">;</span>
+   <span style="color:#f92672">}</span>
+   
+   <span style="color:#a6e22e">@Override</span>
+   <span style="color:#66d9ef">public</span> Person <span style="color:#a6e22e">build</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+       <span style="color:#66d9ef">return</span> person<span style="color:#f92672">;</span>
+   <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+</code></pre></div><p>Now, let's use it:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Person john <span style="color:#f92672">=</span> PersonBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">builder</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#75715e">// -&gt; returrns an instance of StepFirstnameBuilder
+</span><span style="color:#75715e"></span>   <span style="color:#f92672">.</span><span style="color:#a6e22e">withFirstname</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;john&#34;</span><span style="color:#f92672">)</span> <span style="color:#75715e">// -&gt; returns an instance of StepLastnamePersonBuilder
+</span><span style="color:#75715e"></span>   <span style="color:#f92672">.</span><span style="color:#a6e22e">withLastname</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;smith&#34;</span><span style="color:#f92672">)</span> <span style="color:#75715e">// -&gt; returns an instance of StepEmailPersonBuilder
+</span><span style="color:#75715e"></span>   <span style="color:#f92672">.</span><span style="color:#a6e22e">withEmail</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;john@smith.com&#34;</span><span style="color:#f92672">)</span> <span style="color:#75715e">// -&gt; returns an instance of FinalStepPersonBuilder
+</span><span style="color:#75715e"></span>   <span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+</code></pre></div><p>By implementing all these steps, we have totally controlled the way a Person object is built. Actually, we have just created a DomainSpecificLanguage. This Builder pattern is a particular case of FluentInterface dedicated to building object and it's an easy way to express the way an object is built.</p>
+<p><em>A big thanks to <a href="https://www.linkedin.com/in/sonyth-huber-57854424/">Sonyth</a> and <a href="https://twitter.com/TsubaR00ck">Mickael</a> for their time and proofreading.</em></p>
+
+
+</article>
+
+
+<section class="post-nav">
+    <ul>
+        
+        <li>
+            <a href="https://vgallet.github.io/posts/migration-junit4-junit5/"><i class="fa fa-chevron-circle-left"></i> Migration from Junit 4 to Junit 5</a>
+        </li>
+        
+        
+        <li>
+            <a href="https://vgallet.github.io/posts/dockerize-tests/">Dockerize your integration tests <i class="fa fa-chevron-circle-right"></i> </a>
+        </li>
+        
+    </ul>
+</section>
+    
+
+
+
+
+
+</main>
+    <footer>
+        <h6> |
+            Rendered by <a href="https://gohugo.io" title="Hugo">Hugo</a> |
+            <a href="https://vgallet.github.io/index.xml">Subscribe </a></h6>
+    </footer>
+</div>
+<script src="/js/scripts.js"></script>
+
+</body>
+
+</html>
+
