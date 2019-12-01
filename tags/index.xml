@@ -18,7 +18,7 @@
        <guid>https://vgallet.github.io/posts/limit-memory-consumption/</guid>
        <description>&lt;hr&gt;
 &lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Originally published at &lt;a href=&#34;https://dev.to/vga/how-to-see-and-limit-memory-consumption-of-an-application-5bfl&#34;&gt;dev.to&lt;/a&gt; on Nov 30, 2019&lt;/p&gt;
+&lt;p&gt;Originally published at &lt;a href=&#34;https://dev.to/vga/how-to-see-and-limit-memory-consumption-of-an-application-5bfl&#34;&gt;dev.to&lt;/a&gt; on Oct, 2019&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;For a few months, my computer experienced some freezing during several minutes and the only solution to return to work was a reboot. It’s really annoying so I decided to look at what’s going on.
 I have been working since three years on a laptop DELL E7450. It has 8GB RAM size and an Intel i5 core with 2 cores and 4 logical processors. It is quite enough to work with, isn’t it ?
