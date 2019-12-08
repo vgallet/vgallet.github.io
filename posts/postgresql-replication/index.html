@@ -1,0 +1,369 @@
+<!doctype html>
+
+<html lang="en-us">
+
+<head>
+  <title>VGA</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="vga" />
+  <meta name="author" content="Victor" /><meta name="generator" content="Hugo 0.60.1" />
+    
+
+  <meta property="og:title" content="PostgreSQL Replication" />
+<meta property="og:description" content="PostgreSQL Replication &amp; Monitoring" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://vgallet.github.io/posts/postgresql-replication/" />
+<meta property="og:image" content="https://vgallet.github.io/images/photo-1544383835-bda2bc66a55d.jpeg" />
+<meta property="article:published_time" content="2019-12-07T09:48:01+01:00" />
+<meta property="article:modified_time" content="2019-12-07T09:48:01+01:00" />
+
+  <meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://vgallet.github.io/images/photo-1544383835-bda2bc66a55d.jpeg"/>
+
+<meta name="twitter:title" content="PostgreSQL Replication"/>
+<meta name="twitter:description" content="PostgreSQL Replication &amp; Monitoring"/>
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" />
+  <script src="https://kit.fontawesome.com/b76b73e8e8.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" />
+  <link rel="stylesheet" type="text/css" href="/css/styles.css" /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://vgallet.github.io/images/photo-1544383835-bda2bc66a55d.jpeg"/>
+
+<meta name="twitter:title" content="PostgreSQL Replication"/>
+<meta name="twitter:description" content="PostgreSQL Replication &amp; Monitoring"/>
+
+</head>
+
+<body>
+  <div id="container">
+    <header>
+      <h1>
+                <a href="/">VGA</a>
+            </h1>
+
+      <ul id="social-media">
+             <li>
+               <a href="https://github.com/vgallet" title="GitHub">
+               <i class="fab fa-github fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://twitter.com/GalletVictor" title="Twitter">
+               <i class="fab fa-twitter fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://linkedin.com/in/gallet-victor-047285109" title="LinkedIn">
+               <i class="fab fa-linkedin fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://stackoverflow.com/users/4787113/victor-gallet" title="StackOverflow">
+               <i class="fab fa-stack-overflow fa-lg"></i>
+               </a>
+             </li>
+      </ul>
+      
+    </header>
+
+    
+<nav>
+    <ul>
+        
+    </ul>
+</nav>
+
+    <main>
+
+
+
+
+<article>
+
+    <h1>PostgreSQL Replication</h1>
+
+    
+        <aside>
+    <ul>
+        <li>
+            <time class="post-date" datetime="2019-12-07T09:48:01&#43;01:00">Dec 7, 2019</time>
+        </li>
+        
+        <li>
+            Categories:
+            <em>
+                
+                    
+                    <a href="/categories/postgresql">postgresql</a>
+                
+                    , 
+                    <a href="/categories/repmgr">repmgr</a>
+                
+                    , 
+                    <a href="/categories/repmgrd">repmgrd</a>
+                
+                    , 
+                    <a href="/categories/replication">replication</a>
+                
+            </em>
+        </li>
+        
+
+        
+
+        <li>8 minutes read</li>
+    </ul>
+</aside>
+
+    
+
+    <p>There are plenty of tutorials available online, which give step-by-step instructions to manage the replication of PostgreSQL clusters with Repmgr. Once the setup is complete, what is important to look for? How does your client handle failover? How to deal with a failed or unreachable standby node? How to reintegrate a failed or unreachable standby node? How do you monitor your cluster?</p>
+<h2 id="client-failover">Client Failover</h2>
+<p>When your primary node goes down and a standby is promoted. How do you let your clients handle this change?</p>
+<h3 id="official-driver">Official driver</h3>
+<p>A simple solution is to use official driver capabilities. As mentioned in the <a href="https://jdbc.postgresql.org/documentation/head/connect.html">documentation</a>, you can list all nodes in your cluster and the connection will be established only on the primary node.</p>
+<pre><code>jdbc:postgresql://primary,standby1,standby2/database?targetServerType=master
+</code></pre><p>In this situation, the primary node will handle all the read and write queries. However, it’s possible to create a second connection dedicated to read queries on standby nodes.</p>
+<pre><code>jdbc:postgresql://primary,standby1,standby2/database?targetServerType=preferSlave
+</code></pre><h3 id="handmade-solution">Handmade solution</h3>
+<p>It’s possible to create your own solution to enable connection failover. For example in <a href="https://www.percona.com/blog/2019/10/31/postgresql-application-connection-failover-using-haproxy-with-xinetd/">this article</a>, a shell script is used to check PostgreSQL status and HAProxy is used to perform failover.</p>
+<h2 id="repmgrd">Repmgrd</h2>
+<p>Repmgrd is the Repmgr daemon. It monitors the PostgreSQL cluster and performs necessary actions based on the state of the cluster. It performs automatic failover in the case that the primary node goes down by promoting the most eligible standby as the new primary.</p>
+<p>Repmgrd is a critical process that should be running at all times. The failover mechanism would not be able to kick in if it were to stop working.
+Therefore, it is highly recommended to enable “auto restart” by overriding the provided daemon’s configuration file with systemd.</p>
+<pre><code>.include /lib/systemd/system/repmgr.service
+[Service]
+Restart=always
+RestartSec=10
+StartLimitInterval=60
+StartLimitBurst=3
+</code></pre><p>With this configuration, the daemon will be restarted in case of failure after a timeout of 10 seconds. It will try 3 times during an interval of 60 seconds. In any case, if Repmgr daemon is going down, it means there is a problem with the service or on the server and simply restarting the service may not fix the issue.</p>
+<h3 id="promotion">Promotion</h3>
+<p>Promoting a new primary is one of the most important actions during a failover situation. Repmgr knows when by doing reconnect attempts. Depending on the quality of your network, you may need to avoid promotion caused by network latency by modifying <code>reconect_attempts</code> and <code>reconnect_interval</code></p>
+<pre><code># Number of attempts which will be made to reconnect to an unreachable primary (or other upstream node)
+reconnect_attempts=6                                                          
+
+# Interval between attempts to reconnect to an unreachable primary (or other upstream node)
+reconnect_interval=10
+</code></pre><p>With this configuration, a total of 6 attempts will be made with 10 seconds between attempts before promoting a new primary using <code>promote_command</code>.</p>
+<p>As you can see from the <a href="https://repmgr.org/docs/repmgr.html">documentation</a>, <code>promote_command</code> in Repmgr configuration is used in a failover situation to promote a new primary. Example:</p>
+<pre><code>promote_command='/usr/bin/repmgr standby promote -f /etc/repmgr.conf --log-to-file'
+</code></pre><p>In fact, in the case of a failover situation, something wrong is happening so it may be a good action to perform a backup in addition to promotion. For example, this command will perform a backup using pgbackrest.</p>
+<pre><code>promote_command='/usr/bin/repmgr standby promote -f /etc/repmgr.conf --log-to-file &amp;&amp; sleep 120 &amp;&amp; pgbackrest --stanza=my_stanza --type=full backup'
+</code></pre><h3 id="monitoring">Monitoring</h3>
+<p>PostgreSQL Replication statistics are available on current primary. An overall vision can be seen on primary node by executing:</p>
+<pre><code>select * from pg_stat_replication;
+</code></pre><p><code>pg_stat_replication</code> contains statistics about each WAL sender process connected to a standby process.</p>
+<pre><code>-[ RECORD 1 ]----+----------------------------------------------
+pid              | 11881
+usesysid         | 16388
+usename          | repmgr
+application_name | &lt;application_name&gt;
+client_addr      | &lt;ip&gt;
+client_hostname  | 
+client_port      | 58212
+backend_start    | 2019-11-12 16:52:04.51763+01
+backend_xmin     | 
+state            | streaming
+sent_lsn         | 138/6C000000
+write_lsn        | 138/6C000000
+flush_lsn        | 138/6C000000
+replay_lsn       | 138/6C000000
+write_lag        | 
+flush_lag        | 00:00:00.29105
+replay_lag       | 
+sync_priority    | 0
+sync_state       | async
+-[ RECORD 2 ]----+----------------------------------------------
+pid              | 11879
+usesysid         | 16388
+usename          | repmgr
+application_name | &lt;application_name&gt;
+client_addr      | &lt;ip&gt;
+client_hostname  | 
+client_port      | 35170
+backend_start    | 2019-11-12 16:52:03.053909+01
+backend_xmin     | 
+state            | streaming
+sent_lsn         | 138/6C000000
+write_lsn        | 138/6C000000
+flush_lsn        | 138/6C000000
+replay_lsn       | 138/6C000000
+write_lag        | 
+flush_lag        | 00:00:00.268068
+replay_lag       | 
+sync_priority    | 0
+sync_state       | async
+-[ RECORD 3 ]----+----------------------------------------------
+pid              | 5201
+usesysid         | 16388
+usename          | repmgr
+application_name | &lt;application_name&gt;
+client_addr      | &lt;ip&gt;
+client_hostname  | 
+client_port      | 52130
+backend_start    | 2019-11-08 16:22:01.688119+01
+backend_xmin     | 
+state            | streaming
+sent_lsn         | 138/6C000000
+write_lsn        | 138/6C000000
+flush_lsn        | 138/6C000000
+replay_lsn       | 138/6C000000
+write_lag        | 
+flush_lag        | 00:00:00.23605
+replay_lag       | 
+sync_priority    | 0
+sync_state       | async
+</code></pre><p>First of all, <code>sync_state</code> column indicates what type of replication used. In this example, the value <code>async</code> only shows that is an asynchronous replication and it’s definitely not a problem as I have seen explained in some articles. When you setup a replication cluster, you had to choose between asynchronous and synchronous replication.</p>
+<p>In <code>postgresql.conf</code> file, it’s possible to specify a list of standby servers to <a href="https://www.postgresql.org/docs/current/warm-standby.html#SYNCHRONOUS-REPLICATION">support synchronous replication</a> with <code>synchronous_standby_names</code>. It means that transactions will commit only after standby synchronous servers confirm receipt of the data.</p>
+<p>What is important to look is <code>state</code> column. Value <code>streaming</code> indicates the WAL sender is streaming changes to its connected standby server. Then, an important health indicator is the amount of WAL records generated the primary node, but not yet applied by standby server: streaming lag.</p>
+<p><code>sent_lsn</code> shows the last WAL sent on WAL sender connection. LSN stands for Log Sequence Number and it’s a position in the Write-Ahead Log stream. Thus, an important gap between current WAL and <code>sent_lsn</code> may indicate that primary server is under heavy load. We can get current WAL by using <code>pg_current_wal_lsn</code> function and <code>pg_wal_lsn_diff</code> to compute the difference.</p>
+<pre><code>select (pg_wal_lsn_diff(pg_current_wal_lsn(),sent_lsn)) as primary_streaming_lag FROM pg_stat_replication;
+</code></pre><p>The result is in bytes.</p>
+<p>The view <code>pg_stat_replication</code> provides also the last WAL position written, flushed and replayed on standby database. This way, we can have the standby total streaming lag by executing this query for each standby node :</p>
+<pre><code>select (pg_wal_lsn_diff(pg_current_wal_lsn(),replay_lsn)) as standby_streaming_lag FROM pg_stat_replication;
+</code></pre><pre><code>select application_name,
+pg_current_wal_lsn() as current_WAL_lsn,
+sent_lsn as last_sent_WAL,
+replay_lsn last_replay_WAL,
+(pg_wal_lsn_diff(pg_current_wal_lsn(),sent_lsn))::int / 1024 as primary_streaming_lag,
+(pg_wal_lsn_diff(pg_current_wal_lsn(),replay_lsn))::int / 1024 as standby_streaming_lag
+FROM pg_stat_replication;
+</code></pre><p>Let’s check this query by adding some network latency</p>
+<pre><code>tc qdisc add dev eth0 root handle 1: prio priomap 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+tc qdisc add dev eth0 parent 1:2 handle 20: netem delay 1000ms
+tc filter add dev eth0 parent 1:0 protocol ip u32 match ip dst &lt;ip mask&gt; flowid 1:2
+</code></pre><p>This command adds a delay of 1 second for nodes that match a specific IP range.</p>
+<pre><code>select application_name,
+pg_current_wal_lsn() as current_WAL_lsn,
+sent_lsn as last_sent_WAL,
+replay_lsn last_replay_WAL,
+(pg_wal_lsn_diff(pg_current_wal_lsn(),sent_lsn))::int / 1024 as primary_streaming_lag,
+(pg_wal_lsn_diff(pg_current_wal_lsn(),replay_lsn))::int / 1024 as standby_streaming_lag
+FROM pg_stat_replication;
+</code></pre><pre><code>-[ RECORD 1 ]---------+----------------------------------------------
+application_name      | &lt;application_name&gt;
+current_wal_lsn       | 138/7D054AF8
+last_sent_wal         | 138/7D054AF8
+last_replay_wal       | 138/7D054AF8
+primary_streaming_lag | 0
+standby_streaming_lag | 0
+-[ RECORD 2 ]---------+----------------------------------------------
+application_name      | &lt;application_name&gt;
+current_wal_lsn       | 138/7D054AF8
+last_sent_wal         | 138/7D054AF8
+last_replay_wal       | 138/7D000000
+primary_streaming_lag | 0
+standby_streaming_lag | 338
+-[ RECORD 3 ]---------+----------------------------------------------
+application_name      | &lt;application_name&gt;
+current_wal_lsn       | 138/7D054AF8
+last_sent_wal         | 138/7D054AF8
+last_replay_wal       | 138/7D000000
+primary_streaming_lag | 0
+standby_streaming_lag | 338
+</code></pre><p><code>primary_streaming_lag</code> and  <code>standby_streaming_lag</code> values are in KB as it’s divided by 1024. This is nice but it’s only available on primary node. If we are experiencing lag on a standby node, it can mean that this node is under heavy load or network latency. It’s important to monitor replication directly on standby nodes. And so, Repmgr has its own table to monitor replication.</p>
+<pre><code>select * from repmgr.replication_status;
+</code></pre><pre><code>-[ RECORD 1 ]-------------+----------------------------------------------
+primary_node_id           | 1
+standby_node_id           | 3
+standby_name              | &lt;application_name&gt;
+node_type                 | standby
+active                    | t
+last_monitor_time         | 2019-11-22 11:07:51.673005+01
+last_wal_primary_location | 143/4C009390
+last_wal_standby_location | 143/4C009390
+replication_lag           | 0 bytes
+replication_time_lag      | 00:00:00
+apply_lag                 | 0 bytes
+communication_time_lag    | 00:00:00.960348
+-[ RECORD 2 ]-------------+----------------------------------------------
+primary_node_id           | 1
+standby_node_id           | 4
+standby_name              | &lt;application_name&gt;
+node_type                 | standby
+active                    | t
+last_monitor_time         | 2019-11-22 11:07:51.100838+01
+last_wal_primary_location | 143/4C0091D0
+last_wal_standby_location | 143/4C0091D0
+replication_lag           | 0 bytes
+replication_time_lag      | 00:00:00
+apply_lag                 | 0 bytes
+communication_time_lag    | 00:00:01.532515
+-[ RECORD 3 ]-------------+----------------------------------------------
+primary_node_id           | 1
+standby_node_id           | 2
+standby_name              | &lt;application_name&gt;
+node_type                 | standby
+active                    | t
+last_monitor_time         | 2019-11-22 11:07:51.310996+01
+last_wal_primary_location | 143/4C0092B0
+last_wal_standby_location | 143/4C0092B0
+replication_lag           | 0 bytes
+replication_time_lag      | 00:00:00
+apply_lag                 | 0 bytes
+communication_time_lag    | 00:00:01.322357
+</code></pre><p>This view is created and available on each node, primary and standby. You can check how this view is built on <a href="https://github.com/2ndQuadrant/repmgr/blob/master/repmgr--4.4.sql">Repmgr Github</a>, depends your Repmgr version.</p>
+<p>Furthermore, Repmgr offers a check service by node.</p>
+<pre><code>/usr/bin/repmgr -f /etc/repmgr.conf node check
+</code></pre><pre><code>Node &quot;&lt;application_name&gt;&quot;:
+	Server role: OK (node is standby)
+	Replication lag: OK (0 seconds)
+	WAL archiving: OK (10 pending archive ready files)
+	Downstream servers: OK (this node has no downstream nodes)
+	Replication slots: OK (node has no physical replication slots)
+	Missing physical replication slots: OK (node has no missing physical replication slots)
+	Configured data directory: OK (configured &quot;data_directory&quot; is &quot;&lt;data_directory&gt;&quot;)
+</code></pre><p>Replication lag checks if the node is lagging by more than <code>replication_lag_warning</code> and <code>replication_lag_critical</code> parameters. By default, it’s 300 and 600 ms.</p>
+<hr>
+<p>A big thanks to <a href="https://twitter.com/Karenhjex">Karen</a> and <a href="">Marc Barret</a> for their time and proofreading.</p>
+<p>Photo by Jan Kolar / VUI Designer on Unsplash</p>
+
+
+</article>
+
+
+<section class="post-nav">
+    <ul>
+        
+        <li>
+            <a href="https://vgallet.github.io/posts/limit-memory-consumption/"><i class="fa fa-chevron-circle-left"></i> How to see and limit memory consumption of an application ?</a>
+        </li>
+        
+        
+    </ul>
+</section>
+    
+
+
+
+
+
+</main>
+    <footer>
+        <h6> |
+            Rendered by <a href="https://gohugo.io" title="Hugo">Hugo</a> |
+            <a href="https://vgallet.github.io/index.xml">Subscribe </a></h6>
+    </footer>
+</div>
+<script src="/js/scripts.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-153662880-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+</body>
+
+</html>
+
