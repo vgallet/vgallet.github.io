@@ -6,10 +6,91 @@
    <description>Recent content in Posts on VGA</description>
    <generator>Hugo -- gohugo.io</generator>
    <language>en-us</language>
-   <lastBuildDate>Sat, 07 Dec 2019 09:48:01 +0100</lastBuildDate>
+   <lastBuildDate>Wed, 11 Dec 2019 20:24:33 +0100</lastBuildDate>
    
        <atom:link href="https://vgallet.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
    
+   
+     <item>
+       <title>Add chaos in your network!</title>
+       <link>https://vgallet.github.io/posts/network-chaos/</link>
+       <pubDate>Wed, 11 Dec 2019 20:24:33 +0100</pubDate>
+       
+       <guid>https://vgallet.github.io/posts/network-chaos/</guid>
+       <description>&lt;p&gt;&lt;img src=&#34;https://vgallet.github.io/images/photo-1509390874189-d75fd22f19f7.jpeg&#34; alt=&#34;dam&#34;&gt;
+&lt;em&gt;Photo by American Public Power Association on Unsplash&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;One of important rule in production is to never trust your network! There will always be problems and Netflix has clearly understood this statement by creating &lt;a href=&#34;https://en.wikipedia.org/wiki/Chaos_engineering#Chaos_Monkey&#34;&gt;Chaos Monkey&lt;/a&gt; in 2011.
+In this article, we will focus on chaos in the network. For example to assert that:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;an application is resilient to network latency&lt;/li&gt;
+&lt;li&gt;a website still offers a comfortable experience despite a limited bandwidth&lt;/li&gt;
+&lt;li&gt;a distributed system cannot go into split-brain.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;tc&lt;/code&gt; is a Linux command to manage network traffic. For example:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;tc qdisc add dev eth0 root netem delay 200ms
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This command add 200 milliseconds latency on the network of eth0 interface. Let’s dissect it.&lt;/p&gt;
+&lt;p&gt;As quoted from &lt;a href=&#34;http://man7.org/linux/man-pages/man8/tc.8.html&#34;&gt;linux man page&lt;/a&gt;, &lt;code&gt;qdisc&lt;/code&gt; is&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;short for &amp;lsquo;queueing discipline&amp;rsquo; and it is elementary to understanding traffic control.
+Whenever the kernel needs to send a packet to an interface, it is enqueued to the qdisc configured for that interface.
+Immediately afterwards, the kernel tries to get as many packets as possible from the qdisc, for giving them to the network adaptor driver.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;add&lt;/code&gt; is to add a new rule.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;dev eth0&lt;/code&gt; means the rule is applied to the device, the network interface eth0.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;root&lt;/code&gt; is the class attached to the network packet. In this case, the rule is applied to all packets.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;netem&lt;/code&gt; means Network Emulator. It’s the tool to add a behaviour.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;delay 200ms&lt;/code&gt; is the rule to apply. Here it’s a 200 milliseconds latency.&lt;/p&gt;
+&lt;p&gt;Once the rule is applied, we can list all the rules applied to eth0.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;tc qdisc show dev eth0
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;And to delete it&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;tc qdisc del dev eth0 root
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the first example, the latency impact the whole network, including a ssh connection. In order to not impact all the network but only a port, an IP or a range of IP, it’s possible to use the class concept of qdisc.
+By default, a qdisc is divided in 3 bands: 0, 1 et 2. This command helps to see these bands:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;tc qdisc ls
+
+qdisc noqueue 0: dev lo root refcnt 2 
+qdisc pfifo_fast 0: dev eth0 root refcnt 2 bands 3 priomap  1 2 2 2 1 2 0 0 1 1 1 1 1 1 1 1
+qdisc pfifo_fast 0: dev eth1 root refcnt 2 bands 3 priomap  1 2 2 2 1 2 0 0 1 1 1 1 1 1 1 1
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;On my computer, eth0 has 3 bands with a priority map of &lt;code&gt;1 2 2 2 1 2 0 0 1 1 1 1 1 1 1 1&lt;/code&gt;.
+The band used is determined by network packet &lt;a href=&#34;https://en.wikipedia.org/wiki/Type_of_service&#34;&gt;TOS&lt;/a&gt;. TOS stands for Type Of Service. This is simply four bits indicating the type of priority.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Binary Decimal  Meaning
+-----------------------------------------
+1000   8         Minimize delay (md)
+0100   4         Maximize throughput (mt)
+0010   2         Maximize reliability (mr)
+0001   1         Minimize monetary cost (mmc)
+0000   0         Normal Service
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here’s the table used to determine the band. There is more explanation of how it works directly on &lt;a href=&#34;https://www.systutorials.com/docs/linux/man/8-tc-prio/&#34;&gt;the man page&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;First of all, a rule is added to change the priority map. All the traffic will go to the first band.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;tc qdisc add dev eth0 root handle 1: prio priomap 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Next, this rule defines the behaviour added but only on the third band. Here it’s a delay of 1000 milliseconds.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;tc qdisc add dev eth0 parent 1:2 handle 20: netem delay 1000ms
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Finally, a filter is applied to redirect all the traffic matching a destination IP to the third band. To ensure it works correctly, a simple ping to that IP does the trick.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;tc filter add dev eth0 parent 1:0 protocol ip u32 match ip dst &amp;lt;mon ip&amp;gt; flowid 1:2
+&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;64 bytes from &amp;lt;server&amp;gt; (&amp;lt;mon ip&amp;gt;): icmp_seq=143 ttl=62 time=1000 ms
+64 bytes from &amp;lt;server&amp;gt; (&amp;lt;mon ip&amp;gt;): icmp_seq=144 ttl=62 time=1000 ms
+64 bytes from &amp;lt;server&amp;gt; (&amp;lt;mon ip&amp;gt;): icmp_seq=145 ttl=62 time=1000 ms
+64 bytes from &amp;lt;server&amp;gt; (&amp;lt;mon ip&amp;gt;): icmp_seq=146 ttl=62 time=1000 ms
+64 bytes from &amp;lt;server&amp;gt; (&amp;lt;mon ip&amp;gt;): icmp_seq=147 ttl=62 time=1001 ms
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The rule is correctly applied. Here it’s using a filter on an IP but it works with a subnet mask and/or a port. For example:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;tc filter add dev eth0 protocol ip parent 1:0 prio 1 u32 match ip dst &amp;lt;mon IP&amp;gt; match ip dport &amp;lt;mon port&amp;gt; 0xffff flowid 1:2
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;other-options&#34;&gt;Other options&lt;/h3&gt;
+&lt;p&gt;Here some other possibilities.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;netem delay 100ms 10ms
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;this rule adds 100 milliseconds of delay plus or less 10 milliseconds in an uniform disribution.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;netem loss 10%
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;10% of packets are loss.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;netem duplicate 50%
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;50% of packets are duplicated&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;netem corrupt 5%
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;5% of packets are corrupt.&lt;/p&gt;
+&lt;h3 id=&#34;limit-bandwidth&#34;&gt;Limit bandwidth&lt;/h3&gt;
+&lt;p&gt;Finally, the tool Token Bucket Filter (TBF) enables to limit the &lt;strong&gt;outgoing&lt;/strong&gt; bandwidth.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;tbf rate 20kbit buffer 1600 limit 3000
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The outgoing bandwidth is limited to 20 kilobits.&lt;/p&gt;
+&lt;p&gt;A big thanks to Marc Barret for his time and proofreading.&lt;/p&gt;
+</description>
+     </item>
    
      <item>
        <title>PostgreSQL Replication</title>

@@ -1,14 +1,14 @@
 
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
  <channel>
-   <title>Categories on VGA</title>
-   <link>https://vgallet.github.io/categories/</link>
-   <description>Recent content in Categories on VGA</description>
+   <title>network on VGA</title>
+   <link>https://vgallet.github.io/categories/network/</link>
+   <description>Recent content in network on VGA</description>
    <generator>Hugo -- gohugo.io</generator>
    <language>en-us</language>
    <lastBuildDate>Wed, 11 Dec 2019 20:24:33 +0100</lastBuildDate>
    
-       <atom:link href="https://vgallet.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+       <atom:link href="https://vgallet.github.io/categories/network/index.xml" rel="self" type="application/rss+xml" />
    
    
      <item>

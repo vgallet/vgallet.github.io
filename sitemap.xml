@@ -3,8 +3,43 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://vgallet.github.io/posts/network-chaos/</loc>
+    <lastmod>2019-12-11T20:24:33+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://vgallet.github.io/categories/</loc>
-    <lastmod>2019-12-07T09:48:01+01:00</lastmod>
+    <lastmod>2019-12-11T20:24:33+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/chaos/</loc>
+    <lastmod>2019-12-11T20:24:33+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/latency/</loc>
+    <lastmod>2019-12-11T20:24:33+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/linux/</loc>
+    <lastmod>2019-12-11T20:24:33+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/network/</loc>
+    <lastmod>2019-12-11T20:24:33+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/posts/</loc>
+    <lastmod>2019-12-11T20:24:33+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/</loc>
+    <lastmod>2019-12-11T20:24:33+01:00</lastmod>
   </url>
   
   <url>
@@ -14,11 +49,6 @@
   
   <url>
     <loc>https://vgallet.github.io/posts/postgresql-replication/</loc>
-    <lastmod>2019-12-07T09:48:01+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://vgallet.github.io/posts/</loc>
     <lastmod>2019-12-07T09:48:01+01:00</lastmod>
   </url>
   
@@ -38,22 +68,12 @@
   </url>
   
   <url>
-    <loc>https://vgallet.github.io/</loc>
-    <lastmod>2019-12-07T09:48:01+01:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://vgallet.github.io/categories/cgroup/</loc>
     <lastmod>2019-11-30T20:23:38+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://vgallet.github.io/posts/limit-memory-consumption/</loc>
-    <lastmod>2019-11-30T20:23:38+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://vgallet.github.io/categories/linux/</loc>
     <lastmod>2019-11-30T20:23:38+01:00</lastmod>
   </url>
   

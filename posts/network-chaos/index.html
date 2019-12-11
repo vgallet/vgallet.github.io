@@ -1,0 +1,241 @@
+<!doctype html>
+
+<html lang="en-us">
+
+<head>
+  <title>VGA</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="vga" />
+  <meta name="author" content="Victor" /><meta name="generator" content="Hugo 0.60.1" />
+    
+
+  <meta property="og:title" content="replication" />
+<meta property="og:description" content="vga" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://vgallet.github.io/categories/replication/" />
+<meta property="og:image" content="https://vgallet.github.io/images/toronto.jpg"/>
+<meta property="og:updated_time" content="2019-12-07T09:48:01+01:00" />
+
+  <meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://vgallet.github.io/images/toronto.jpg"/>
+
+<meta name="twitter:title" content="replication"/>
+<meta name="twitter:description" content="vga"/>
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" />
+  <script src="https://kit.fontawesome.com/b76b73e8e8.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" />
+  <link rel="stylesheet" type="text/css" href="/css/styles.css" /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://vgallet.github.io/images/photo-1509390874189-d75fd22f19f7.jpeg"/>
+
+<meta name="twitter:title" content="Add chaos in your network!"/>
+<meta name="twitter:description" content="Photo by American Public Power Association on Unsplash
+One of important rule in production is to never trust your network! There will always be problems and Netflix has clearly understood this statement by creating Chaos Monkey in 2011. In this article, we will focus on chaos in the network. For example to assert that:
+ an application is resilient to network latency a website still offers a comfortable experience despite a limited bandwidth a distributed system cannot go into split-brain."/>
+
+</head>
+
+<body>
+  <div id="container">
+    <header>
+      <h1>
+                <a href="/">VGA</a>
+            </h1>
+
+      <ul id="social-media">
+             <li>
+               <a href="https://github.com/vgallet" title="GitHub">
+               <i class="fab fa-github fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://twitter.com/GalletVictor" title="Twitter">
+               <i class="fab fa-twitter fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://linkedin.com/in/gallet-victor-047285109" title="LinkedIn">
+               <i class="fab fa-linkedin fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://stackoverflow.com/users/4787113/victor-gallet" title="StackOverflow">
+               <i class="fab fa-stack-overflow fa-lg"></i>
+               </a>
+             </li>
+      </ul>
+      
+    </header>
+
+    
+<nav>
+    <ul>
+        
+    </ul>
+</nav>
+
+    <main>
+
+
+
+
+<article>
+
+    <h1>Add chaos in your network!</h1>
+
+    
+        <aside>
+    <ul>
+        <li>
+            <time class="post-date" datetime="2019-12-11T20:24:33&#43;01:00">Dec 11, 2019</time>
+        </li>
+        
+        <li>
+            Categories:
+            <em>
+                
+                    
+                    <a href="/categories/network">network</a>
+                
+                    , 
+                    <a href="/categories/linux">linux</a>
+                
+                    , 
+                    <a href="/categories/latency">latency</a>
+                
+                    , 
+                    <a href="/categories/chaos">chaos</a>
+                
+            </em>
+        </li>
+        
+
+        
+
+        <li>4 minutes read</li>
+    </ul>
+</aside>
+
+    
+
+    <p><img src="/images/photo-1509390874189-d75fd22f19f7.jpeg" alt="dam">
+<em>Photo by American Public Power Association on Unsplash</em></p>
+<p>One of important rule in production is to never trust your network! There will always be problems and Netflix has clearly understood this statement by creating <a href="https://en.wikipedia.org/wiki/Chaos_engineering#Chaos_Monkey">Chaos Monkey</a> in 2011.
+In this article, we will focus on chaos in the network. For example to assert that:</p>
+<ul>
+<li>an application is resilient to network latency</li>
+<li>a website still offers a comfortable experience despite a limited bandwidth</li>
+<li>a distributed system cannot go into split-brain.</li>
+</ul>
+<p><code>tc</code> is a Linux command to manage network traffic. For example:</p>
+<pre><code>tc qdisc add dev eth0 root netem delay 200ms
+</code></pre><p>This command add 200 milliseconds latency on the network of eth0 interface. Let’s dissect it.</p>
+<p>As quoted from <a href="http://man7.org/linux/man-pages/man8/tc.8.html">linux man page</a>, <code>qdisc</code> is</p>
+<blockquote>
+<p>short for &lsquo;queueing discipline&rsquo; and it is elementary to understanding traffic control.
+Whenever the kernel needs to send a packet to an interface, it is enqueued to the qdisc configured for that interface.
+Immediately afterwards, the kernel tries to get as many packets as possible from the qdisc, for giving them to the network adaptor driver.</p>
+</blockquote>
+<p><code>add</code> is to add a new rule.</p>
+<p><code>dev eth0</code> means the rule is applied to the device, the network interface eth0.</p>
+<p><code>root</code> is the class attached to the network packet. In this case, the rule is applied to all packets.</p>
+<p><code>netem</code> means Network Emulator. It’s the tool to add a behaviour.</p>
+<p><code>delay 200ms</code> is the rule to apply. Here it’s a 200 milliseconds latency.</p>
+<p>Once the rule is applied, we can list all the rules applied to eth0.</p>
+<pre><code>tc qdisc show dev eth0
+</code></pre><p>And to delete it</p>
+<pre><code>tc qdisc del dev eth0 root
+</code></pre><p>In the first example, the latency impact the whole network, including a ssh connection. In order to not impact all the network but only a port, an IP or a range of IP, it’s possible to use the class concept of qdisc.
+By default, a qdisc is divided in 3 bands: 0, 1 et 2. This command helps to see these bands:</p>
+<pre><code>tc qdisc ls
+
+qdisc noqueue 0: dev lo root refcnt 2 
+qdisc pfifo_fast 0: dev eth0 root refcnt 2 bands 3 priomap  1 2 2 2 1 2 0 0 1 1 1 1 1 1 1 1
+qdisc pfifo_fast 0: dev eth1 root refcnt 2 bands 3 priomap  1 2 2 2 1 2 0 0 1 1 1 1 1 1 1 1
+</code></pre><p>On my computer, eth0 has 3 bands with a priority map of <code>1 2 2 2 1 2 0 0 1 1 1 1 1 1 1 1</code>.
+The band used is determined by network packet <a href="https://en.wikipedia.org/wiki/Type_of_service">TOS</a>. TOS stands for Type Of Service. This is simply four bits indicating the type of priority.</p>
+<pre><code>Binary Decimal  Meaning
+-----------------------------------------
+1000   8         Minimize delay (md)
+0100   4         Maximize throughput (mt)
+0010   2         Maximize reliability (mr)
+0001   1         Minimize monetary cost (mmc)
+0000   0         Normal Service
+</code></pre><p>Here’s the table used to determine the band. There is more explanation of how it works directly on <a href="https://www.systutorials.com/docs/linux/man/8-tc-prio/">the man page</a>.</p>
+<p>First of all, a rule is added to change the priority map. All the traffic will go to the first band.</p>
+<pre><code>tc qdisc add dev eth0 root handle 1: prio priomap 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+</code></pre><p>Next, this rule defines the behaviour added but only on the third band. Here it’s a delay of 1000 milliseconds.</p>
+<pre><code>tc qdisc add dev eth0 parent 1:2 handle 20: netem delay 1000ms
+</code></pre><p>Finally, a filter is applied to redirect all the traffic matching a destination IP to the third band. To ensure it works correctly, a simple ping to that IP does the trick.</p>
+<pre><code>tc filter add dev eth0 parent 1:0 protocol ip u32 match ip dst &lt;mon ip&gt; flowid 1:2
+</code></pre><pre><code>64 bytes from &lt;server&gt; (&lt;mon ip&gt;): icmp_seq=143 ttl=62 time=1000 ms
+64 bytes from &lt;server&gt; (&lt;mon ip&gt;): icmp_seq=144 ttl=62 time=1000 ms
+64 bytes from &lt;server&gt; (&lt;mon ip&gt;): icmp_seq=145 ttl=62 time=1000 ms
+64 bytes from &lt;server&gt; (&lt;mon ip&gt;): icmp_seq=146 ttl=62 time=1000 ms
+64 bytes from &lt;server&gt; (&lt;mon ip&gt;): icmp_seq=147 ttl=62 time=1001 ms
+</code></pre><p>The rule is correctly applied. Here it’s using a filter on an IP but it works with a subnet mask and/or a port. For example:</p>
+<pre><code>tc filter add dev eth0 protocol ip parent 1:0 prio 1 u32 match ip dst &lt;mon IP&gt; match ip dport &lt;mon port&gt; 0xffff flowid 1:2
+</code></pre><h3 id="other-options">Other options</h3>
+<p>Here some other possibilities.</p>
+<pre><code>netem delay 100ms 10ms
+</code></pre><p>this rule adds 100 milliseconds of delay plus or less 10 milliseconds in an uniform disribution.</p>
+<pre><code>netem loss 10%
+</code></pre><p>10% of packets are loss.</p>
+<pre><code>netem duplicate 50%
+</code></pre><p>50% of packets are duplicated</p>
+<pre><code>netem corrupt 5%
+</code></pre><p>5% of packets are corrupt.</p>
+<h3 id="limit-bandwidth">Limit bandwidth</h3>
+<p>Finally, the tool Token Bucket Filter (TBF) enables to limit the <strong>outgoing</strong> bandwidth.</p>
+<pre><code>tbf rate 20kbit buffer 1600 limit 3000
+</code></pre><p>The outgoing bandwidth is limited to 20 kilobits.</p>
+<p>A big thanks to Marc Barret for his time and proofreading.</p>
+
+
+</article>
+
+
+<section class="post-nav">
+    <ul>
+        
+        <li>
+            <a href="https://vgallet.github.io/posts/postgresql-replication/"><i class="fa fa-chevron-circle-left"></i> PostgreSQL Replication</a>
+        </li>
+        
+        
+    </ul>
+</section>
+    
+
+
+
+
+
+</main>
+    <footer>
+        <h6> |
+            Rendered by <a href="https://gohugo.io" title="Hugo">Hugo</a> |
+            <a href="https://vgallet.github.io/index.xml">Subscribe </a></h6>
+    </footer>
+</div>
+<script src="/js/scripts.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-153662880-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+</body>
+
+</html>
+
