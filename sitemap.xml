@@ -3,12 +3,42 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://vgallet.github.io/posts/network-chaos/</loc>
-    <lastmod>2019-12-11T20:24:33+01:00</lastmod>
+    <loc>https://vgallet.github.io/categories/azure/</loc>
+    <lastmod>2020-04-29T15:30:27+02:00</lastmod>
   </url>
   
   <url>
     <loc>https://vgallet.github.io/categories/</loc>
+    <lastmod>2020-04-29T15:30:27+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/pipeline/</loc>
+    <lastmod>2020-04-29T15:30:27+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/posts/</loc>
+    <lastmod>2020-04-29T15:30:27+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/</loc>
+    <lastmod>2020-04-29T15:30:27+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/workshop/</loc>
+    <lastmod>2020-04-29T15:30:27+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/posts/workshop-azure-pipelines/</loc>
+    <lastmod>2020-04-29T15:30:27+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/posts/network-chaos/</loc>
     <lastmod>2019-12-11T20:24:33+01:00</lastmod>
   </url>
   
@@ -29,16 +59,6 @@
   
   <url>
     <loc>https://vgallet.github.io/categories/network/</loc>
-    <lastmod>2019-12-11T20:24:33+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://vgallet.github.io/posts/</loc>
-    <lastmod>2019-12-11T20:24:33+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://vgallet.github.io/</loc>
     <lastmod>2019-12-11T20:24:33+01:00</lastmod>
   </url>
   
