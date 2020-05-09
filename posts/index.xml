@@ -6,10 +6,77 @@
    <description>Recent content in Posts on VGA</description>
    <generator>Hugo -- gohugo.io</generator>
    <language>en-us</language>
-   <lastBuildDate>Wed, 29 Apr 2020 15:30:27 +0200</lastBuildDate>
+   <lastBuildDate>Sat, 09 May 2020 11:40:57 +0200</lastBuildDate>
    
        <atom:link href="https://vgallet.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
    
+   
+     <item>
+       <title>Covid19 Analysis</title>
+       <link>https://vgallet.github.io/posts/covid19-analysis/</link>
+       <pubDate>Sat, 09 May 2020 11:40:57 +0200</pubDate>
+       
+       <guid>https://vgallet.github.io/posts/covid19-analysis/</guid>
+       <description>&lt;p&gt;The lockdown in France will end on Monday 11th  May 2020 and I wanted to take a snapshot of the situation in France using a statistical analysis. To do this analysis, I used the software &lt;a href=&#34;https://www.r-project.org/&#34;&gt;R&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The data used in this article come from this Github project: &lt;a href=&#34;https://github.com/opencovid19-fr/data/blob/master/README.en.md&#34;&gt;OpenCOVID19 France&lt;/a&gt;. A big thanks to all its contributors.
+They aggregate data from the French Health Minister, Regional Health Agencies and Prefectures.
+The data contains the number of people infected, cured, hospitalized, in resuscitation, and dead. All these numbers are split per region and department.&lt;/p&gt;
+&lt;h2 id=&#34;situation-in-france&#34;&gt;Situation in France&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://vgallet.github.io/images/france_situation.png&#34; alt=&#34;France situation&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The lockdown has been established on 17th March 2020.&lt;/p&gt;
+&lt;p&gt;On 8th May 2020, the situation in France is:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Case&lt;/th&gt;
+&lt;th&gt;Number&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;confirmed&lt;/td&gt;
+&lt;td&gt;138421&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;dead&lt;/td&gt;
+&lt;td&gt;16497&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;resuscitation&lt;/td&gt;
+&lt;td&gt;2868&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;hospitalized&lt;/td&gt;
+&lt;td&gt;22724&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;cured&lt;/td&gt;
+&lt;td&gt;55782&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The number of dead people does not include people dead in nursing home nor at home.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://vgallet.github.io/images/waffle.png&#34; alt=&#34;Waffle&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;evolution-per-region&#34;&gt;Evolution per Region&lt;/h2&gt;
+&lt;h4 id=&#34;death-per-region&#34;&gt;Death per region&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;https://vgallet.github.io/images/death_region.png&#34; alt=&#34;Death per region&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;resuscitation-per-region&#34;&gt;Resuscitation per region&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;https://vgallet.github.io/images/resuscitation_region.png&#34; alt=&#34;Resuscitation per region&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;hospitalized-per-region&#34;&gt;Hospitalized per region&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;https://vgallet.github.io/images/hospitalized_region.png&#34; alt=&#34;Hospitalized per region&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The Paris region is the most heavily populated and so the most impacted by the virus.
+As we can see from the graphs, the Paris region is followed by the the region &amp;ldquo;Grand Est&amp;rdquo;, one of the epidemic focuses.&lt;/p&gt;
+&lt;h2 id=&#34;situation-per-department&#34;&gt;Situation per department&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://vgallet.github.io/images/death_department.png&#34; alt=&#34;Death per department&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://vgallet.github.io/images/hospitalized_department.png&#34; alt=&#34;Hospitalized per department&#34;&gt;&lt;/p&gt;
+&lt;p&gt;By comparing those two France maps, we can see that the most infected and impacted area are located in the North and in the East.&lt;/p&gt;
+&lt;p&gt;One interesting graphic published by French government is the occupancy rate of resuscitation beds per department.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://vgallet.github.io/images/2020-05-08_10-15.png&#34; alt=&#34;Governement bed occupancy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;I tried to do the same but I only found &lt;a href=&#34;https://drees.solidarites-sante.gouv.fr/etudes-et-statistiques/publications/article/nombre-de-lits-de-reanimation-de-soins-intensifs-et-de-soins-continus-en-france&#34;&gt;the numbers of resuscitation bed in 2018&lt;/a&gt;. With those numbers, the resulting map is more “green”.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://vgallet.github.io/images/bed_occupancy.png&#34; alt=&#34;Bed occupancy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;One can assume that the number of beds has been reduced since 2018.&lt;/p&gt;
+</description>
+     </item>
    
      <item>
        <title>Workshop Azure Pipelines</title>

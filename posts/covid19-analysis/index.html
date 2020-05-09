@@ -1,0 +1,244 @@
+<!doctype html>
+
+<html lang="en-us">
+
+<head>
+  <title>VGA</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="vga" />
+  <meta name="author" content="Victor" /><meta name="generator" content="Hugo 0.68.3" />
+    
+
+  <meta property="og:title" content="Categories" />
+<meta property="og:description" content="vga" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://vgallet.github.io/categories/" />
+<meta property="og:image" content="https://vgallet.github.io/images/toronto.jpg"/>
+<meta property="og:updated_time" content="2020-05-09T11:40:57+02:00" />
+
+  <meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://vgallet.github.io/images/toronto.jpg"/>
+
+<meta name="twitter:title" content="Categories"/>
+<meta name="twitter:description" content="vga"/>
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" />
+  <script src="https://kit.fontawesome.com/b76b73e8e8.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" />
+  <link rel="stylesheet" type="text/css" href="/css/styles.css" /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://vgallet.github.io/images/france_situation.png"/>
+
+<meta name="twitter:title" content="Covid19 Analysis"/>
+<meta name="twitter:description" content="The lockdown in France will end on Monday 11th May 2020 and I wanted to take a snapshot of the situation in France using a statistical analysis. To do this analysis, I used the software R.
+The data used in this article come from this Github project: OpenCOVID19 France. A big thanks to all its contributors. They aggregate data from the French Health Minister, Regional Health Agencies and Prefectures. The data contains the number of people infected, cured, hospitalized, in resuscitation, and dead."/>
+
+</head>
+
+<body>
+  <div id="container">
+    <header>
+      <h1>
+                <a href="/">VGA</a>
+            </h1>
+
+      <ul id="social-media">
+             <li>
+               <a href="https://github.com/vgallet" title="GitHub">
+               <i class="fab fa-github fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://twitter.com/GalletVictor" title="Twitter">
+               <i class="fab fa-twitter fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://linkedin.com/in/gallet-victor-047285109" title="LinkedIn">
+               <i class="fab fa-linkedin fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://stackoverflow.com/users/4787113/victor-gallet" title="StackOverflow">
+               <i class="fab fa-stack-overflow fa-lg"></i>
+               </a>
+             </li>
+      </ul>
+      
+    </header>
+
+    
+<nav>
+    <ul>
+        
+    </ul>
+</nav>
+
+    <main>
+
+
+
+
+<article>
+
+    <h1>Covid19 Analysis</h1>
+
+    
+        <aside>
+    <ul>
+        <li>
+            <time class="post-date" datetime="2020-05-09T11:40:57&#43;02:00">May 9, 2020</time>
+        </li>
+        
+        <li>
+            Categories:
+            <em>
+                
+                    
+                    <a href="/categories/r">R</a>
+                
+                    , 
+                    <a href="/categories/statistical">statistical</a>
+                
+                    , 
+                    <a href="/categories/coronavirus">coronavirus</a>
+                
+                    , 
+                    <a href="/categories/covid">covid</a>
+                
+            </em>
+        </li>
+        
+
+        
+        <li>
+            <em>
+                
+                    
+                    <a href="/tags/r">#R</a>
+                
+                    , 
+                    <a href="/tags/statistical">#statistical</a>
+                
+                    , 
+                    <a href="/tags/coronavirus">#coronavirus</a>
+                
+                    , 
+                    <a href="/tags/covid">#covid</a>
+                
+            </em>
+        </li>
+        
+
+        <li>2 minutes read</li>
+    </ul>
+</aside>
+
+    
+
+    <p>The lockdown in France will end on Monday 11th  May 2020 and I wanted to take a snapshot of the situation in France using a statistical analysis. To do this analysis, I used the software <a href="https://www.r-project.org/">R</a>.</p>
+<p>The data used in this article come from this Github project: <a href="https://github.com/opencovid19-fr/data/blob/master/README.en.md">OpenCOVID19 France</a>. A big thanks to all its contributors.
+They aggregate data from the French Health Minister, Regional Health Agencies and Prefectures.
+The data contains the number of people infected, cured, hospitalized, in resuscitation, and dead. All these numbers are split per region and department.</p>
+<h2 id="situation-in-france">Situation in France</h2>
+<p><img src="/images/france_situation.png" alt="France situation"></p>
+<p>The lockdown has been established on 17th March 2020.</p>
+<p>On 8th May 2020, the situation in France is:</p>
+<table>
+<thead>
+<tr>
+<th>Case</th>
+<th>Number</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>confirmed</td>
+<td>138421</td>
+</tr>
+<tr>
+<td>dead</td>
+<td>16497</td>
+</tr>
+<tr>
+<td>resuscitation</td>
+<td>2868</td>
+</tr>
+<tr>
+<td>hospitalized</td>
+<td>22724</td>
+</tr>
+<tr>
+<td>cured</td>
+<td>55782</td>
+</tr>
+</tbody>
+</table>
+<p>The number of dead people does not include people dead in nursing home nor at home.</p>
+<p><img src="/images/waffle.png" alt="Waffle"></p>
+<h2 id="evolution-per-region">Evolution per Region</h2>
+<h4 id="death-per-region">Death per region</h4>
+<p><img src="/images/death_region.png" alt="Death per region"></p>
+<h4 id="resuscitation-per-region">Resuscitation per region</h4>
+<p><img src="/images/resuscitation_region.png" alt="Resuscitation per region"></p>
+<h4 id="hospitalized-per-region">Hospitalized per region</h4>
+<p><img src="/images/hospitalized_region.png" alt="Hospitalized per region"></p>
+<p>The Paris region is the most heavily populated and so the most impacted by the virus.
+As we can see from the graphs, the Paris region is followed by the the region &ldquo;Grand Est&rdquo;, one of the epidemic focuses.</p>
+<h2 id="situation-per-department">Situation per department</h2>
+<p><img src="/images/death_department.png" alt="Death per department"></p>
+<p><img src="/images/hospitalized_department.png" alt="Hospitalized per department"></p>
+<p>By comparing those two France maps, we can see that the most infected and impacted area are located in the North and in the East.</p>
+<p>One interesting graphic published by French government is the occupancy rate of resuscitation beds per department.</p>
+<p><img src="/images/2020-05-08_10-15.png" alt="Governement bed occupancy"></p>
+<p>I tried to do the same but I only found <a href="https://drees.solidarites-sante.gouv.fr/etudes-et-statistiques/publications/article/nombre-de-lits-de-reanimation-de-soins-intensifs-et-de-soins-continus-en-france">the numbers of resuscitation bed in 2018</a>. With those numbers, the resulting map is more “green”.</p>
+<p><img src="/images/bed_occupancy.png" alt="Bed occupancy"></p>
+<p>One can assume that the number of beds has been reduced since 2018.</p>
+
+
+</article>
+
+
+<section class="post-nav">
+    <ul>
+        
+        <li>
+            <a href="https://vgallet.github.io/posts/workshop-azure-pipelines/"><i class="fa fa-chevron-circle-left"></i> Workshop Azure Pipelines</a>
+        </li>
+        
+        
+    </ul>
+</section>
+    
+
+
+
+
+
+</main>
+    <footer>
+        <h6> |
+            Rendered by <a href="https://gohugo.io" title="Hugo">Hugo</a> |
+            <a href="https://vgallet.github.io/index.xml">Subscribe </a></h6>
+    </footer>
+</div>
+<script src="/js/scripts.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-153662880-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+</body>
+
+</html>
+

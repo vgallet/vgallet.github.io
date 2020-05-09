@@ -3,27 +3,77 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://vgallet.github.io/categories/</loc>
+    <lastmod>2020-05-09T11:40:57+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/tags/coronavirus/</loc>
+    <lastmod>2020-05-09T11:40:57+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/coronavirus/</loc>
+    <lastmod>2020-05-09T11:40:57+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/tags/covid/</loc>
+    <lastmod>2020-05-09T11:40:57+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/covid/</loc>
+    <lastmod>2020-05-09T11:40:57+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/posts/covid19-analysis/</loc>
+    <lastmod>2020-05-09T11:40:57+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/posts/</loc>
+    <lastmod>2020-05-09T11:40:57+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/tags/r/</loc>
+    <lastmod>2020-05-09T11:40:57+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/r/</loc>
+    <lastmod>2020-05-09T11:40:57+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/tags/statistical/</loc>
+    <lastmod>2020-05-09T11:40:57+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/statistical/</loc>
+    <lastmod>2020-05-09T11:40:57+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/tags/</loc>
+    <lastmod>2020-05-09T11:40:57+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/</loc>
+    <lastmod>2020-05-09T11:40:57+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://vgallet.github.io/categories/azure/</loc>
     <lastmod>2020-04-29T15:30:27+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://vgallet.github.io/categories/</loc>
-    <lastmod>2020-04-29T15:30:27+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://vgallet.github.io/categories/pipeline/</loc>
-    <lastmod>2020-04-29T15:30:27+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://vgallet.github.io/posts/</loc>
-    <lastmod>2020-04-29T15:30:27+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://vgallet.github.io/</loc>
     <lastmod>2020-04-29T15:30:27+02:00</lastmod>
   </url>
   
@@ -160,10 +210,6 @@
   <url>
     <loc>https://vgallet.github.io/posts/migration-junit4-junit5/</loc>
     <lastmod>2019-11-30T19:47:12+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://vgallet.github.io/tags/</loc>
   </url>
   
 </urlset>
