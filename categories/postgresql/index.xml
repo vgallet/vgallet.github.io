@@ -20,7 +20,7 @@
        <description>&lt;p&gt;The lockdown in France will end on Monday 11th  May 2020 and I wanted to take a snapshot of the situation in France using a statistical analysis. To do this analysis, I used the software &lt;a href=&#34;https://www.r-project.org/&#34;&gt;R&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The data used in this article come from this Github project: &lt;a href=&#34;https://github.com/opencovid19-fr/data/blob/master/README.en.md&#34;&gt;OpenCOVID19 France&lt;/a&gt;. A big thanks to all its contributors.
 They aggregate data from the French Health Minister, Regional Health Agencies and Prefectures.
-The data contains the number of people infected, cured, hospitalized, in resuscitation, and dead. All these numbers are split per region and department.&lt;/p&gt;
+The data contains the number of people infected, cured, hospitalized, in resuscitation, and dead. All these numbers are split by region and department.&lt;/p&gt;
 &lt;h2 id=&#34;situation-in-france&#34;&gt;Situation in France&lt;/h2&gt;
 &lt;p&gt;&lt;img src=&#34;https://vgallet.github.io/images/france_situation.png&#34; alt=&#34;France situation&#34;&gt;&lt;/p&gt;
 &lt;p&gt;The lockdown has been established on 17th March 2020.&lt;/p&gt;
