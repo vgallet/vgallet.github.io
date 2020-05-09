@@ -65,7 +65,7 @@ The data contains the number of people infected, cured, hospitalized, in resusci
 &lt;h4 id=&#34;hospitalized-per-region&#34;&gt;Hospitalized per region&lt;/h4&gt;
 &lt;p&gt;&lt;img src=&#34;https://vgallet.github.io/images/hospitalized_region.png&#34; alt=&#34;Hospitalized per region&#34;&gt;&lt;/p&gt;
 &lt;p&gt;The Paris region is the most heavily populated and so the most impacted by the virus.
-As we can see from the graphs, the Paris region is followed by the the region &amp;ldquo;Grand Est&amp;rdquo;, one of the epidemic focuses.&lt;/p&gt;
+As we can see from the graphs, the Paris region is followed by the region &amp;ldquo;Grand Est&amp;rdquo;, one of the epidemic focuses.&lt;/p&gt;
 &lt;h2 id=&#34;situation-per-department&#34;&gt;Situation per department&lt;/h2&gt;
 &lt;p&gt;&lt;img src=&#34;https://vgallet.github.io/images/death_department.png&#34; alt=&#34;Death per department&#34;&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://vgallet.github.io/images/hospitalized_department.png&#34; alt=&#34;Hospitalized per department&#34;&gt;&lt;/p&gt;
