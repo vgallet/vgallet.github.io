@@ -6,10 +6,37 @@
    <description>Recent content in Posts on VGA</description>
    <generator>Hugo -- gohugo.io</generator>
    <language>en-us</language>
-   <lastBuildDate>Sat, 09 May 2020 11:40:57 +0200</lastBuildDate>
+   <lastBuildDate>Sat, 23 May 2020 17:39:46 +0200</lastBuildDate>
    
        <atom:link href="https://vgallet.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
    
+   
+     <item>
+       <title>The day I erased all the customer data</title>
+       <link>https://vgallet.github.io/posts/day-erased-data/</link>
+       <pubDate>Sat, 23 May 2020 17:39:46 +0200</pubDate>
+       
+       <guid>https://vgallet.github.io/posts/day-erased-data/</guid>
+       <description>&lt;p&gt;&lt;img src=&#34;https://vgallet.github.io/images/sarah-kilian-52jRtc2S_VE-unsplash.jpg&#34; alt=&#34;icecream&#34;&gt;
+&lt;em&gt;Photo by Sarah Kilian on Unsplash&lt;/em&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;This story takes place in a company where I previously worked. Back then, I was a young developer and I was tasked with the deletion of former customer’s data.&lt;/p&gt;
+&lt;p&gt;I checked the database and identified all the tables that would be impacted. Then, I wrote a SQL script to delete all the rows concerning this particular customer.
+This script was not directly executed in the production environment. Instead, all changes are included in a version control system tool equivalent to Liquibase or Flyway.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.giphy.com/media/CzbiCJTYOzHTW/giphy.webp&#34; alt=&#34;done&#34;&gt;&lt;/p&gt;
+&lt;p&gt;A few days later, our support team received a phone call from a customer who could no longer find his data on the application. After performing an investigation, we came to the realization that all customer data were deleted from the database. The main culprit was none other than my SQL script. Indeed, some &lt;code&gt;DELETE&lt;/code&gt; SQL statements were missing the &lt;code&gt;WHERE&lt;/code&gt; clause. In the meantime, the ops team tried to restore the production database with the most recent backup.&lt;/p&gt;
+&lt;p&gt;At that time, I was petrified and I dreaded what my boss could say to me.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.giphy.com/media/zdFNkQ6vGJADC/giphy.webp&#34; alt=&#34;petrified&#34;&gt;&lt;/p&gt;
+&lt;p&gt;To my surprise, he did not single me out but blamed all the team and particularly our quality checks. In fact, he simply wanted to answer this question: How could this blunder have made its way to the production environment?&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.giphy.com/media/3o7aTskHEUdgCQAXde/giphy.webp&#34; alt=&#34;done&#34;&gt;&lt;/p&gt;
+&lt;p&gt;First of all, the SQL script was merged on the master branch, with at least 2 approbators on my pull request. So, it means that our code review was not thorough enough.
+Secondly, this script passed all our End to End tests and manual testing.
+Finally, we discovered that the database backup system was not working properly and the last available backup was at least 2 months old. Luckily, it had a fairly limited impact on our business, since it happened during summertime.&lt;/p&gt;
+&lt;p&gt;In my opinion, we can learn two things about this little story. In the first place, a good team and a good manager will not put the blame on you if you have done a mistake. Everyone makes mistakes and it’s a good way to question some of the practices.
+In the second place, it is important for a team to insure itself against the risk of fault, error or minor oversight. Despite quality processes, it’s important to test and prove those processes.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Thanks to Marc Barret for his time and his review&lt;/em&gt;&lt;/p&gt;
+</description>
+     </item>
    
      <item>
        <title>Covid19 Analysis</title>
