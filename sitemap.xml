@@ -3,33 +3,43 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://vgallet.github.io/categories/blunder/</loc>
-    <lastmod>2020-05-23T17:39:46+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://vgallet.github.io/categories/</loc>
-    <lastmod>2020-05-23T17:39:46+02:00</lastmod>
+    <lastmod>2020-07-26T11:18:16+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://vgallet.github.io/categories/learning/</loc>
-    <lastmod>2020-05-23T17:39:46+02:00</lastmod>
+    <loc>https://vgallet.github.io/categories/explorer/</loc>
+    <lastmod>2020-07-26T11:18:16+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/file/</loc>
+    <lastmod>2020-07-26T11:18:16+02:00</lastmod>
   </url>
   
   <url>
     <loc>https://vgallet.github.io/posts/</loc>
-    <lastmod>2020-05-23T17:39:46+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://vgallet.github.io/posts/day-erased-data/</loc>
-    <lastmod>2020-05-23T17:39:46+02:00</lastmod>
+    <lastmod>2020-07-26T11:18:16+02:00</lastmod>
   </url>
   
   <url>
     <loc>https://vgallet.github.io/</loc>
-    <lastmod>2020-05-23T17:39:46+02:00</lastmod>
+    <lastmod>2020-07-26T11:18:16+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/windows/</loc>
+    <lastmod>2020-07-26T11:18:16+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/posts/windows_file_explorer_invalid_zip_file/</loc>
+    <lastmod>2020-07-26T11:18:16+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/zip/</loc>
+    <lastmod>2020-07-26T11:18:16+02:00</lastmod>
   </url>
   
   <url>
@@ -58,22 +68,22 @@
   </url>
   
   <url>
-    <loc>https://vgallet.github.io/tags/r/</loc>
-    <lastmod>2020-05-09T11:40:57+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://vgallet.github.io/categories/r/</loc>
     <lastmod>2020-05-09T11:40:57+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://vgallet.github.io/tags/statistical/</loc>
+    <loc>https://vgallet.github.io/tags/r/</loc>
     <lastmod>2020-05-09T11:40:57+02:00</lastmod>
   </url>
   
   <url>
     <loc>https://vgallet.github.io/categories/statistical/</loc>
+    <lastmod>2020-05-09T11:40:57+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/tags/statistical/</loc>
     <lastmod>2020-05-09T11:40:57+02:00</lastmod>
   </url>
   

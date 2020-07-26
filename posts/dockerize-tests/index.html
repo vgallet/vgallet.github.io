@@ -7,34 +7,28 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="vga" />
-  <meta name="author" content="Victor" /><meta name="generator" content="Hugo 0.68.3" />
+  <meta name="author" content="Victor" /><meta name="generator" content="Hugo 0.61.0" />
     
 
-  <meta property="og:title" content="Builder Pattern, a first step to DSL" />
-<meta property="og:description" content="builder pattern &amp; DSL" />
+  <meta property="og:title" content="Windows file explorer :: invalid ZIP file" />
+<meta property="og:description" content="Windows file explorer :: invalid ZIP file" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://vgallet.github.io/posts/builder-pattern/" />
-<meta property="og:image" content="https://vgallet.github.io/images/toronto.jpg"/>
-<meta property="article:published_time" content="2019-11-30T20:06:38+01:00" />
-<meta property="article:modified_time" content="2019-11-30T20:06:38+01:00" />
+<meta property="og:url" content="https://vgallet.github.io/posts/windows_file_explorer_invalid_zip_file/" />
+<meta property="og:image" content="https://vgallet.github.io/images/windows_file_explorer_zip_file.png" />
+<meta property="article:published_time" content="2020-07-26T11:18:16+02:00" />
+<meta property="article:modified_time" content="2020-07-26T11:18:16+02:00" />
 
   <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://vgallet.github.io/images/toronto.jpg"/>
+<meta name="twitter:image" content="https://vgallet.github.io/images/windows_file_explorer_zip_file.png"/>
 
-<meta name="twitter:title" content="Builder Pattern, a first step to DSL"/>
-<meta name="twitter:description" content="builder pattern &amp; DSL"/>
+<meta name="twitter:title" content="Windows file explorer :: invalid ZIP file"/>
+<meta name="twitter:description" content="Windows file explorer :: invalid ZIP file"/>
 
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" />
   <script src="https://kit.fontawesome.com/b76b73e8e8.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" />
-  <link rel="stylesheet" type="text/css" href="/css/styles.css" /><meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://vgallet.github.io/images/testcontainers_logo.jpg"/>
-
-<meta name="twitter:title" content="Dockerize your integration tests"/>
-<meta name="twitter:description" content="Use testcontainers to dockerize your integration tests"/>
-
-</head>
+  <link rel="stylesheet" type="text/css" href="/css/styles.css" /></head>
 
 <body>
   <div id="container">
@@ -55,7 +49,7 @@
                </a>
              </li>
              <li>
-               <a href="https://linkedin.com/in/gallet-victor-047285109" title="LinkedIn">
+               <a href="https://linkedin.com/in/victor-gallet-047285109" title="LinkedIn">
                <i class="fab fa-linkedin fa-lg"></i>
                </a>
              </li>
@@ -123,15 +117,15 @@
 <p><strong>NOTE</strong></p>
 <p>Originally published at <a href="https://dev.to/vga/dockerize-your-integration-tests--4edm">dev.to</a> on Jan 4, 2019</p>
 <hr>
-<p>Most of our applications have to talk to a database, a HTTP API, a message broker, a SMTP server, etc… And it&rsquo;s quite complicated to set up a real test environment with those components.</p>
+<p>Most of our applications have to talk to a database, a HTTP API, a message broker, a SMTP server, etc… And it's quite complicated to set up a real test environment with those components.</p>
 <p>In some cases, we can simply mock those components or have an in-memory one during test execution. For example, <a href="http://www.h2database.com/html/main.html">H2</a> ou <a href="http://hsqldb.org/">HSQLDB</a> are in-memory databases well-known for being used during integration tests. However, they are not the one used in production environment and our tests can seem unrepresentative.
-Today, it&rsquo;s possible to use all the power of Docker and set up a connected test environment easily thanks to <a href="https://www.testcontainers.org/">Testcontainers</a>.</p>
+Today, it's possible to use all the power of Docker and set up a connected test environment easily thanks to <a href="https://www.testcontainers.org/">Testcontainers</a>.</p>
 <p><img src="https://rnorth.org/public/testcontainers/logo.png" alt="testcontainers logo"></p>
 <h2 id="testcontainers">Testcontainers</h2>
 <p>Testcontainers allows us to easily manipulate Docker containers during test execution. It uses the Docker client <a href="https://github.com/docker-java/docker-java">docker-java</a> to communicate with Docker daemon. It works with most operating systems and environments and despite the best-efforts support for Windows, I use it on a daily basis with Docker Toolbox. You can find the matrix compatibility <a href="https://www.testcontainers.org/compatibility.html">here</a>.</p>
 <p>When you create a container, Testcontainers will try to connect to the Docker daemon by using <code>DOCKER_HOST</code>, <code>DOCKER_TLS_VERIFY</code> and <code>DOCKER_CERT_PATH</code> variables. These environment variables can be easily overridden in the JVM for example.</p>
 <h3 id="create-a-container">Create a container</h3>
-<p>Containers are represented with the object <em>GenericContainer</em>. It&rsquo;s possible to create a container from an image, a Dockerfile or from a Dockerfile created on the fly. In addition, it&rsquo;s possible to create containers from a <a href="https://www.testcontainers.org/usage/docker_compose.html">Docker Compose file</a>.
+<p>Containers are represented with the object <em>GenericContainer</em>. It's possible to create a container from an image, a Dockerfile or from a Dockerfile created on the fly. In addition, it's possible to create containers from a <a href="https://www.testcontainers.org/usage/docker_compose.html">Docker Compose file</a>.
 For instance, this is an Elasticsearch server created from the image <a href="https://hub.docker.com/_/elasticsearch/">docker.elastic.co/elasticsearch/elasticsearch:6.1.1</a>.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">GenericContainer container <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> GenericContainer<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;docker.elastic.co/elasticsearch/elasticsearch:6.1.1&#34;</span><span style="color:#f92672">)</span>
    <span style="color:#f92672">.</span><span style="color:#a6e22e">withEnv</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;discovery.type&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;single-node&#34;</span><span style="color:#f92672">)</span>
@@ -140,51 +134,51 @@ For instance, this is an Elasticsearch server created from the image <a href="ht
       Wait
        <span style="color:#f92672">.</span><span style="color:#a6e22e">forHttp</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/_cat/health?v&amp;pretty&#34;</span><span style="color:#f92672">)</span>
        <span style="color:#f92672">.</span><span style="color:#a6e22e">forStatusCode</span><span style="color:#f92672">(</span>200<span style="color:#f92672">)</span>
-   <span style="color:#f92672">);</span>
-</code></pre></div><p>We can see that it&rsquo;s fairly easy to provide environment variables to the container with the method <code>withEnv</code>. In this case, it&rsquo;s the variable <em>discovery.type</em> with value <em>single-node</em>.
+   <span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+</code></pre></div><p>We can see that it's fairly easy to provide environment variables to the container with the method <code>withEnv</code>. In this case, it's the variable <em>discovery.type</em> with value <em>single-node</em>.
 Next, we make sure that our container is up by making an HTTP call on <code>/_cat/health</code> API and having a 200 code response. There are also other strategies to assert a container is running:</p>
 <ul>
 <li>Wait.forLogMessage waits for a log message,</li>
 <li>Wait.forListeningPort waits for a listening port</li>
 <li>Wait.forHealthcheck enables to use <a href="https://docs.docker.com/engine/reference/builder/#healthcheck">HEALTHCHECK</a> feature from docker.</li>
 </ul>
-<p>To finalize the container configuration, our container is exposing internal port 9200 and this is explicitly set with the method <code>withExposedPorts</code>. It means that Testcontainers will map this container&rsquo;s port to a random port. It&rsquo;s possible to retrieve mapped port with the method <code>getMappedPort</code>otherwise we can define port bindings with the method <code>setPortBindings</code>. Here, we expose the port 9200 from our container to port 9200:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">container<span style="color:#f92672">.</span><span style="color:#a6e22e">setPortBindings</span><span style="color:#f92672">(</span>Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;9200:9200&#34;</span><span style="color:#f92672">));</span>
-</code></pre></div><p>That&rsquo;s it! Our Elasticsearch server is ready to be used. To start it up, we simply have to execute the start method:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">container<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
-</code></pre></div><p>At startup, Testcontainers will run a bunch of checks like the docker version or the connection to the registered Docker Registry. This can be blocking if you are working behind a company proxy, so it&rsquo;s possible to disable those checks by creating the file <em>testcontainers.properties</em> in the tests resources directory with this content:</p>
+<p>To finalize the container configuration, our container is exposing internal port 9200 and this is explicitly set with the method <code>withExposedPorts</code>. It means that Testcontainers will map this container's port to a random port. It's possible to retrieve mapped port with the method <code>getMappedPort</code>otherwise we can define port bindings with the method <code>setPortBindings</code>. Here, we expose the port 9200 from our container to port 9200:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">container<span style="color:#f92672">.</span><span style="color:#a6e22e">setPortBindings</span><span style="color:#f92672">(</span>Arrays<span style="color:#f92672">.</span><span style="color:#a6e22e">asList</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;9200:9200&#34;</span><span style="color:#f92672">)</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+</code></pre></div><p>That's it! Our Elasticsearch server is ready to be used. To start it up, we simply have to execute the start method:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">container<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+</code></pre></div><p>At startup, Testcontainers will run a bunch of checks like the docker version or the connection to the registered Docker Registry. This can be blocking if you are working behind a company proxy, so it's possible to disable those checks by creating the file <em>testcontainers.properties</em> in the tests resources directory with this content:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">check<span style="color:#f92672">.</span><span style="color:#a6e22e">disable</span><span style="color:#f92672">=</span><span style="color:#66d9ef">true</span>
 </code></pre></div><p>At last, we can stop our container with the method stop.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">container<span style="color:#f92672">.</span><span style="color:#a6e22e">stop</span><span style="color:#f92672">();</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">container<span style="color:#f92672">.</span><span style="color:#a6e22e">stop</span><span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
 </code></pre></div><p>This will stop the container and also remove the attached volume. This is great because it prevents having dangling volumes.</p>
 <p>##During Tests
 One great strength of Testcontainers is its integration with JUnit framework. In fact, GenericContainer objects are <a href="https://github.com/junit-team/junit4/wiki/rules">JUnit rules</a>. It means that their lifecycle is directly bound to the test lifecycle. Thereby, by using the <code>@Rule</code> or <code>@ClassRule</code> JUnit annotations, our containers will be initialized before the test start-up and stopped at the end of the tests execution.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@ClassRule</span>
 <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> GenericContainer redis <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> GenericContainer<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;redis:3.0.2&#34;</span><span style="color:#f92672">)</span>
-               <span style="color:#f92672">.</span><span style="color:#a6e22e">withExposedPorts</span><span style="color:#f92672">(</span>6379<span style="color:#f92672">);</span>
-</code></pre></div><p>Nevertheless, it means that Testcontainers will come with a JUnit 4 dependency and it can be annoying if your tests run with <a href="https://junit.org/junit5/docs/current/user-guide/#overview-what-is-junit-5">JUnit 5</a>. Indeed, JUnit has replaced the Rule concept with <a href="https://junit.org/junit5/docs/current/user-guide/#extensions">Extension</a>. Since the version 1.10.0 released on November 2018, Testcontainers <a href="https://www.testcontainers.org/usage.html#junit">supports now JUnit 5</a> and it&rsquo;s possible to use extensions with the help of <code>@Testcontainers</code>and <code>@Container</code> annotations from the dedicated library junit-jupiter:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
- <span style="color:#f92672">&lt;groupId&gt;</span>testcontainers<span style="color:#f92672">&lt;/groupId&gt;</span>
- <span style="color:#f92672">&lt;artifactId&gt;</span>junit-jupiter<span style="color:#f92672">&lt;/artifactId&gt;</span>
- <span style="color:#f92672">&lt;version&gt;</span>1.10.2<span style="color:#f92672">&lt;/version&gt;</span>
+               <span style="color:#f92672">.</span><span style="color:#a6e22e">withExposedPorts</span><span style="color:#f92672">(</span>6379<span style="color:#f92672">)</span><span style="color:#f92672">;</span>
+</code></pre></div><p>Nevertheless, it means that Testcontainers will come with a JUnit 4 dependency and it can be annoying if your tests run with <a href="https://junit.org/junit5/docs/current/user-guide/#overview-what-is-junit-5">JUnit 5</a>. Indeed, JUnit has replaced the Rule concept with <a href="https://junit.org/junit5/docs/current/user-guide/#extensions">Extension</a>. Since the version 1.10.0 released on November 2018, Testcontainers <a href="https://www.testcontainers.org/usage.html#junit">supports now JUnit 5</a> and it's possible to use extensions with the help of <code>@Testcontainers</code>and <code>@Container</code> annotations from the dedicated library junit-jupiter:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency</span><span style="color:#f92672">&gt;</span>
+ <span style="color:#f92672">&lt;groupId</span><span style="color:#f92672">&gt;</span>testcontainers<span style="color:#f92672">&lt;/groupId&gt;</span>
+ <span style="color:#f92672">&lt;artifactId</span><span style="color:#f92672">&gt;</span>junit-jupiter<span style="color:#f92672">&lt;/artifactId&gt;</span>
+ <span style="color:#f92672">&lt;version</span><span style="color:#f92672">&gt;</span>1.10.2<span style="color:#f92672">&lt;/version&gt;</span>
 <span style="color:#f92672">&lt;/dependency&gt;</span>
 </code></pre></div><p>##Preconfigured container
 Like Docker, Testcontainers ecosystem is very rich. You can find preconfigured containers like MySql, PostgreSQL, Oracle database, Kafka, Neo4j, Elasticsearch, etc.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Rule</span>
-<span style="color:#66d9ef">public</span> KafkaContainer kafka <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> KafkaContainer<span style="color:#f92672">();</span>
+<span style="color:#66d9ef">public</span> KafkaContainer kafka <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> KafkaContainer<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">;</span>
 </code></pre></div><p>You can browse the list directly from <a href="https://search.maven.org/search?q=g:org.testcontainers">maven repository</a>.</p>
 <p>#A concrete case
-Let&rsquo;s see a concrete example of using Testscontainers with the <a href="https://github.com/spring-projects/spring-petclinic">Spring PetClinic application</a>. It&rsquo;s a demonstrating project based on several Spring components like Spring Boot, Spring MVC and Spring JPA. This application aims at managing a pet clinic with pets, pet owners and vets.</p>
+Let's see a concrete example of using Testscontainers with the <a href="https://github.com/spring-projects/spring-petclinic">Spring PetClinic application</a>. It's a demonstrating project based on several Spring components like Spring Boot, Spring MVC and Spring JPA. This application aims at managing a pet clinic with pets, pet owners and vets.</p>
 <p><img src="https://thepracticaldev.s3.amazonaws.com/i/6dmhjw1jun0azij8d3zk.png" alt="application petclinic"></p>
 <p>The controller layer exposes HTTP endpoints to create and read entities. Then, the persistence layer communicates with a relational database. The application can be configured to communicate with a HSQLDB or a MySql database.</p>
 <p>The persistence layer is tested with integration tests and those uses an in-memory HSQL database while the persistence layer itself uses a MySql database.</p>
 <p>##Requirements
 First, we have to install Docker on the machine which is going to execute tests. Then, we need to add the Testcontainers dependency to the project. In this case, we simply add the following to the <em>pom.xml</em> file:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
-  <span style="color:#f92672">&lt;groupId&gt;</span>org.testcontainers<span style="color:#f92672">&lt;/groupId&gt;</span>
-  <span style="color:#f92672">&lt;artifactId&gt;</span>testcontainers<span style="color:#f92672">&lt;/artifactId&gt;</span>
-  <span style="color:#f92672">&lt;version&gt;</span>1.10.2<span style="color:#f92672">&lt;/version&gt;</span>
-  <span style="color:#f92672">&lt;scope&gt;</span>test<span style="color:#f92672">&lt;/scope&gt;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency</span><span style="color:#f92672">&gt;</span>
+  <span style="color:#f92672">&lt;groupId</span><span style="color:#f92672">&gt;</span>org.testcontainers<span style="color:#f92672">&lt;/groupId&gt;</span>
+  <span style="color:#f92672">&lt;artifactId</span><span style="color:#f92672">&gt;</span>testcontainers<span style="color:#f92672">&lt;/artifactId&gt;</span>
+  <span style="color:#f92672">&lt;version</span><span style="color:#f92672">&gt;</span>1.10.2<span style="color:#f92672">&lt;/version&gt;</span>
+  <span style="color:#f92672">&lt;scope</span><span style="color:#f92672">&gt;</span>test<span style="color:#f92672">&lt;/scope&gt;</span>
 <span style="color:#f92672">&lt;/dependency&gt;</span>
 </code></pre></div><h2 id="database-configuration">Database configuration</h2>
 <p>The default database configuration is done in the <em>application.properties</em> file.</p>
@@ -197,15 +191,15 @@ We need to create <em>application-test.properties</em> file to configure a conne
 spring.datasource.username=petclinic
 spring.datasource.password=petclinic
 spring.datasource.driver-class-name=com.mysql.jdbc.Driver
-</code></pre><p>Next, let&rsquo;s take the test class <code>ClinicServiceTests.java</code>. This class contains all integration tests for the persistence layer. First of all, we need to change Spring test configuration to ensure that the tests will use our database connection.</p>
+</code></pre><p>Next, let's take the test class <code>ClinicServiceTests.java</code>. This class contains all integration tests for the persistence layer. First of all, we need to change Spring test configuration to ensure that the tests will use our database connection.</p>
 <script type="application/javascript" src="https://gist.github.com/vgallet/cfd2f56c7f67de74bcf50e3355239844.js"></script>
 
 <p>The <code>@TestPropertySource</code> annotation enables to load our file <em>application-test.properties</em> and <code>@AutoConfigureTestDatabase</code> with the <code>NONE</code> value prevents Spring from creating an embedded database.</p>
 <h2 id="mysql-container">MySql container</h2>
-<p>Let&rsquo;s create a MySql database that matches requirements from our tests. In this instance, we use the ability from Testcontainers to create a Docker image from a Dockerfile created on the fly. As a first step, we have pulled a <a href="https://hub.docker.com/_/mysql/">MySql official image</a> from Docker Hub:</p>
+<p>Let's create a MySql database that matches requirements from our tests. In this instance, we use the ability from Testcontainers to create a Docker image from a Dockerfile created on the fly. As a first step, we have pulled a <a href="https://hub.docker.com/_/mysql/">MySql official image</a> from Docker Hub:</p>
 <script type="application/javascript" src="https://gist.github.com/vgallet/640514a92f33bf1ead299bfc8d52a5fb.js"></script>
 
-<p>Now, we have to create our database and the connection&rsquo;s user. This is done by using environment variables from the Docker image.</p>
+<p>Now, we have to create our database and the connection's user. This is done by using environment variables from the Docker image.</p>
 <script type="application/javascript" src="https://gist.github.com/vgallet/9a052003114ce49ff71d2eb8c18450b1.js"></script>
 
 <p>Next, we have to create a database schema and populate the database. From the image documentation, the directory <em>/docker-entrypoint-initdb.d</em> is scanned at startup and all files with <em>.sh</em>, <em>.sql</em> et <em>.sql.gz</em> extension are executed. So, we just have to put our files <em>schema.sql</em> and <em>data.sql</em> in this directory.</p>
@@ -215,7 +209,7 @@ spring.datasource.driver-class-name=com.mysql.jdbc.Driver
 One last thing, we have to expose the default MySql port: 3306.</p>
 <script type="application/javascript" src="https://gist.github.com/vgallet/d1d115804beef106c0e8e99f2d7aa36f.js"></script>
 
-<p>Unfortunately, we can&rsquo;t directly set port bindings with the method <em>setPortBindings</em>. We have to customize the container on creation with the method <code>withCreateContainerCmdModifier</code>. Finally, we are waiting for the listening port to ensure that our container is up.
+<p>Unfortunately, we can't directly set port bindings with the method <em>setPortBindings</em>. We have to customize the container on creation with the method <code>withCreateContainerCmdModifier</code>. Finally, we are waiting for the listening port to ensure that our container is up.
 Voilà! With few lines of code, we have easily set a MySql database for our tests without having to manage the container lifecycle. The <code>@ClassRule</code> annotation makes our container starting once for all the tests. You might be wondering: have we extend the test execution time? In fact, it only takes 907 ms with a Docker container against 860 ms with a HSQLDB in-memory database. The source code shown in this section is available on <a href="https://github.com/vgallet/spring-petclinic/tree/testcontainers">github</a>.</p>
 <p><em>A big thanks to <a href="https://www.linkedin.com/in/sonyth-huber-57854424/">Sonyth</a>, <a href="https://www.linkedin.com/in/s%C3%A9bastien-bernard-841598176/">Sebastien</a>, <a href="https://twitter.com/Ouelcum">Laurent</a>, <a href="https://twitter.com/_louidji">Louis</a> and <a href="https://twitter.com/ncuillery">Nicolas</a> for their time and proofreading.</em></p>
 
