@@ -234,7 +234,7 @@ StartLimitInterval=60
 StartLimitBurst=3
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;With this configuration, the daemon will be restarted in case of failure after a timeout of 10 seconds. It will try 3 times during an interval of 60 seconds. In any case, if Repmgr daemon is going down, it means there is a problem with the service or on the server and simply restarting the service may not fix the issue.&lt;/p&gt;
 &lt;h3 id=&#34;promotion&#34;&gt;Promotion&lt;/h3&gt;
-&lt;p&gt;Promoting a new primary is one of the most important actions during a failover situation. Repmgr knows when by doing reconnect attempts. Depending on the quality of your network, you may need to avoid promotion caused by network latency by modifying &lt;code&gt;reconect_attempts&lt;/code&gt; and &lt;code&gt;reconnect_interval&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Promoting a new primary is one of the most important actions during a failover situation. Repmgr knows when by doing reconnect attempts. Depending on the quality of your network, you may need to avoid promotion caused by network latency by modifying &lt;code&gt;reconnect_attempts&lt;/code&gt; and &lt;code&gt;reconnect_interval&lt;/code&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# Number of attempts which will be made to reconnect to an unreachable primary (or other upstream node)
 reconnect_attempts=6                                                          
 
