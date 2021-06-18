@@ -1,0 +1,276 @@
+<!doctype html>
+
+<html lang="en-us">
+
+<head>
+  <title>VGA</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="The HTML5 Herald" />
+  <meta name="author" content="Victor" />
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="">
+<meta name="twitter:title" content="Some cool features you may don’t know about Apache Kafka">
+<meta name="twitter:image" content="https://vgallet.github.io/images/apache-kafka.png">
+
+
+
+
+  <meta name="generator" content="Hugo 0.68.3" />
+    
+
+
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" />
+  <script src="https://kit.fontawesome.com/b76b73e8e8.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" />
+  <link rel="stylesheet" type="text/css" href="/css/styles.css" /></head>
+
+<body>
+  <div id="container">
+    <header>
+      <h1>
+                <a href="/">VGA</a>
+            </h1>
+
+      <ul id="social-media">
+             <li>
+               <a href="https://github.com/vgallet" title="GitHub">
+               <i class="fab fa-github fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://twitter.com/GalletVictor" title="Twitter">
+               <i class="fab fa-twitter fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://linkedin.com/in/victor-gallet-047285109" title="LinkedIn">
+               <i class="fab fa-linkedin fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://stackoverflow.com/users/4787113/victor-gallet" title="StackOverflow">
+               <i class="fab fa-stack-overflow fa-lg"></i>
+               </a>
+             </li>
+      </ul>
+      
+    </header>
+
+    
+<nav>
+    <ul>
+        
+    </ul>
+</nav>
+
+    <main>
+
+
+
+
+<article>
+
+    <h1>Some cool features you may don’t know about Apache Kafka</h1>
+
+    
+        <aside>
+    <ul>
+        <li>
+            <time class="post-date" datetime="2021-06-17T15:54:24&#43;02:00">Jun 17, 2021</time>
+        </li>
+        
+        <li>
+            Categories:
+            <em>
+                
+                    
+                    <a href="/categories/apache-kafka">apache kafka</a>
+                
+                    , 
+                    <a href="/categories/kafka">kafka</a>
+                
+            </em>
+        </li>
+        
+
+        
+        <li>
+            <em>
+                
+                    
+                    <a href="/tags/apache-kafka">#apache kafka</a>
+                
+                    , 
+                    <a href="/tags/kafka">#kafka</a>
+                
+            </em>
+        </li>
+        
+
+        <li>6 minutes read</li>
+    </ul>
+</aside>
+
+    
+
+    <p>Apache Kafka is a widely distributed event streaming platform. In this article, I won’t explain Apache Kafka fundamentals like what’s a topic, a partition, an offset nor In-Sync Replicas. You can find a lot of resources to learn how Apache Kafka works and its fundamentals. I will present to you some features you may not have heard about.</p>
+<h2 id="metric-reporters">Metric Reporters</h2>
+<p>You may already know that Apache Kafka Clients: Producer and Consumer, can be monitored using JMX metrics. You can browse all the JMX metrics exposed for a Consumer <a href="https://kafka.apache.org/documentation/#consumer_monitoring">here</a> and for a Producer <a href="https://kafka.apache.org/documentation/#producer_monitoring">here</a>.</p>
+<p>By default, Apache Kafka Clients exposed the JMX Metrics using the class <a href="https://github.com/apache/kafka/blob/trunk/clients/src/main/java/org/apache/kafka/common/metrics/JmxReporter.java">JmxReporter</a>. This class implements the interface <a href="https://github.com/apache/kafka/blob/trunk/clients/src/main/java/org/apache/kafka/common/metrics/MetricsReporter.java">MetricsReporter</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">MetricsReporter</span> <span style="color:#66d9ef">extends</span> Reconfigurable<span style="color:#f92672">,</span> AutoCloseable <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span><span style="color:#f92672">(</span>List<span style="color:#f92672">&lt;</span>KafkaMetric<span style="color:#f92672">&gt;</span> var1<span style="color:#f92672">);</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">metricChange</span><span style="color:#f92672">(</span>KafkaMetric var1<span style="color:#f92672">);</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">metricRemoval</span><span style="color:#f92672">(</span>KafkaMetric var1<span style="color:#f92672">);</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+
+    <span style="color:#66d9ef">default</span> Set<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">reconfigurableConfigs</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> Collections<span style="color:#f92672">.</span><span style="color:#a6e22e">emptySet</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">validateReconfiguration</span><span style="color:#f92672">(</span>Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> <span style="color:#f92672">?&gt;</span> configs<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> ConfigException <span style="color:#f92672">{</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">reconfigure</span><span style="color:#f92672">(</span>Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> <span style="color:#f92672">?&gt;</span> configs<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#a6e22e">@Evolving</span>
+    <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">contextChange</span><span style="color:#f92672">(</span>MetricsContext metricsContext<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>And so you can define your own way to expose those Kafka Metrics by implementing this interface and setting the configuration <a href="https://kafka.apache.org/documentation/#producerconfigs_metric.reporters"><code>metric.reporters</code></a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">settings<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>ConsumerConfig<span style="color:#f92672">.</span><span style="color:#a6e22e">METRIC_REPORTER_CLASSES_CONFIG</span><span style="color:#f92672">,</span> List<span style="color:#f92672">.</span><span style="color:#a6e22e">of</span><span style="color:#f92672">(</span>MyMetricReporter<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">));</span>
+</code></pre></div><h2 id="client-interceptor">Client Interceptor</h2>
+<p>Client Interceptor lets you intercept received or produced records and possibly mutate them. For each Apache Kafka Clients: Producer and Consumer, you can define interceptor classes.</p>
+<p>For the producer, you have to implement the interface <code>ProducerInterceptor</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">ProducerInterceptor</span><span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span> V<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">extends</span> Configurable <span style="color:#f92672">{</span>
+    ProducerRecord<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span> V<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">onSend</span><span style="color:#f92672">(</span>ProducerRecord<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span> V<span style="color:#f92672">&gt;</span> record<span style="color:#f92672">);</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onAcknowledgement</span><span style="color:#f92672">(</span>RecordMetadata var1<span style="color:#f92672">,</span> Exception exception<span style="color:#f92672">);</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>For the consumer, it’s the interface <code>ConsumerInterceptor</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">ConsumerInterceptor</span><span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span> V<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">extends</span> Configurable<span style="color:#f92672">,</span> AutoCloseable <span style="color:#f92672">{</span>
+    ConsumerRecords<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span> V<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">onConsume</span><span style="color:#f92672">(</span>ConsumerRecords<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span> V<span style="color:#f92672">&gt;</span> records<span style="color:#f92672">);</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onCommit</span><span style="color:#f92672">(</span>Map<span style="color:#f92672">&lt;</span>TopicPartition<span style="color:#f92672">,</span> OffsetAndMetadata<span style="color:#f92672">&gt;</span> partitions<span style="color:#f92672">);</span>
+
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Once you have implemented those interfaces, add your interceptors to the client using the configuration <code>interceptor.classes</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">settings<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>ConsumerConfig<span style="color:#f92672">.</span><span style="color:#a6e22e">INTERCEPTOR_CLASSES_CONFIG</span><span style="color:#f92672">,</span>
+        List<span style="color:#f92672">.</span><span style="color:#a6e22e">of</span><span style="color:#f92672">(</span>MyConsumerInterceptor<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">));</span>
+
+</code></pre></div><p>This is particularly useful if you use Apache Kafka in a microservices architecture and you want to add tracing supervision. For example, using OpenTracing you can take a look at <a href="https://github.com/opentracing-contrib/java-kafka-client">opentracing-contrib/java-kafka-client</a> that provides <code>TracingProducerInterceptor</code> and <code>TracingConsumerInterceptor</code>. Those interceptors inject and retrieve span context from record headers.</p>
+<h2 id="partition-assignment--co-partitioning">Partition Assignment &amp; Co-partitioning</h2>
+<p>Let’s say you have 10 topics, each topic has 1 partition and you create a consumer group with 10 consumer instances. How will the consumers assign each partition? You may suppose that one consumer consumes one partition&hellip;In fact, it depends on the strategy used to assign the partitions amongst the consumer instances.</p>
+<p><strong>By default</strong>, the consumers are configured to use the <a href="https://kafka.apache.org/27/javadoc/org/apache/kafka/clients/consumer/RangeAssignor.html"><code>RangeAssignor</code></a>. This strategy’s goal is to co-localized the partitions of each subscribed topic to the same consumer. And so, to answer the first question, one consumer will be assigned to all the partitions and the other consumers remaining will be idle.</p>
+<p><img src="/images/ConsumerGroup.png" alt="RangeAssignor"></p>
+<p>This strategy used by default is designed to be used with <strong>co-partitioning topics</strong>. Co-partitioning topics are topics with the same number of partitions and where messages are produced with the same partitioner and the same partitioning key.
+However, if your goal is to maximize the number of consumers used in your consumer group, you should change the default assignment strategy using the property <code>partition.assignment.strategy</code> to use the <a href="https://kafka.apache.org/27/javadoc/org/apache/kafka/clients/consumer/RoundRobinAssignor.html"><code>RoundRobinAssignor</code></a></p>
+<p><img src="/images/ConsumerGroupRoundRobin.png" alt="RangeAssignor"></p>
+<h2 id="rack-awareness">Rack Awareness</h2>
+<p>By specifying the property <code>broker.rack</code> on each broker of the cluster, Apache Kafka will spread replicas of the same partition across all the specified racks. This feature limits the risk of data loss if a rack goes down. A rack can be a cloud provider zone or a data center location.</p>
+<p><img src="/images/rack_awareness.png" alt="Apache Kafka Rack Awareness"></p>
+<p>However, Apache Kafka clients always interact with the partition leader, so it can be a problem if your clients are located in a different zone from the broker leader.</p>
+<p><img src="/images/client_rack_awareness.png" alt="Apache Kafka Client Rack Awareness"></p>
+<p>In this diagram, the consumer is located in zone-B, and the partition leader is located in zone-A. It increases the number of cross-zone requests and can increase the billing at some cloud providers.
+To avoid this issue, Apache Kafka 2.4 introduces the notion of Follower-Fetching. It means that a consumer can fetch data directly from a follower instead of from the partition leader. To enable this feature, brokers have to set the property <code>broker.rack</code> with the desired location and <code>replica.selector.class</code> with <code>org.apache.kafka.common.replica.RackAwareReplicaSelector</code>. On the other hand, Consumers have to set <code>client.rack</code> to tell in which location they are.</p>
+<h2 id="kafka-lag-exporter">Kafka Lag Exporter</h2>
+<p><a href="https://github.com/lightbend/kafka-lag-exporter">Kafka Lag Exporter</a> is not part of the Apache Kafka project nor the Confluent Platform. It’s an open-source project under Apache-2.0 License to export Consumer Lag with reporters like Prometheus, Graphite, or InfluxDB. Kafka Lag Exporter enables to monitor Consumer Lag but it also allows to estimate the Time Lag. This metric shows how far a Consumer group is behind the last produced record in terms of time. It shows the actual latency of a consumer application. For more information about this estimation, you can read the chapter of the documentation <a href="https://github.com/lightbend/kafka-lag-exporter#estimate-consumer-group-time-lag">Estimate Consumer Group Time Lag</a></p>
+<p><img src="/images/interpolation.png" alt="KLE Time Lag interpolation">
+<img src="/images/extrapolation.png" alt="KLE Time Lag extraplocation"></p>
+<h2 id="cluster-linking">Cluster Linking</h2>
+<p>In a Multi Data Center architecture, Cluster Linking is the ability to create a link between two distincts Apache Kafka clusters. Once the link is established, you are able to mirror topics.
+Mirroring a topic means that all the data from a topic and its configuration in the source cluster is replicated to a topic with the same name in the destination cluster.</p>
+<blockquote>
+<p>Unlike, Replicator and MirrorMaker2, Cluster Linking does not require running Connect to move messages from one cluster to another, ensuring that the offsets are preserved from one cluster to another. We call this “byte-for-byte” replication. Whatever is on the source, will be mirrored precisely on the destination cluster.
+<a href="https://docs.confluent.io/platform/current/multi-dc-deployments/cluster-linking/index.html">https://docs.confluent.io/platform/current/multi-dc-deployments/cluster-linking/index.html</a></p>
+</blockquote>
+<p>The destination topic does a “byte-for-byte” replication, it preserves the offsets from one cluster to another and it also replicates source topic configuration like retention, number of partitions from the source topic.</p>
+<p>Cluster Linking is a really promising feature but it’s currently <strong>a preview feature</strong>.</p>
+<blockquote>
+<p>A preview feature is a component of the Confluent Platform that is being introduced to gain early feedback from developers. This feature can be used for evaluation and non-production testing purposes or to provide feedback to Confluent.</p>
+</blockquote>
+<p>Confluent provides <a href="https://github.com/confluentinc/demo-scene/tree/master/cluster-linking">a demonstration project</a> to play with this feature.</p>
+<h2 id="tiered-storage">Tiered Storage</h2>
+<p>Tiered Storage is the ability to store the data into external storage instead of the local disk of your brokers. The idea is to separate the concerns of data storage from the concerns of data processing. It allows you to retain your data for months, years, or indefinitely.</p>
+<p>You can configure your Apache Kafka cluster with one of the three supported tiered storage: AWS S3, GCP GCS, and Pure Storage FlashBlade.</p>
+<p>For example with Amazon S3:</p>
+<pre><code>confluent.tier.feature=true
+confluent.tier.enable=true
+confluent.tier.backend=S3
+confluent.tier.s3.bucket=&lt;BUCKET_NAME&gt;
+confluent.tier.s3.region=&lt;REGION&gt;
+</code></pre><p>And then you can create a topic with tiered storage</p>
+<pre><code>kafka-topics --bootstrap-server localhost:9092   \
+  --create --topic tiered-storage-topic \
+  --partitions 6 \
+  --replication-factor 3 \
+  --config confluent.tier.enable=true \
+  --config confluent.tier.local.hotset.ms=3600000 \
+  --config retention.ms=604800000
+</code></pre><p><code>retention.ms</code> works the same as a normal topic. It defines the time you want to keep your data in the local storage or in the tiered storage.</p>
+<p><code>confluent.tier.local.hotset.ms</code> defines the time in milliseconds a non-active segment is retained on the local storage. Once it’s expired, the segment is deleted from the local storage and saved to the tiered storage.</p>
+<h4 id="references">References</h4>
+<ul>
+<li><a href="https://docs.confluent.io/platform/current/kafka/post-deployment.html#balancing-replicas-across-racks">https://docs.confluent.io/platform/current/kafka/post-deployment.html#balancing-replicas-across-racks</a></li>
+<li><a href="https://docs.confluent.io/platform/current/multi-dc-deployments/cluster-linking/index.html">https://docs.confluent.io/platform/current/multi-dc-deployments/cluster-linking/index.html</a></li>
+<li><a href="https://docs.confluent.io/platform/current/multi-dc-deployments/multi-region.html#follower-fetching">https://docs.confluent.io/platform/current/multi-dc-deployments/multi-region.html#follower-fetching</a></li>
+<li><a href="https://github.com/lightbend/kafka-lag-exporter#estimate-consumer-group-time-lag">https://github.com/lightbend/kafka-lag-exporter#estimate-consumer-group-time-lag</a></li>
+<li><a href="https://docs.confluent.io/platform/current/multi-dc-deployments/cluster-linking/tutorial.html">https://docs.confluent.io/platform/current/multi-dc-deployments/cluster-linking/tutorial.html</a></li>
+<li><a href="https://docs.confluent.io/platform/current/kafka/tiered-storage.html">https://docs.confluent.io/platform/current/kafka/tiered-storage.html</a></li>
+</ul>
+
+
+</article>
+
+
+<section class="post-nav">
+    <ul>
+        
+        <li>
+            <a href="https://vgallet.github.io/posts/windows_file_explorer_invalid_zip_file/"><i class="fa fa-chevron-circle-left"></i> Windows file explorer :: invalid ZIP file</a>
+        </li>
+        
+        
+    </ul>
+</section>
+    
+
+
+
+
+
+</main>
+    <footer>
+        <h6> |
+            Rendered by <a href="https://gohugo.io" title="Hugo">Hugo</a> |
+            <a href="https://vgallet.github.io/index.xml">Subscribe </a></h6>
+    </footer>
+</div>
+<script src="/js/scripts.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-153662880-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+</body>
+
+</html>
+

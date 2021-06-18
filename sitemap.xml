@@ -3,8 +3,48 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://vgallet.github.io/tags/apache-kafka/</loc>
+    <lastmod>2021-06-17T15:54:24+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/apache-kafka/</loc>
+    <lastmod>2021-06-17T15:54:24+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://vgallet.github.io/categories/</loc>
-    <lastmod>2020-07-26T11:18:16+02:00</lastmod>
+    <lastmod>2021-06-17T15:54:24+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/tags/kafka/</loc>
+    <lastmod>2021-06-17T15:54:24+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/kafka/</loc>
+    <lastmod>2021-06-17T15:54:24+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/posts/</loc>
+    <lastmod>2021-06-17T15:54:24+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/posts/kafka-features/</loc>
+    <lastmod>2021-06-17T15:54:24+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/tags/</loc>
+    <lastmod>2021-06-17T15:54:24+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/</loc>
+    <lastmod>2021-06-17T15:54:24+02:00</lastmod>
   </url>
   
   <url>
@@ -14,16 +54,6 @@
   
   <url>
     <loc>https://vgallet.github.io/categories/file/</loc>
-    <lastmod>2020-07-26T11:18:16+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://vgallet.github.io/posts/</loc>
-    <lastmod>2020-07-26T11:18:16+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://vgallet.github.io/</loc>
     <lastmod>2020-07-26T11:18:16+02:00</lastmod>
   </url>
   
@@ -43,12 +73,12 @@
   </url>
   
   <url>
-    <loc>https://vgallet.github.io/categories/coronavirus/</loc>
+    <loc>https://vgallet.github.io/tags/coronavirus/</loc>
     <lastmod>2020-05-09T11:40:57+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://vgallet.github.io/tags/coronavirus/</loc>
+    <loc>https://vgallet.github.io/categories/coronavirus/</loc>
     <lastmod>2020-05-09T11:40:57+02:00</lastmod>
   </url>
   
@@ -68,17 +98,12 @@
   </url>
   
   <url>
-    <loc>https://vgallet.github.io/categories/r/</loc>
-    <lastmod>2020-05-09T11:40:57+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://vgallet.github.io/tags/r/</loc>
     <lastmod>2020-05-09T11:40:57+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://vgallet.github.io/categories/statistical/</loc>
+    <loc>https://vgallet.github.io/categories/r/</loc>
     <lastmod>2020-05-09T11:40:57+02:00</lastmod>
   </url>
   
@@ -88,7 +113,7 @@
   </url>
   
   <url>
-    <loc>https://vgallet.github.io/tags/</loc>
+    <loc>https://vgallet.github.io/categories/statistical/</loc>
     <lastmod>2020-05-09T11:40:57+02:00</lastmod>
   </url>
   

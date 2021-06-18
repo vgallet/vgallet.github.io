@@ -6,23 +6,12 @@
   <title>VGA</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="vga" />
-  <meta name="author" content="Victor" /><meta name="generator" content="Hugo 0.61.0" />
+  <meta name="description" content="The HTML5 Herald" />
+  <meta name="author" content="Victor" />
+  <meta name="generator" content="Hugo 0.68.3" />
     
 
-  <meta property="og:title" content="Windows file explorer :: invalid ZIP file" />
-<meta property="og:description" content="Windows file explorer :: invalid ZIP file" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://vgallet.github.io/posts/windows_file_explorer_invalid_zip_file/" />
-<meta property="og:image" content="https://vgallet.github.io/images/windows_file_explorer_zip_file.png" />
-<meta property="article:published_time" content="2020-07-26T11:18:16+02:00" />
-<meta property="article:modified_time" content="2020-07-26T11:18:16+02:00" />
 
-  <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://vgallet.github.io/images/windows_file_explorer_zip_file.png"/>
-
-<meta name="twitter:title" content="Windows file explorer :: invalid ZIP file"/>
-<meta name="twitter:description" content="Windows file explorer :: invalid ZIP file"/>
 
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" />
@@ -126,7 +115,7 @@ I noticed that with only 2 open applications : Google Chrome and Slack, both use
 <p>RSS stands for Resident Set Size. This is the amount of shared memory plus unshared memory used by each process. If any process shares memory, this will over-report the amount of memory actually used, because the same shared memory will be counted more than once - appearing again in each other process that shares the same memory. This metric can be unreliable, especially when processes have a lot of forks.</p>
 <p>Here the command I used :</p>
 <pre><code>smem -n -s pss -t -k -P chrome
-</code></pre><p>If you're not familiar with command line, you can use <a href="https://explainshell.com/explain?cmd=smem+-n+-s+pss+-t+-k+-P+chrome">explainshell.com</a>, a great website to dissect commands.</p>
+</code></pre><p>If you&rsquo;re not familiar with command line, you can use <a href="https://explainshell.com/explain?cmd=smem+-n+-s+pss+-t+-k+-P+chrome">explainshell.com</a>, a great website to dissect commands.</p>
 <p><img src="https://thepracticaldev.s3.amazonaws.com/i/vvhhnxld1oqrlprfzexz.png" alt=""></p>
 <p>To sum up, 57 processes match ‘chrome’ and used 4,9G of USS, 5.0G of PSS and 7,7G of RSS.</p>
 <p>Let’s focus on Slack memory consumption:</p>
