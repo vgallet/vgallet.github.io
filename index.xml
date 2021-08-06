@@ -6,10 +6,44 @@
    <description>Recent content on VGA</description>
    <generator>Hugo -- gohugo.io</generator>
    <language>en-us</language>
-   <lastBuildDate>Thu, 17 Jun 2021 15:54:24 +0200</lastBuildDate>
+   <lastBuildDate>Fri, 06 Aug 2021 09:55:26 +0200</lastBuildDate>
    
        <atom:link href="https://vgallet.github.io/index.xml" rel="self" type="application/rss+xml" />
    
+   
+     <item>
+       <title>Monthly #1 July</title>
+       <link>https://vgallet.github.io/posts/monthly1-july/</link>
+       <pubDate>Fri, 06 Aug 2021 09:55:26 +0200</pubDate>
+       
+       <guid>https://vgallet.github.io/posts/monthly1-july/</guid>
+       <description>&lt;p&gt;Today I decided to write a simple blog post to share some of my reads and viewing. I will try to keep a monthly frequency.&lt;/p&gt;
+&lt;p&gt;This month, I turned more around performance topics as my team and I are dealing with performance issues with some of our components. We used async-profiler to investigate and so I look about it:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/jvm-profiling-tools/async-profiler&#34;&gt;async-profiler Github repository&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/yahoo/kubectl-flame&#34;&gt;kubectl flame&lt;/a&gt; to create Flame Graph on Kubernetes container&lt;/li&gt;
+&lt;li&gt;but what are &lt;a href=&#34;https://www.brendangregg.com/flamegraphs.html&#34;&gt;Flame Graphs&lt;/a&gt;?&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://psy-lob-saw.blogspot.com/2016/02/why-most-sampling-java-profilers-are.html&#34;&gt;Why (Most) Sampling Java Profilers Are Fucking Terrible&lt;/a&gt; - Nitsan Wakart&lt;/li&gt;
+&lt;li&gt;Devoxx 2018 - &lt;a href=&#34;https://www.youtube.com/watch?v=ROGW4_BclQE&#34;&gt;&lt;em&gt;async profiler, le profiler qu&amp;rsquo;il vous faut ! (N. Peters&lt;/em&gt;)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To stay on performance topic, I also watched this conference &lt;a href=&#34;https://www.youtube.com/watch?v=4inKPHKuNuw&#34;&gt;&lt;em&gt;Tests en charge en milieu hostile: comment tout faire au dernier moment et s&amp;rsquo;en sortir (G. Corré)&lt;/em&gt;&lt;/a&gt; and I subscribed myself to the conference &lt;a href=&#34;https://www.p99conf.io/&#34;&gt;P99 CONF&lt;/a&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The event for developers who care about P99 percentiles and high-performance, low-latency applications&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;sounds very interesting!&lt;/p&gt;
+&lt;p&gt;In the Java world, I watched &lt;a href=&#34;https://www.youtube.com/watch?v=4g7SB13PWqQ&#34;&gt;&lt;em&gt;Random Numbers &amp;amp; JDK Flight Recorder - Inside Java Newscast #9&lt;/em&gt;&lt;/a&gt; to know more about JDK Flight Recorder previously known as Java Flight Recorder, JFR.&lt;/p&gt;
+&lt;p&gt;I also read &lt;a href=&#34;https://www.loicmathieu.fr/wordpress/informatique/java-17-quoi-de-neuf/&#34;&gt;&lt;em&gt;JAVA 17 : QUOI DE NEUF ?&lt;/em&gt;&lt;/a&gt; by Loïc Mathieu.&lt;/p&gt;
+&lt;p&gt;I came across this Github repository &lt;a href=&#34;https://github.com/arey/java-object-mapper-benchmark&#34;&gt;&lt;em&gt;Object-to-object mapping framework microbenchmark&lt;/em&gt;&lt;/a&gt;, a benchmark to compare the performance of 8 mapping frameworks. To sum up, &lt;a href=&#34;https://mapstruct.org/&#34;&gt;MapStruct&lt;/a&gt; and &lt;a href=&#34;http://www.selma-java.org/&#34;&gt;Selma&lt;/a&gt; are the most efficient.&lt;/p&gt;
+&lt;p&gt;As an important user of &lt;a href=&#34;https://kafka.apache.org/&#34;&gt;Apache Kafka&lt;/a&gt;, I wanted to know more about &lt;a href=&#34;https://pulsar.apache.org/&#34;&gt;Apache Pulsar&lt;/a&gt; and I watched a brief introduction from Bruno Bonnin at Devoxx 2019: &lt;a href=&#34;https://www.youtube.com/watch?v=GJPtzpu3v3I&#34;&gt;&lt;em&gt;Introduction à Apache Pulsar (B. Bonnin)&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I also discovered some YT Channels:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.youtube.com/channel/UCauIDghddUNu6Fto1nR9Bmg&#34;&gt;&lt;em&gt;Les Compagnons du DevOps&lt;/em&gt;&lt;/a&gt; where I watched &lt;a href=&#34;https://www.youtube.com/watch?v=QrU7QoiqNeI&#34;&gt;&lt;em&gt;Les autorités de certification dans Kubernetes&lt;/em&gt;&lt;/a&gt; by Mathieu Corbin.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.youtube.com/channel/UCVeW9qkBjo3zosnqUbG7CFw&#34;&gt;&lt;em&gt;John Hammond&lt;/em&gt;&lt;/a&gt;, a Youtuber specialised in hacking and cybersecurity where I watched &lt;a href=&#34;https://www.youtube.com/watch?v=xl2Xx5YOKcI&#34;&gt;&lt;em&gt;TryHackMe! Basic Penetration Testing&lt;/em&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;The picture used in the article has been captured by &lt;a href=&#34;https://www.instagram.com/juliensulpisphoto/&#34;&gt;Julien Sulpis&lt;/a&gt;&lt;/p&gt;
+</description>
+     </item>
    
      <item>
        <title>Some cool features you may not know about Apache Kafka</title>
