@@ -6,10 +6,100 @@
    <description>Recent content in apache kafka on VGA</description>
    <generator>Hugo -- gohugo.io</generator>
    <language>en-us</language>
-   <lastBuildDate>Thu, 17 Jun 2021 15:54:24 +0200</lastBuildDate>
+   <lastBuildDate>Wed, 06 Oct 2021 10:54:24 +0200</lastBuildDate>
    
        <atom:link href="https://vgallet.github.io/categories/apache-kafka/index.xml" rel="self" type="application/rss+xml" />
    
+   
+     <item>
+       <title>Some Kafka Advice</title>
+       <link>https://vgallet.github.io/posts/kafka-advice/</link>
+       <pubDate>Wed, 06 Oct 2021 10:54:24 +0200</pubDate>
+       
+       <guid>https://vgallet.github.io/posts/kafka-advice/</guid>
+       <description>&lt;p&gt;I would like to share some advice when using Apache Kafka and its ecosystem in this article. All these recommendations came from my journey using Apache Kafka and it’s definitively not an exhaustive list.&lt;/p&gt;
+&lt;h1 id=&#34;topic-management&#34;&gt;Topic Management&lt;/h1&gt;
+&lt;p&gt;A Topic is one of the most important elements in Apache Kafka architecture. Here are some tips to help you design and create your topics.&lt;/p&gt;
+&lt;h2 id=&#34;topic-design&#34;&gt;Topic Design&lt;/h2&gt;
+&lt;h3 id=&#34;topic-naming&#34;&gt;Topic Naming&lt;/h3&gt;
+&lt;p&gt;Topic naming is a critical part of architecting your system. By just seeing the name of the topic you can get a lot of information from it and once your platform starts to grow, processing a lot of exchanges, having a good topic naming convention is important.
+Here are some keys to help you set up a topic naming convention.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;do not start the topic name with &lt;code&gt;_&lt;/code&gt;. Topics like &lt;code&gt;__consumer_offsets&lt;/code&gt;, &lt;code&gt;_schemas&lt;/code&gt; or &lt;code&gt;_connect_config&lt;/code&gt; are internal topics.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.confluent.fr/blog/kafka-2-8-0-features-and-improvements-with-early-access-to-kip-500/&#34;&gt;Apache Kafka 2.8&lt;/a&gt; introduces a new internal topic named &lt;code&gt;@metadata&lt;/code&gt;. I would recommend not naming a topic starting with &lt;code&gt;@&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Add the visibility of your topic. Is the topic shared with other applications or it’s a topic only used by your application? It will also help you to manage the access and the ACL to those topics.&lt;/li&gt;
+&lt;li&gt;Add the event way, in or out. Are you simply producing to this topic, consuming, or both?&lt;/li&gt;
+&lt;li&gt;Add the event type. What kind of data will go to this topic?&lt;/li&gt;
+&lt;li&gt;Add the data domain. Like in &lt;a href=&#34;https://en.wikipedia.org/wiki/Domain-driven_design&#34;&gt;DDD&lt;/a&gt;, data is related to a particular context and it can be useful to add it with the event type.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Finally, you could set up a template for topic naming and ensure that all topics respect this format. For example:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;private/public&amp;gt;_&amp;lt;in/out&amp;gt;_&amp;lt;data domain&amp;gt;_&amp;lt;event type&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;number-of-partitions&#34;&gt;Number of partitions&lt;/h3&gt;
+&lt;p&gt;Before choosing the number of partitions for a topic, you should think about the partitioning key. Have in mind that two events produced with the same key will go to the same partition and &lt;strong&gt;the order is preserved by partition and not by topic&lt;/strong&gt;!
+I would recommend choosing a business key that balances the events across all the partitions and preserving the event order.
+Using a technical key or a random key like an &lt;a href=&#34;https://en.wikipedia.org/wiki/Universally_unique_identifier&#34;&gt;UUID&lt;/a&gt; is not relevant as you can simply produce messages using a null key and let the &lt;a href=&#34;https://github.com/apache/kafka/blob/trunk/clients/src/main/java/org/apache/kafka/clients/producer/internals/DefaultPartitioner.java&#34;&gt;DefaultPartitioner&lt;/a&gt; balance the messages with the &lt;a href=&#34;https://www.confluent.io/blog/apache-kafka-producer-improvements-sticky-partitioner/&#34;&gt;sticky partitioner&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The number of partitions is the limit of scalability. It limits parallel processing for a consumer group. I would recommend choosing a highly divisible number. For example 12 or 30. With 12 partitions, you can have:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1 consumer instance that deals with 12 partitions&lt;/li&gt;
+&lt;li&gt;2 consumer instances that deal with 6 partitions each&lt;/li&gt;
+&lt;li&gt;3 consumer instances that deal with 4 partitions each&lt;/li&gt;
+&lt;li&gt;4 consumer instances that deal with 3 partitions each&lt;/li&gt;
+&lt;li&gt;6 consumer instances that deal with 2 partitions each&lt;/li&gt;
+&lt;li&gt;12 consumer instances that deal with 1 partition each&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Depending on the current load, it’s easy to scale up or down the consumer groups based on seasonality. Picking a high number of partitions will help you parallelize your processing and impact the cluster performance. An important number of partitions increases the number of leaders, replicas, and replication processes. It can lead to performance issues in case of recovery. There is no limit to the number of partitions in a cluster for the moment but the current recommendation is:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The current generic recommendation to have no more than 4000 partitions per broker and no more than 200000 partitions per cluster is not enforced by Kafka.
+&lt;a href=&#34;https://cwiki.apache.org/confluence/display/KAFKA/KIP-578%3A+Add+configuration+to+limit+number+of+partitions&#34;&gt;https://cwiki.apache.org/confluence/display/KAFKA/KIP-578%3A+Add+configuration+to+limit+number+of+partitions&lt;/a&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;By the way, this recommendation is likely to change in the future with the new Apache Kafka Zookeeper-less version.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://vgallet.github.io/images/kafka_quorum.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://youtu.be/vp-hV_li_bk&#34;&gt;https://youtu.be/vp-hV_li_bk&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;As you can see from this picture extracted from this &lt;a href=&#34;https://youtu.be/vp-hV_li_bk&#34;&gt;YouTube video&lt;/a&gt;, An uncontrolled shutdown with &lt;strong&gt;2 million partitions&lt;/strong&gt; only takes 37 seconds to recover with Apache Kafka 2.8 instead of 8 minutes with an older Apache Kafka.&lt;/p&gt;
+&lt;p&gt;Finally, keep in mind that you can only increase the number of partitions for a topic. You can not shrink it. Increasing the number of partitions can be done at runtime without broker restart or client restart, but it impacts the partitioning strategy and also the consumers.&lt;/p&gt;
+&lt;h3 id=&#34;topic-creation&#34;&gt;Topic Creation&lt;/h3&gt;
+&lt;p&gt;First of all, you should not let topic auto-creation on your production cluster. To avoid some potential issue, simply disable the topic auto-creation in your cluster by setting the parameter &lt;code&gt;auto.create.topics.enable&lt;/code&gt; to false in the &lt;code&gt;server.properties&lt;/code&gt; file.
+Do not use GUI tools to create your topics. All this process should be automatized and easily reproducible using tools like &lt;a href=&#34;https://www.ansible.com/&#34;&gt;Ansible&lt;/a&gt; or &lt;a href=&#34;https://www.terraform.io/&#34;&gt;Terraform&lt;/a&gt;. It has to be versioned too.&lt;/p&gt;
+&lt;p&gt;However, you can let the auto-creation topic on your non-production cluster for testing and development.&lt;/p&gt;
+&lt;h2 id=&#34;schema-management&#34;&gt;Schema Management&lt;/h2&gt;
+&lt;p&gt;Within the Kafka ecosystem, it is easy to exchange structured data with the Schema Registry component. There are several Schema Registry available on the market such as:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.confluent.io/platform/current/schema-registry/index.html&#34;&gt;Confluent Schema Registry&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/aiven/karapace&#34;&gt;Karapace&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.apicur.io/registry/&#34;&gt;Apicurio&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Working with structured data using schemas helps guard against side effects as data evolves.&lt;/p&gt;
+&lt;p&gt;I always recommend going Contract First! Create the schema, discuss it with the affected teams, conduct a code review during the evolution of the schema.
+Reviewing changes can and should be done not only by technical people but also by business people.
+These exchanges around the evolution of data may require an effort to synchronize teams, especially if the data impacts a large number of teams, but today the teams are agile and know how to welcome change ;-).&lt;/p&gt;
+&lt;h1 id=&#34;producer-configuration&#34;&gt;Producer Configuration&lt;/h1&gt;
+&lt;h2 id=&#34;compression&#34;&gt;Compression&lt;/h2&gt;
+&lt;p&gt;By default, you should enable producer compression for several reasons. It reduces the latency and size required to send data to Kafka, and so it reduces the bandwidth. It also reduces the size of data stored on the disk. Enabling compression does not need extra change to your consumers nor the brokers. However, one’s compression drawback is to increase CPU usage for the clients.
+You can choose between four compression types: &lt;code&gt;gzip&lt;/code&gt;, &lt;code&gt;snappy&lt;/code&gt;, &lt;code&gt;lz4&lt;/code&gt; and &lt;code&gt;zstd&lt;/code&gt;. The &lt;code&gt;snappy&lt;/code&gt; compression type gives a good balance between CPU usage and compression ratio. Based on my experience, it’s the most used compression type.&lt;/p&gt;
+&lt;p&gt;Be careful as you can configure the compression type on &lt;a href=&#34;https://kafka.apache.org/documentation/#brokerconfigs_compression.type&#34;&gt;broker configuration&lt;/a&gt; and on &lt;a href=&#34;https://kafka.apache.org/documentation/#topicconfigs_compression.type&#34;&gt;topic configuration&lt;/a&gt;.&lt;br&gt;
+If those configurations are different from the producer compression configuration, the broker will have to decompress and then compress the incoming messages. You should let the default topic and broker configuration to the &lt;code&gt;producer&lt;/code&gt; value.&lt;/p&gt;
+&lt;h2 id=&#34;favour-consistency&#34;&gt;Favour consistency&lt;/h2&gt;
+&lt;p&gt;By default, a producer is configured to minimize latency. It means as soon as a message is produced, it should be available to the consumers. Before dealing with some performance issues, I always go for consistency and so I used to configure the Kafka producer with those parameters:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://kafka.apache.org/documentation/#producerconfigs_enable.idempotence&#34;&gt;&lt;code&gt;enable.idempotence=true&lt;/code&gt;&lt;/a&gt;. By enabling this property, it will prevent you from having duplicate messages and out-of-order messages.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://kafka.apache.org/documentation/#producerconfigs_acks&#34;&gt;&lt;code&gt;acks=all&lt;/code&gt;&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This means the leader will wait for the full set of in-sync replicas to acknowledge the record. This guarantees that the record will not be lost as long as at least one in-sync replica remains alive. This is the strongest available guarantee.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;The configuration &lt;code&gt;acks&lt;/code&gt; is related to the topic configuration &lt;a href=&#34;https://kafka.apache.org/documentation/#brokerconfigs_min.insync.replicas&#34;&gt;&lt;code&gt;min.insync.replicas&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In fact, with the newest release of Apache Kafka 3.0, Producer will enable the strongest delivery guarantee by default as described in the &lt;a href=&#34;https://cwiki.apache.org/confluence/display/KAFKA/KIP-679%3A+Producer+will+enable+the+strongest+delivery+guarantee+by+default&#34;&gt;KIP-679&lt;/a&gt;;&lt;/p&gt;
+&lt;h2 id=&#34;tracing&#34;&gt;Tracing&lt;/h2&gt;
+&lt;p&gt;When creating a Kafka producer, a best practice is to set the &lt;a href=&#34;https://kafka.apache.org/documentation/#producerconfigs_client.id&#34;&gt;&lt;code&gt;client.id&lt;/code&gt;&lt;/a&gt;.
+This property is also relevant when creating a Kafka consumer.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just IP/port by allowing a logical application name to be included in server-side request logging.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;If you want to learn more about tracing and client interceptor, I already wrote an article showing how to use &lt;a href=&#34;https://vgallet.github.io/posts/kafka-features/&#34;&gt;Client Interceptor and OpenTracing&lt;/a&gt;.&lt;/p&gt;
+</description>
+     </item>
    
      <item>
        <title>Monthly #1 July</title>

@@ -1,0 +1,246 @@
+<!doctype html>
+
+<html lang="en-us">
+
+<head>
+  <title>VGA</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="The HTML5 Herald" />
+  <meta name="author" content="Victor" />
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="">
+<meta name="twitter:title" content="Some Kafka Advice">
+<meta name="twitter:image" content="https://vgallet.github.io/images/apache-kafka.png">
+
+
+
+
+  <meta name="generator" content="Hugo 0.68.3" />
+    
+
+
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" />
+  <script src="https://kit.fontawesome.com/b76b73e8e8.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" />
+  <link rel="stylesheet" type="text/css" href="/css/styles.css" /></head>
+
+<body>
+  <div id="container">
+    <header>
+      <h1>
+                <a href="/">VGA</a>
+            </h1>
+
+      <ul id="social-media">
+             <li>
+               <a href="https://github.com/vgallet" title="GitHub">
+               <i class="fab fa-github fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://twitter.com/GalletVictor" title="Twitter">
+               <i class="fab fa-twitter fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://linkedin.com/in/%f0%9f%8f%80-%f0%9f%92%89%f0%9f%92%89victor-gallet-047285109" title="LinkedIn">
+               <i class="fab fa-linkedin fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://stackoverflow.com/users/4787113/victor-gallet" title="StackOverflow">
+               <i class="fab fa-stack-overflow fa-lg"></i>
+               </a>
+             </li>
+      </ul>
+      
+    </header>
+
+    
+<nav>
+    <ul>
+        
+    </ul>
+</nav>
+
+    <main>
+
+
+
+
+<article>
+
+    <h1>Some Kafka Advice</h1>
+
+    
+        <aside>
+    <ul>
+        <li>
+            <time class="post-date" datetime="2021-10-06T10:54:24&#43;02:00">Oct 6, 2021</time>
+        </li>
+        
+        <li>
+            Categories:
+            <em>
+                
+                    
+                    <a href="/categories/apache-kafka">apache kafka</a>
+                
+                    , 
+                    <a href="/categories/kafka">kafka</a>
+                
+            </em>
+        </li>
+        
+
+        
+        <li>
+            <em>
+                
+                    
+                    <a href="/tags/apache-kafka">#apache kafka</a>
+                
+                    , 
+                    <a href="/tags/kafka">#kafka</a>
+                
+            </em>
+        </li>
+        
+
+        <li>6 minutes read</li>
+    </ul>
+</aside>
+
+    
+
+    <p>I would like to share some advice when using Apache Kafka and its ecosystem in this article. All these recommendations came from my journey using Apache Kafka and it’s definitively not an exhaustive list.</p>
+<h1 id="topic-management">Topic Management</h1>
+<p>A Topic is one of the most important elements in Apache Kafka architecture. Here are some tips to help you design and create your topics.</p>
+<h2 id="topic-design">Topic Design</h2>
+<h3 id="topic-naming">Topic Naming</h3>
+<p>Topic naming is a critical part of architecting your system. By just seeing the name of the topic you can get a lot of information from it and once your platform starts to grow, processing a lot of exchanges, having a good topic naming convention is important.
+Here are some keys to help you set up a topic naming convention.</p>
+<ul>
+<li>do not start the topic name with <code>_</code>. Topics like <code>__consumer_offsets</code>, <code>_schemas</code> or <code>_connect_config</code> are internal topics.</li>
+<li><a href="https://www.confluent.fr/blog/kafka-2-8-0-features-and-improvements-with-early-access-to-kip-500/">Apache Kafka 2.8</a> introduces a new internal topic named <code>@metadata</code>. I would recommend not naming a topic starting with <code>@</code>.</li>
+<li>Add the visibility of your topic. Is the topic shared with other applications or it’s a topic only used by your application? It will also help you to manage the access and the ACL to those topics.</li>
+<li>Add the event way, in or out. Are you simply producing to this topic, consuming, or both?</li>
+<li>Add the event type. What kind of data will go to this topic?</li>
+<li>Add the data domain. Like in <a href="https://en.wikipedia.org/wiki/Domain-driven_design">DDD</a>, data is related to a particular context and it can be useful to add it with the event type.</li>
+</ul>
+<p>Finally, you could set up a template for topic naming and ensure that all topics respect this format. For example:</p>
+<pre><code>&lt;private/public&gt;_&lt;in/out&gt;_&lt;data domain&gt;_&lt;event type&gt;
+</code></pre><h3 id="number-of-partitions">Number of partitions</h3>
+<p>Before choosing the number of partitions for a topic, you should think about the partitioning key. Have in mind that two events produced with the same key will go to the same partition and <strong>the order is preserved by partition and not by topic</strong>!
+I would recommend choosing a business key that balances the events across all the partitions and preserving the event order.
+Using a technical key or a random key like an <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">UUID</a> is not relevant as you can simply produce messages using a null key and let the <a href="https://github.com/apache/kafka/blob/trunk/clients/src/main/java/org/apache/kafka/clients/producer/internals/DefaultPartitioner.java">DefaultPartitioner</a> balance the messages with the <a href="https://www.confluent.io/blog/apache-kafka-producer-improvements-sticky-partitioner/">sticky partitioner</a>.</p>
+<p>The number of partitions is the limit of scalability. It limits parallel processing for a consumer group. I would recommend choosing a highly divisible number. For example 12 or 30. With 12 partitions, you can have:</p>
+<ul>
+<li>1 consumer instance that deals with 12 partitions</li>
+<li>2 consumer instances that deal with 6 partitions each</li>
+<li>3 consumer instances that deal with 4 partitions each</li>
+<li>4 consumer instances that deal with 3 partitions each</li>
+<li>6 consumer instances that deal with 2 partitions each</li>
+<li>12 consumer instances that deal with 1 partition each</li>
+</ul>
+<p>Depending on the current load, it’s easy to scale up or down the consumer groups based on seasonality. Picking a high number of partitions will help you parallelize your processing and impact the cluster performance. An important number of partitions increases the number of leaders, replicas, and replication processes. It can lead to performance issues in case of recovery. There is no limit to the number of partitions in a cluster for the moment but the current recommendation is:</p>
+<blockquote>
+<p>The current generic recommendation to have no more than 4000 partitions per broker and no more than 200000 partitions per cluster is not enforced by Kafka.
+<a href="https://cwiki.apache.org/confluence/display/KAFKA/KIP-578%3A+Add+configuration+to+limit+number+of+partitions">https://cwiki.apache.org/confluence/display/KAFKA/KIP-578%3A+Add+configuration+to+limit+number+of+partitions</a>.</p>
+</blockquote>
+<p>By the way, this recommendation is likely to change in the future with the new Apache Kafka Zookeeper-less version.</p>
+<p><img src="/images/kafka_quorum.png" alt=""></p>
+<blockquote>
+<p><a href="https://youtu.be/vp-hV_li_bk">https://youtu.be/vp-hV_li_bk</a></p>
+</blockquote>
+<p>As you can see from this picture extracted from this <a href="https://youtu.be/vp-hV_li_bk">YouTube video</a>, An uncontrolled shutdown with <strong>2 million partitions</strong> only takes 37 seconds to recover with Apache Kafka 2.8 instead of 8 minutes with an older Apache Kafka.</p>
+<p>Finally, keep in mind that you can only increase the number of partitions for a topic. You can not shrink it. Increasing the number of partitions can be done at runtime without broker restart or client restart, but it impacts the partitioning strategy and also the consumers.</p>
+<h3 id="topic-creation">Topic Creation</h3>
+<p>First of all, you should not let topic auto-creation on your production cluster. To avoid some potential issue, simply disable the topic auto-creation in your cluster by setting the parameter <code>auto.create.topics.enable</code> to false in the <code>server.properties</code> file.
+Do not use GUI tools to create your topics. All this process should be automatized and easily reproducible using tools like <a href="https://www.ansible.com/">Ansible</a> or <a href="https://www.terraform.io/">Terraform</a>. It has to be versioned too.</p>
+<p>However, you can let the auto-creation topic on your non-production cluster for testing and development.</p>
+<h2 id="schema-management">Schema Management</h2>
+<p>Within the Kafka ecosystem, it is easy to exchange structured data with the Schema Registry component. There are several Schema Registry available on the market such as:</p>
+<ul>
+<li><a href="https://docs.confluent.io/platform/current/schema-registry/index.html">Confluent Schema Registry</a></li>
+<li><a href="https://github.com/aiven/karapace">Karapace</a></li>
+<li><a href="https://www.apicur.io/registry/">Apicurio</a></li>
+</ul>
+<p>Working with structured data using schemas helps guard against side effects as data evolves.</p>
+<p>I always recommend going Contract First! Create the schema, discuss it with the affected teams, conduct a code review during the evolution of the schema.
+Reviewing changes can and should be done not only by technical people but also by business people.
+These exchanges around the evolution of data may require an effort to synchronize teams, especially if the data impacts a large number of teams, but today the teams are agile and know how to welcome change ;-).</p>
+<h1 id="producer-configuration">Producer Configuration</h1>
+<h2 id="compression">Compression</h2>
+<p>By default, you should enable producer compression for several reasons. It reduces the latency and size required to send data to Kafka, and so it reduces the bandwidth. It also reduces the size of data stored on the disk. Enabling compression does not need extra change to your consumers nor the brokers. However, one’s compression drawback is to increase CPU usage for the clients.
+You can choose between four compression types: <code>gzip</code>, <code>snappy</code>, <code>lz4</code> and <code>zstd</code>. The <code>snappy</code> compression type gives a good balance between CPU usage and compression ratio. Based on my experience, it’s the most used compression type.</p>
+<p>Be careful as you can configure the compression type on <a href="https://kafka.apache.org/documentation/#brokerconfigs_compression.type">broker configuration</a> and on <a href="https://kafka.apache.org/documentation/#topicconfigs_compression.type">topic configuration</a>.<br>
+If those configurations are different from the producer compression configuration, the broker will have to decompress and then compress the incoming messages. You should let the default topic and broker configuration to the <code>producer</code> value.</p>
+<h2 id="favour-consistency">Favour consistency</h2>
+<p>By default, a producer is configured to minimize latency. It means as soon as a message is produced, it should be available to the consumers. Before dealing with some performance issues, I always go for consistency and so I used to configure the Kafka producer with those parameters:</p>
+<ul>
+<li><a href="https://kafka.apache.org/documentation/#producerconfigs_enable.idempotence"><code>enable.idempotence=true</code></a>. By enabling this property, it will prevent you from having duplicate messages and out-of-order messages.</li>
+<li><a href="https://kafka.apache.org/documentation/#producerconfigs_acks"><code>acks=all</code></a>.</li>
+</ul>
+<blockquote>
+<p>This means the leader will wait for the full set of in-sync replicas to acknowledge the record. This guarantees that the record will not be lost as long as at least one in-sync replica remains alive. This is the strongest available guarantee.</p>
+</blockquote>
+<p>The configuration <code>acks</code> is related to the topic configuration <a href="https://kafka.apache.org/documentation/#brokerconfigs_min.insync.replicas"><code>min.insync.replicas</code></a>.</p>
+<p>In fact, with the newest release of Apache Kafka 3.0, Producer will enable the strongest delivery guarantee by default as described in the <a href="https://cwiki.apache.org/confluence/display/KAFKA/KIP-679%3A+Producer+will+enable+the+strongest+delivery+guarantee+by+default">KIP-679</a>;</p>
+<h2 id="tracing">Tracing</h2>
+<p>When creating a Kafka producer, a best practice is to set the <a href="https://kafka.apache.org/documentation/#producerconfigs_client.id"><code>client.id</code></a>.
+This property is also relevant when creating a Kafka consumer.</p>
+<blockquote>
+<p>An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just IP/port by allowing a logical application name to be included in server-side request logging.</p>
+</blockquote>
+<p>If you want to learn more about tracing and client interceptor, I already wrote an article showing how to use <a href="https://vgallet.github.io/posts/kafka-features/">Client Interceptor and OpenTracing</a>.</p>
+
+
+</article>
+
+
+<section class="post-nav">
+    <ul>
+        
+        <li>
+            <a href="https://vgallet.github.io/posts/monthly1-july/"><i class="fa fa-chevron-circle-left"></i> Monthly #1 July</a>
+        </li>
+        
+        
+    </ul>
+</section>
+    
+
+
+
+
+
+</main>
+    <footer>
+        <h6> |
+            Rendered by <a href="https://gohugo.io" title="Hugo">Hugo</a> |
+            <a href="https://vgallet.github.io/index.xml">Subscribe </a></h6>
+    </footer>
+</div>
+<script src="/js/scripts.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-153662880-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+</body>
+
+</html>
+
