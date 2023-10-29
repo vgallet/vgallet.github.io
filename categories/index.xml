@@ -6,10 +6,34 @@
    <description>Recent content in Categories on VGA</description>
    <generator>Hugo -- gohugo.io</generator>
    <language>en-us</language>
-   <lastBuildDate>Wed, 06 Oct 2021 10:54:24 +0200</lastBuildDate>
+   <lastBuildDate>Sun, 29 Oct 2023 09:57:34 +0100</lastBuildDate>
    
        <atom:link href="https://vgallet.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
    
+   
+     <item>
+       <title>My Talks</title>
+       <link>https://vgallet.github.io/posts/my-talks/</link>
+       <pubDate>Sun, 29 Oct 2023 09:57:34 +0100</pubDate>
+       
+       <guid>https://vgallet.github.io/posts/my-talks/</guid>
+       <description>&lt;p&gt;&lt;img src=&#34;https://vgallet.github.io/images/20231013_180610.jpg&#34; alt=&#34;Victor&amp;rsquo;s speaking at Volcamp 2023&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Here&amp;rsquo;s the list of my given talks, don&amp;rsquo;t hesitate to reach me if you are interested in.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Volcamp 2023&lt;/strong&gt; - &lt;a href=&#34;https://www.volcamp.io/talks/23d2t3s6&#34;&gt;Tests E2E ou de performance 🧐 ? Ne choisissez plus et faites les deux! REX de la mise en place de tests E2E avec un outil de load testing chez ManoMano!&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CloudAlpes 2023&lt;/strong&gt; - &lt;a href=&#34;https://cloudalpes.fr/sessions/tests-e2e-ou-de-performance-ne&#34;&gt;Tests E2E ou de performance 🧐 ? Ne choisissez plus et faites les deux! REX de la mise en place de tests E2E avec un outil de load testing chez ManoMano!&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Devoxx 2022&lt;/strong&gt; - &lt;a href=&#34;https://cfp.devoxx.fr/2022/talk/ZYX-6223/Traiter_1_million_de_messages_par_CPU_par_Go_de_memoire_avec_Quarkus_et_Microprofile_reactive_messaging_kafka_a_Decathlon.html&#34;&gt;Traiter 1 million de messages par CPU par Go de mémoire avec Quarkus et Microprofile reactive messaging kafka à Décathlon&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Volcamp 2022&lt;/strong&gt; - &lt;a href=&#34;https://2022.volcamp.io/talks/22d1t3s1&#34;&gt;Workshop Kafka Streams 101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SunnyTech 2022&lt;/strong&gt; - &lt;a href=&#34;https://2022.sunny-tech.io/schedule/2022-07-01?sessionId=0yqIbdinOOjVry40LAmL&#34;&gt;Workshop Kafka Streams 101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Mixit 2022&lt;/strong&gt; - &lt;a href=&#34;https://mixitconf.org/en/2022/workshop-kafka-streams-101&#34;&gt;Workshop Kafka Streams 101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;LavaJUG May 2022&lt;/strong&gt; - &lt;a href=&#34;https://www.lavajug.org/2022/05/19/workshop-kafka.html&#34;&gt;Workshop Kafka Streams 101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Bordeaux JUG May 2022&lt;/strong&gt; - &lt;a href=&#34;http://www.bordeauxjug.org/meetings&#34;&gt;Workshop Kafka Streams 101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Lyon JUG Nov. 2021&lt;/strong&gt; - &lt;a href=&#34;https://www.meetup.com/fr-FR/lyonjug/events/281837263/&#34;&gt;Workshop Kafka Streams 101&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Lyon JUG Feb. 2020&lt;/strong&gt; - &lt;a href=&#34;https://www.meetup.com/fr-FR/lyonjug/events/268404892/&#34;&gt;Workshop Testcontainers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Mixit 2019&lt;/strong&gt; - &lt;a href=&#34;https://mixitconf.org/en/2019/code-from-scratch&#34;&gt;Code From Scratch&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+     </item>
    
      <item>
        <title>Some Kafka Advice</title>
