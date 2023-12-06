@@ -12,6 +12,71 @@
    
    
      <item>
+       <title>Tech Watch #2 December 2023</title>
+       <link>https://vgallet.github.io/posts/tech-watch2/</link>
+       <pubDate>Wed, 06 Dec 2023 09:55:26 +0200</pubDate>
+       
+       <guid>https://vgallet.github.io/posts/tech-watch2/</guid>
+       <description>&lt;h3 id=&#34;kstreamplifyhttpsgithubcommichelinkstreamplify&#34;&gt;&lt;a href=&#34;https://github.com/michelin/kstreamplify&#34;&gt;Kstreamplify&lt;/a&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Kstreamplify is a Java library that empowers you to swiftly create Kafka Streams-based applications, offering a host of additional advanced features.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;I haven&amp;rsquo;t give a try yet, but I&amp;rsquo;m happy to see a french company like Michelin contributing to OSS.&lt;/p&gt;
+&lt;h3 id=&#34;mocha-xray-reporterhttpsgithubcomenedis-ossmocha-xray-reporter&#34;&gt;&lt;a href=&#34;https://github.com/Enedis-OSS/mocha-xray-reporter&#34;&gt;mocha-xray-reporter&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;A library allowing you to retrieve Cypress test results (or any other test based on Mocha) to automatically create Xray reports. More information in this 🇫🇷 &lt;a href=&#34;https://www.linkedin.com/pulse/mocha-xray-reporter-enedis-en-open-source-philippe-tressard-b3ife/?originalSubdomain=fr&#34;&gt;article&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Kudos to Enedis for contributing to OSS.&lt;/p&gt;
+&lt;h3 id=&#34;a-deep-dive-on-java-spring-framework-transactional-annotationhttpsxavieraraujogithubiodatabases20231202a-deep-dive-on-java-spring-framework-transactional-annotationhtml&#34;&gt;&lt;a href=&#34;https://xavieraraujo.github.io/databases/2023/12/02/a-deep-dive-on-java-spring-framework-transactional-annotation.html&#34;&gt;A deep dive on Java Spring framework transactional annotation&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;A good reminder of how Spring handle transactional methods&lt;/p&gt;
+&lt;h3 id=&#34;code-is-run-more-than-readhttpsolanodev2023-11-30-code-is-run-more-than-read&#34;&gt;&lt;a href=&#34;https://olano.dev/2023-11-30-code-is-run-more-than-read/&#34;&gt;Code is run more than read&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Back to basics on software development aims&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This is why, instead of guessing or asking what they need, it’s best to put the program in front of the users early and frequently and to incorporate what we learn from their feedback.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;There’s a mismatch between what we thought doing a good job was and what a significant part of the industry considers profitable, and I think that explains the increasing discomfort of many software professionals&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;slim-docker-images-for-javahttpspiotrminkowskicom20231107slim-docker-images-for-java&#34;&gt;&lt;a href=&#34;https://piotrminkowski.com/2023/11/07/slim-docker-images-for-java/&#34;&gt;Slim Docker Images for Java&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Let&amp;rsquo;s compare the size of Java docker images created using BellSoft Liberica OpenJDK, Eclipse Temurin OpenJDK and BellSoft&amp;rsquo;s buildpack based on the Alpaquita image. Long story short, the image created using Temurin is the lightest.&lt;/p&gt;
+&lt;h3 id=&#34;an-intuitive-documentation-strategyhttpsabstractionblog20231122intuitive-documentation-strategy&#34;&gt;&lt;a href=&#34;https://abstraction.blog/2023/11/22/intuitive-documentation-strategy&#34;&gt;An intuitive documentation strategy&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;A good guideline and examples to create a well-structured documentation&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The quality of documentation of a product can be considered as a barometer of the developer’s empathy. However it remains one of the most ignored parts of the software world.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Good documentation comes from empathy ie the desire to share the knowledge and enable a smooth onboarding experience.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;you-probably-dont-need-datetimehttpsscorpilcompostyou-dont-need-datetime&#34;&gt;&lt;a href=&#34;https://scorpil.com/post/you-dont-need-datetime/&#34;&gt;YOU (PROBABLY) DON&amp;rsquo;T NEED DATETIME&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;A crystal clear explanation of timestamp versus date time. It will help you choose between timestamp or date time and most of the time a timestamp is the right choice.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;There is a common misconception that Unix Timestamp does not work in multi-timezone environments&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Just make sure you use at least a 64-bit integer when using Unix time to avoid fixing your codebase in 2038&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;framing-the-1-most-important-communication-concept-every-software-engineer-must-knowhttpscareercutlersubstackcompframing-the-1-most-important-communication&#34;&gt;&lt;a href=&#34;https://careercutler.substack.com/p/framing-the-1-most-important-communication&#34;&gt;Framing: The 1 most important communication concept every software engineer must know&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;This article explains how you should rephrase some ideas to increase the impact. The idea is to think about&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;who am I speaking to?&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;what do I want?&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;what do they care about?&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;How can I explain it to them in terms they care about?&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;It gives examples based on concrete situations like asking for a promotion, writing a resume, and working with a co-worker.&lt;/p&gt;
+&lt;h3 id=&#34;cds-with-spring-framework-61httpsspringioblog20231204cds-with-spring-framework-6-1&#34;&gt;&lt;a href=&#34;https://spring.io/blog/2023/12/04/cds-with-spring-framework-6-1&#34;&gt;CDS with Spring Framework 6.1&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;CDS stands for Class Data Sharing, it can help reduce the startup time and memory footprints by caching class metadata in an archive file so that it can be quickly pre-loaded into a newly launched JVM&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Most people don’t use CDS today but probably should since they can get a reasonable startup improvement for relatively little work&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;So, properly integrated, CDS may have great potential for wide adoption. If you combine CDS with Spring AOT optimizations, you can reduce the startup time of Petclinic by 36% to 42%.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;mobcast---comment-mal-recruterhttpstcok29icwjewc&#34;&gt;&lt;a href=&#34;https://t.co/K29Icwjewc&#34;&gt;Mobcast - Comment mal recruter&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;🇫🇷 podcast about interview process&lt;/p&gt;
+&lt;p&gt;Speakers share interview stories and what to avoid from a recruiter perspective&lt;/p&gt;
+</description>
+     </item>
+   
+     <item>
        <title>My Talks</title>
        <link>https://vgallet.github.io/posts/my-talks/</link>
        <pubDate>Sun, 29 Oct 2023 09:57:34 +0100</pubDate>
