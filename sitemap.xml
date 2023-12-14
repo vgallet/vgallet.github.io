@@ -4,17 +4,47 @@
   
   <url>
     <loc>https://vgallet.github.io/categories/</loc>
-    <lastmod>2023-12-06T09:55:26+02:00</lastmod>
+    <lastmod>2023-12-14T16:47:12+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/tags/code/</loc>
+    <lastmod>2023-12-14T16:47:12+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/categories/code-review/</loc>
+    <lastmod>2023-12-14T16:47:12+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://vgallet.github.io/posts/</loc>
-    <lastmod>2023-12-06T09:55:26+02:00</lastmod>
+    <lastmod>2023-12-14T16:47:12+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/tags/r/</loc>
+    <lastmod>2023-12-14T16:47:12+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/tags/review/</loc>
+    <lastmod>2023-12-14T16:47:12+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://vgallet.github.io/tags/</loc>
-    <lastmod>2023-12-06T09:55:26+02:00</lastmod>
+    <lastmod>2023-12-14T16:47:12+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/</loc>
+    <lastmod>2023-12-14T16:47:12+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vgallet.github.io/posts/code-review/</loc>
+    <lastmod>2023-12-14T16:47:12+01:00</lastmod>
   </url>
   
   <url>
@@ -29,11 +59,6 @@
   
   <url>
     <loc>https://vgallet.github.io/categories/techwatch/</loc>
-    <lastmod>2023-12-06T09:55:26+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://vgallet.github.io/</loc>
     <lastmod>2023-12-06T09:55:26+02:00</lastmod>
   </url>
   
@@ -154,11 +179,6 @@
   
   <url>
     <loc>https://vgallet.github.io/posts/covid19-analysis/</loc>
-    <lastmod>2020-05-09T11:40:57+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://vgallet.github.io/tags/r/</loc>
     <lastmod>2020-05-09T11:40:57+02:00</lastmod>
   </url>
   

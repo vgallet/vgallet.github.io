@@ -1,0 +1,209 @@
+<!doctype html>
+
+<html lang="en-us">
+
+<head>
+  <title>VGA</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="The HTML5 Herald" />
+  <meta name="author" content="Victor" />
+  <meta name="generator" content="Hugo 0.68.3" />
+    
+
+
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" />
+  <script src="https://kit.fontawesome.com/b76b73e8e8.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" />
+  <link rel="stylesheet" type="text/css" href="/css/styles.css" /></head>
+
+<body>
+  <div id="container">
+    <header>
+      <h1>
+                <a href="/">VGA</a>
+            </h1>
+
+      <ul id="social-media">
+             <li>
+               <a href="https://github.com/vgallet" title="GitHub">
+               <i class="fab fa-github fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://twitter.com/GalletVictor" title="Twitter">
+               <i class="fab fa-twitter fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://linkedin.com/in/%f0%9f%8f%80-%f0%9f%92%89%f0%9f%92%89victor-gallet-047285109" title="LinkedIn">
+               <i class="fab fa-linkedin fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://stackoverflow.com/users/4787113/victor-gallet" title="StackOverflow">
+               <i class="fab fa-stack-overflow fa-lg"></i>
+               </a>
+             </li>
+      </ul>
+      
+    </header>
+
+    
+<nav>
+    <ul>
+        
+    </ul>
+</nav>
+
+    <main>
+
+
+
+
+<article>
+
+    <h1>Why you should stop doing code reviews!</h1>
+
+    
+        <aside>
+    <ul>
+        <li>
+            <time class="post-date" datetime="2023-12-14T16:47:12&#43;01:00">Dec 14, 2023</time>
+        </li>
+        
+        <li>
+            Categories:
+            <em>
+                
+                    
+                    <a href="/categories/code-review">code review</a>
+                
+            </em>
+        </li>
+        
+
+        
+        <li>
+            <em>
+                
+                    
+                    <a href="/tags/code">#code</a>
+                
+                    , 
+                    <a href="/tags/review">#review</a>
+                
+            </em>
+        </li>
+        
+
+        <li>6 minutes read</li>
+    </ul>
+</aside>
+
+    
+
+    <p><em>I would like to thank Baptiste Barbieri and Rafael S. Ward for their time &lt;3.</em></p>
+<h1 id="why-you-should-stop-doing-code-reviews">Why you should stop doing code reviews!</h1>
+<p>Code review is one of the most used methods in software development. We all know what are the benefits of doing code review.</p>
+<p>To sum up, doing code review enables verification of new code quality by identifying future bugs, ensuring tested code, and ensuring readable code.</p>
+<p>Moreover, by reading code written by others, developers can learn from others. A junior developer can learn by reading the code of a more experienced one. They can ask questions using comments.
+Vice versa a senior developer can check the code of a junior developer and provide constructive feedback.</p>
+<p>I won’t go deeper into code review benefits in this article. For more information, you can read the amazing work done by Trisha Gee. For instance <a href="https://trishagee.github.io/post/code_review_best_practices/">this blog post</a>.</p>
+<p>However, is code review really worth doing? What are the drawbacks we faced doing code review? I tried to list all code review antipatterns I faced and I’m sure you faced some of them. Several times.</p>
+<h2 id="code-review-pitfalls">Code review pitfalls</h2>
+<h4 id="the-ping-pong-review">The “ping pong” review</h4>
+<p>Some comments are added, you take them into account, some new comments are added, you take them into account, new comments are added…and so on. It’s really frustrating for the merge request author, even more when it happens with several reviewers.</p>
+<h4 id="the-re-design-review">The “re-design” review</h4>
+<p>Once the merge request opens, you receive comments indicating a large design issue. It’s not a simple correction, but the whole implementation must be redone. This is a demoralizing situation for the author and the reviewers and a waste of time.</p>
+<h4 id="the-ghosting-review">The “ghosting” review</h4>
+<p>Comments are added, taken into account and then you wait for the approval. The reviewer has disappeared and you have to wait before merging. Even if other reviewers have approved the merge request, you have to wait for the ghost reviewer.</p>
+<h4 id="the-waiting-for-review">The “waiting for” review</h4>
+<p>Your merge request is not the most attractive and you are still awaiting approval.</p>
+<h4 id="the-tldr-review">The “TL;DR” review</h4>
+<p>Changes are very important but reviewers didn’t read it before approving it because it was too long.</p>
+<h4 id="the-presentation-review">The presentation review</h4>
+<p>You have done a huge refactoring or the changes you bring are really complex to review and your team is asking you for a presentation or a mob review. Now you have to find a time where everyone is available to do the code review, it’s only the beginning of your merge request journey.</p>
+<h4 id="the-convention-style-review">The “convention style” review</h4>
+<p>Some comments on the merge request are merely about coding style. For instance, there are too many break lines or spaces. Those kinds of reviews could be avoided with a linter.</p>
+<h4 id="the-too-small-merge-request">The “too small” merge request</h4>
+<p>If one line of code has been modified, you tend to think that it will be approved and merged fast. BUT! Instead, it triggers a lot of discussions. We are typically in a <a href="https://en.wikipedia.org/wiki/Law_of_triviality">bike-shed effect</a>.</p>
+<h4 id="the-keep-rebasing-review">The “keep rebasing” review</h4>
+<p>Your merge request is waiting for approval, while other merge requests are merged and you have to keep your code up to date and potentially resolve conflicts.</p>
+<h4 id="the-inconsistent-feedback-review">The “inconsistent feedback” review</h4>
+<p>Sometimes you get a comment and don’t know how to handle it. Most of the time, the review expressed a feeling more than a clear solution. For example “This function seems too complicated for me”.</p>
+<h4 id="the-after-merged-review">The “after merged” review</h4>
+<p>The merge request has been approved and merged. Great! But a new challenger has appeared! This challenger is perhaps knowledgeable about the project or on the technologies used and he wants to make some changes. Most of the time, a new merge request will be opened by this person without sharing it with the first developer.</p>
+<h4 id="the-conflict-review">The “conflict” review</h4>
+<p>Expressing or receiving feedback can be complicated, people can take it personally and it can lead to some tensions in the team.</p>
+<h4 id="the-elderly-merge-request">The “elderly” merge request</h4>
+<p>The merge request is open for a long time, it could be a couple of weeks, a month or even a year. The merge request is so old that most of the developers don’t know if it’s still relevant to merge it so the merge request will just sit there.</p>
+<h4 id="the-not-working-review">The “not working” review</h4>
+<p>The CI pipeline passed, and the merge request has been approved but once merged and deployed&hellip; it doesn’t work! Let’s do a full cycle again.</p>
+<h4 id="the-full-time-job-review">The “Full-time job” review</h4>
+<p>Code review can be a full-time job! A developer in a team could spend their entire time doing code review. Furthermore, it’s not uncommon to have developers in a team who are spending way more time than others doing code reviews. Not everyone does code review in a balanced way and it can lead to struggles within the team.</p>
+<p>The worst thing about all those patterns is that they can be accumulated. You can be in a ping pong review, suddenly land on with a ghost review, keep rebasing and finish by having some tensions in your team.</p>
+<h2 id="stop-doing-code-review">Stop doing code review?</h2>
+<p>So what are the solutions to avoid those situations? Most of these problems could be avoided by sharing early. Before what?
+For instance, sharing about coding guidelines, architecture, coding practices or design before jumping into the code. All of these methods and practices are living, moving with time and have to be updated during the project lifecycle.</p>
+<p>It’s merely an Agile value: having feedback as soon as possible. Feedback coming from code review is too late.</p>
+<p>In my experience, code review creates more problems than it solves. Code review is only good when developers work mostly in an asynchronous way and in different time zones. But in most cases, developers are working in the same team, on the same project at the same time and code review is only a way to avoid exchanges with colleagues. Nowadays, code review is a cargo cult.</p>
+<p><strong>Most of the time</strong> code review should be replaced by pair programming or better still ensemble programming (also known as mob programming).
+In that way, you have at least two people working on the same piece of code and you always have:</p>
+<ul>
+<li>knowledge sharing, both business and technical knowledge</li>
+<li>proof-reading</li>
+<li>developing cohesion and team spirit</li>
+</ul>
+<p>Doing pair programming, doing synchronous development saves from ghosting, from ping pong comments, “TL;DR” review, “waiting for” review, “convention style” review….and so on. Actually, working together avoids all of the pitfalls of code review.</p>
+<p>If you are developing using TDD, pair programming can even be more fun by doing <a href="https://anthonysciamanna.com/2015/04/18/ping-pong-pair-programming.html">ping pong pair programming</a>.</p>
+<p>Lastly, I won’t debate about the simplistic idea that having two developers working together on the same task is more expensive compared to having them working alone. The synchronisation process in all steps is one of the most expensive and code review is one of them.</p>
+
+
+</article>
+
+
+<section class="post-nav">
+    <ul>
+        
+        <li>
+            <a href="https://vgallet.github.io/posts/tech-watch2/"><i class="fa fa-chevron-circle-left"></i> Tech Watch #2 December 2023</a>
+        </li>
+        
+        
+    </ul>
+</section>
+    
+
+
+
+
+
+</main>
+    <footer>
+        <h6> |
+            Rendered by <a href="https://gohugo.io" title="Hugo">Hugo</a> |
+            <a href="https://vgallet.github.io/index.xml">Subscribe </a></h6>
+    </footer>
+</div>
+<script src="/js/scripts.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-153662880-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+</body>
+
+</html>
+
