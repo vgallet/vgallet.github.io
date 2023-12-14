@@ -17,7 +17,7 @@
        <pubDate>Thu, 14 Dec 2023 16:47:12 +0100</pubDate>
        
        <guid>https://vgallet.github.io/posts/code-review/</guid>
-       <description>&lt;p&gt;&lt;em&gt;I would like to thank Baptiste Barbieri and Rafael S. Ward for their time &amp;lt;3.&lt;/em&gt;&lt;/p&gt;
+       <description>&lt;p&gt;&lt;em&gt;I would like to thank Baptiste Barbieri, Antoine Guy, Maxence Zajdlic and Rafael S. Ward for their time &amp;lt;3.&lt;/em&gt;&lt;/p&gt;
 &lt;h1 id=&#34;why-you-should-stop-doing-code-reviews&#34;&gt;Why you should stop doing code reviews!&lt;/h1&gt;
 &lt;p&gt;Code review is one of the most used methods in software development. We all know what are the benefits of doing code review.&lt;/p&gt;
 &lt;p&gt;To sum up, doing code review enables verification of new code quality by identifying future bugs, ensuring tested code, and ensuring readable code.&lt;/p&gt;
