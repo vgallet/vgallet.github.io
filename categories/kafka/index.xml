@@ -6,10 +6,153 @@
    <description>Recent content in kafka on VGA</description>
    <generator>Hugo -- gohugo.io</generator>
    <language>en-us</language>
-   <lastBuildDate>Wed, 06 Oct 2021 10:54:24 +0200</lastBuildDate>
+   <lastBuildDate>Fri, 15 Dec 2023 15:24:22 +0100</lastBuildDate>
    
        <atom:link href="https://vgallet.github.io/categories/kafka/index.xml" rel="self" type="application/rss+xml" />
    
+   
+     <item>
+       <title>Spring Kafka Transaction Sample</title>
+       <link>https://vgallet.github.io/posts/kafka-spring-transaction/</link>
+       <pubDate>Fri, 15 Dec 2023 15:24:22 +0100</pubDate>
+       
+       <guid>https://vgallet.github.io/posts/kafka-spring-transaction/</guid>
+       <description>&lt;p&gt;The following Spring Boot application is an example of chaining database and Kafka transactions.
+This blog post comes from &lt;a href=&#34;https://gitlab.com/victor.gallet9/spring-kafka-transaction-sample/&#34;&gt;this gitlab repository&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;presentation&#34;&gt;Presentation&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://vgallet.github.io/images/presentation_kafka_spring_transaction_app.png&#34; alt=&#34;Spring Application behaviour&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The application 1️⃣ ️consumes a message from Apache Kafka: the incoming message.
+Then the application has to do two things atomically:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;2️⃣ update the database&lt;/li&gt;
+&lt;li&gt;3️⃣ produce an outgoing message&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Finally, 4️⃣  the outgoing message can be consumed by another application.&lt;/p&gt;
+&lt;h3 id=&#34;what-can-go-wrong-&#34;&gt;What can go wrong ?&lt;/h3&gt;
+&lt;p&gt;During this process, what can possibly go wrong ?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;the update of the database goes wrong  2️⃣&lt;/li&gt;
+&lt;li&gt;the production of the outgoing message goes wrong  3️⃣&lt;/li&gt;
+&lt;li&gt;the consumer encounters an issue and throws an exception&lt;/li&gt;
+&lt;li&gt;the application encounters an issue during the process (e.g. it can crash or be killed)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In order to solve those potential issues, this project leverages the ability of chaining Kafka and Database transactions.&lt;/p&gt;
+&lt;h2 id=&#34;database-transaction-first&#34;&gt;Database Transaction First&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;DBTransactionCommittedFirst&lt;/code&gt; shows an example of a DB transaction committed first.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The listener container that starts the Kafka transaction and the @Transactional annotation starts the DB transaction.
+The DB transaction is committed first; if the Kafka transaction fails to commit, the record will be redelivered so the DB update should be idempotent.
+&lt;a href=&#34;https://docs.spring.io/spring-kafka/reference/tips.html#ex-jdbc-sync&#34;&gt;Examples of Kafka Transactions with Other Transaction Managers&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;The KafkaTemplate will synchronize its transaction with the DB transaction and the commit/rollback occurs after the database.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://vgallet.github.io/images/database_transaction_first.png&#34; alt=&#34;Database transaction committed first&#34;&gt;&lt;/p&gt;
+&lt;p&gt;As we can see the incoming message can be re-consumed if the production of the outgoing message fails.
+However, thanks to the &lt;code&gt;max.block.ms&lt;/code&gt; we are able to detect shortly if the Kafka producer is not able to produce the message.
+And so:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;the whole transaction is rollback&lt;/li&gt;
+&lt;li&gt;the incoming message is saved into a DLT topic&lt;/li&gt;
+&lt;li&gt;the offset of the incoming message is committed&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;A test suites of each potential failing cases has been implemented into the test directory &lt;code&gt;src/test/kotlin/spring/transaction/sample/db/transaction/committed/first&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-log&#34; data-lang=&#34;log&#34;&gt;o.s.k.t.KafkaTransactionManager          : Creating new transaction with name [null]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
+o.s.k.t.KafkaTransactionManager          : Created Kafka transaction on producer [CloseSafeProducer [delegate=org.apache.kafka.clients.producer.KafkaProducer@436ffa8c]]
+o.s.j.d.DataSourceTransactionManager     : Creating new transaction with name [spring.transaction.sample.db.transaction.committed.first.DBTransactionCommittedFirst.listen1]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT; &#39;dstm&#39;
+o.s.j.d.DataSourceTransactionManager     : Acquired Connection [HikariProxyConnection@696812105 wrapping org.postgresql.jdbc.PgConnection@5256fbc] for JDBC transaction
+o.s.j.d.DataSourceTransactionManager     : Switching JDBC Connection [HikariProxyConnection@696812105 wrapping org.postgresql.jdbc.PgConnection@5256fbc] to manual commit
+o.s.t.i.TransactionInterceptor           : Getting transaction for [spring.transaction.sample.db.transaction.committed.first.DBTransactionCommittedFirst.listen1]
+Consuming message happy_path - topic db.transaction.happy.incoming - offset 0
+Inserting into DB
+o.s.jdbc.core.JdbcTemplate               : Executing SQL statement [insert into mytable (data) values (&#39;happy_path&#39;)]
+Sending to KAFKA
+org.apache.kafka.clients.Metadata        : [Producer clientId=producer-tx-0, transactionalId=tx-0] Resetting the last seen epoch of partition db.transaction.happy.outgoing-0 to 0 since the associated topicId changed from null to GQVLTjHdQBGGMjpMKWnARw
+o.s.t.i.TransactionInterceptor           : Completing transaction for [spring.transaction.sample.db.transaction.committed.first.DBTransactionCommittedFirst.listen1]
+o.s.j.d.DataSourceTransactionManager     : Initiating transaction commit
+o.s.j.d.DataSourceTransactionManager     : Committing JDBC transaction on Connection [HikariProxyConnection@696812105 wrapping org.postgresql.jdbc.PgConnection@5256fbc]
+o.s.j.d.DataSourceTransactionManager     : Releasing JDBC Connection [HikariProxyConnection@696812105 wrapping org.postgresql.jdbc.PgConnection@5256fbc] after transaction
+o.a.k.c.p.internals.TransactionManager   : [Producer clientId=producer-tx-0, transactionalId=tx-0] Discovered group coordinator localhost:52474 (id: 0 rack: null)
+o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT data from mytable]
+o.s.jdbc.datasource.DataSourceUtils      : Fetching JDBC Connection from DataSource
+o.s.k.t.KafkaTransactionManager          : Initiating transaction commit
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;kafka-transaction-first&#34;&gt;Kafka Transaction First&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;NestedKafkaTransactionCommittedFirst&lt;/code&gt; shows an example of a Kafka transaction committed first.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://vgallet.github.io/images/kafka_transaction_first.png&#34; alt=&#34;Kafka transaction committed first&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Here we commit the Kafka transaction first, and only commit the DB transaction if the Kafka transaction is successful.&lt;/p&gt;
+&lt;p&gt;A test suites of each potential failing cases has been implemented into the test directory &lt;code&gt;src/test/kotlin/spring/transaction/sample/kafka/transaction/committed/first&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-log&#34; data-lang=&#34;log&#34;&gt;o.a.k.c.p.internals.TransactionManager   : [Producer clientId=producer-tx-0, transactionalId=tx-0] Invoking InitProducerId for the first time in order to acquire a producer ID
+org.apache.kafka.clients.Metadata        : [Producer clientId=producer-tx-0, transactionalId=tx-0] Cluster ID: ki0qvTQ6TmmPKoQiqGc_8g
+o.a.k.c.p.internals.TransactionManager   : [Producer clientId=producer-tx-0, transactionalId=tx-0] Discovered transaction coordinator localhost:52437 (id: 0 rack: null)
+o.a.k.c.p.internals.TransactionManager   : [Producer clientId=producer-tx-0, transactionalId=tx-0] ProducerId set to 0 with epoch 3
+org.apache.kafka.clients.Metadata        : [Producer clientId=producer-tx-0, transactionalId=tx-0] Resetting the last seen epoch of partition kafka.transaction.happy.test.incoming-0 to 0 since the associated topicId changed from null to iyBcsb3sRnCzW0Dz3l8lWg
+o.s.k.t.KafkaTransactionManager          : Creating new transaction with name [null]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
+o.s.k.t.KafkaTransactionManager          : Created Kafka transaction on producer [CloseSafeProducer [delegate=org.apache.kafka.clients.producer.KafkaProducer@70330f49]]
+o.s.j.d.DataSourceTransactionManager     : Creating new transaction with name [spring.transaction.sample.kafka.transaction.committed.first.NestedKafkaTransactionCommittedFirst.listen1]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT; &#39;dstm&#39;
+o.s.j.d.DataSourceTransactionManager     : Acquired Connection [HikariProxyConnection@737186320 wrapping org.postgresql.jdbc.PgConnection@5911dd25] for JDBC transaction
+o.s.j.d.DataSourceTransactionManager     : Switching JDBC Connection [HikariProxyConnection@737186320 wrapping org.postgresql.jdbc.PgConnection@5911dd25] to manual commit
+o.s.t.i.TransactionInterceptor           : Getting transaction for [spring.transaction.sample.kafka.transaction.committed.first.NestedKafkaTransactionCommittedFirst.listen1]
+Consuming message happy_path - topic kafka.transaction.happy.test.incoming - offset 0
+Inserting into DB
+o.s.jdbc.core.JdbcTemplate               : Executing SQL statement [insert into mytable (data) values (&#39;happy_path&#39;)]
+Sending to KAFKA
+org.apache.kafka.clients.Metadata        : [Producer clientId=producer-tx-0, transactionalId=tx-0] Resetting the last seen epoch of partition kafka.transaction.happy.test.outgoing-0 to 0 since the associated topicId changed from null to Qzavf0KTSVKpsM7cOdKVLQ
+o.s.t.i.TransactionInterceptor           : Completing transaction for [spring.transaction.sample.kafka.transaction.committed.first.NestedKafkaTransactionCommittedFirst.listen1]
+o.s.j.d.DataSourceTransactionManager     : Initiating transaction commit
+o.s.j.d.DataSourceTransactionManager     : Committing JDBC transaction on Connection [HikariProxyConnection@737186320 wrapping org.postgresql.jdbc.PgConnection@5911dd25]
+o.s.j.d.DataSourceTransactionManager     : Releasing JDBC Connection [HikariProxyConnection@737186320 wrapping org.postgresql.jdbc.PgConnection@5911dd25] after transaction
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In this case, an application&amp;rsquo;s crash at the right time may cause a loss in the database update.&lt;/p&gt;
+&lt;h2 id=&#34;appendices&#34;&gt;Appendices&lt;/h2&gt;
+&lt;h3 id=&#34;kafka-transaction&#34;&gt;Kafka Transaction&lt;/h3&gt;
+&lt;p&gt;Kafka Transaction was designed for the &lt;code&gt;consume-process-produce&lt;/code&gt; pattern.
+The purpose is to ensure that there are no duplicates in Kafka’s log (idempotence) and that messages are written atomically across multiple partitions (transactions).
+This allows for stream processing applications to do transactional message processing.&lt;/p&gt;
+&lt;p&gt;Enable it:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Idempotent Producers&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Set enable.idempotence = true on the producer. This ensures Kafka’s partitions are free of duplicate records&lt;/li&gt;
+&lt;li&gt;Set a unique transactional.id for the producer&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Downstream consumers read committed transactional records with isolation.level = read_committed&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;error-handler&#34;&gt;Error Handler&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;When transactions are being used, no error handlers are configured, by default, so that the exception will roll back the transaction. Error handling for transactional containers are handled by the AfterRollbackProcessor. If you provide a custom error handler when using transactions, it must throw an exception if you want the transaction rolled back.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;In this project, a &lt;code&gt;AfterRollbackProcessor&lt;/code&gt; is created to avoid retry during the tests.
+However, a &lt;code&gt;DeadLetterPublishingRecoverer&lt;/code&gt; is created and added. Therefor, a failing message is ack and &lt;strong&gt;publish in a Kafka Transaction&lt;/strong&gt; to a DLT topic.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-kotlin&#34; data-lang=&#34;kotlin&#34;&gt;    @Bean
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;fun&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;rollbackProcessor&lt;/span&gt;(kafkaTemplate: KafkaTemplate&amp;lt;String, String&amp;gt;): AfterRollbackProcessor&amp;lt;Any?, Any?&amp;gt; {
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; deadLetterPublishingRecoverer = DeadLetterPublishingRecoverer(kafkaTemplate)
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; DefaultAfterRollbackProcessor&amp;lt;Any?, Any?&amp;gt;(deadLetterPublishingRecoverer, FixedBackOff(&lt;span style=&#34;color:#ae81ff&#34;&gt;0L&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0L&lt;/span&gt;))
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;having-a-failing-kafka-producer&#34;&gt;Having a failing Kafka Producer&lt;/h3&gt;
+&lt;h4 id=&#34;a-too-large-record&#34;&gt;A too large record&lt;/h4&gt;
+&lt;p&gt;Using a Kafka producer interceptor, we implemented a &lt;code&gt;ToxicProducerInterceptor&lt;/code&gt;.
+It mutates the record to be larger than the request size limit set into the &lt;code&gt;application.yml&lt;/code&gt; file.&lt;/p&gt;
+&lt;h4 id=&#34;using-toxiproxy&#34;&gt;Using Toxiproxy&lt;/h4&gt;
+&lt;p&gt;To make the application disconnected with the Kafka broker, we implemented a &lt;code&gt;ToxiStrimziKafkaContainer&lt;/code&gt;.
+A &lt;a href=&#34;https://www.testcontainers.org/modules/toxiproxy/&#34;&gt;toxiproxy&lt;/a&gt; container is used to cut the bandwidth of the kafka node.&lt;/p&gt;
+&lt;h3 id=&#34;avoid-poison-pill&#34;&gt;Avoid Poison Pill&lt;/h3&gt;
+&lt;p&gt;Using the &lt;code&gt;ErrorHandlingDeserializer&lt;/code&gt; with delegates key and value deserializer.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;kafka&lt;/span&gt;:
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;consumer&lt;/span&gt;:
+      &lt;span style=&#34;color:#75715e&#34;&gt;# Configures the Spring Kafka ErrorHandlingDeserializer that delegates to the &amp;#39;real&amp;#39; deserializers&lt;/span&gt;
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;key-deserializer&lt;/span&gt;: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;value-deserializer&lt;/span&gt;: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+
+      &lt;span style=&#34;color:#66d9ef&#34;&gt;properties&lt;/span&gt;:
+        &lt;span style=&#34;color:#75715e&#34;&gt;# Delegate deserializers&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;spring.deserializer.key.delegate.class&lt;/span&gt;: org.apache.kafka.common.serialization.StringDeserializer
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;spring.deserializer.value.delegate.class&lt;/span&gt;: org.apache.kafka.common.serialization.StringDeserializer
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now, when either the key or value delegate fails to deserialize a poison pill, the &lt;code&gt;ErrorHandlingDeserializer&lt;/code&gt; returns a null value and adds a &lt;code&gt;DeserializationException&lt;/code&gt; in a header containing the cause and the raw bytes.&lt;/p&gt;
+&lt;p&gt;If the &lt;code&gt;ConsumerRecord&lt;/code&gt; contains a &lt;code&gt;DeserializationException&lt;/code&gt; header for either the key or the value, the container’s &lt;code&gt;ErrorHandler&lt;/code&gt; is called with the failed &lt;code&gt;ConsumerRecord&lt;/code&gt;, and the record is not passed to the listener (the class or method annotated with &lt;code&gt;@KafkaListener&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;By default, the container’s error handler is the &lt;code&gt;SeekToCurrentErrorHandler&lt;/code&gt;. By configuring the &lt;code&gt;LoggingErrorHandler&lt;/code&gt;, we can log the content of the poison pill.&lt;/p&gt;
+</description>
+     </item>
    
      <item>
        <title>Why you should stop doing code reviews!</title>
@@ -18,7 +161,6 @@
        
        <guid>https://vgallet.github.io/posts/code-review/</guid>
        <description>&lt;p&gt;&lt;em&gt;I would like to thank Baptiste Barbieri, Antoine Guy, Maxence Zajdlic and Rafael S. Ward for their time &amp;lt;3.&lt;/em&gt;&lt;/p&gt;
-&lt;h1 id=&#34;why-you-should-stop-doing-code-reviews&#34;&gt;Why you should stop doing code reviews!&lt;/h1&gt;
 &lt;p&gt;Code review is one of the most used methods in software development. We all know what are the benefits of doing code review.&lt;/p&gt;
 &lt;p&gt;To sum up, doing code review enables verification of new code quality by identifying future bugs, ensuring tested code, and ensuring readable code.&lt;/p&gt;
 &lt;p&gt;Moreover, by reading code written by others, developers can learn from others. A junior developer can learn by reading the code of a more experienced one. They can ask questions using comments.
