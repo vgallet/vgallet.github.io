@@ -131,8 +131,7 @@
 <p><strong>Disclaimer!</strong></p>
 <p>I’m not writing this post to shame people. Its purpose is only to highlight issues to improve.</p>
 <h3 id="automated-test-yes-but-without-assertion">Automated test yes! But without assertion!</h3>
-<p><img src="/images/codecoverageisdangerous.png" alt="Code Coverage is dangerous">
-<img src="/images/entity_columns.png" alt="Entity Columns"></p>
+<p><img src="/images/codecoverageisdangerous.png" alt="Code Coverage is dangerous"></p>
 <p>When management is asking you to have a high code coverage rate, what is the first thing that comes to your mind? Create automated tests without assertion to have a good code coverage of course! In my humble opinion, this is professional misconduct and more of a curse than blessing for the people that are working with the project. First of all, your code coverage is now false and gives you a wrong idea of what part of the code is covered. Some may start a refactoring thinking that the code is well tested. Second of all, tests without assertion are dead weight. They are not bringing any value. The team has to maintain them and furthermore executing those tests is time consuming and resource consuming.</p>
 <p>The most unpleasant part is that our analysis tool to compute code coverage is not able to detect tests without assertion.</p>
 <p>To take back control here, we can:</p>

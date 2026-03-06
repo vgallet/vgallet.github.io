@@ -41,8 +41,7 @@
 &lt;p&gt;&lt;strong&gt;Disclaimer!&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;I’m not writing this post to shame people. Its purpose is only to highlight issues to improve.&lt;/p&gt;
 &lt;h3 id=&#34;automated-test-yes-but-without-assertion&#34;&gt;Automated test yes! But without assertion!&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://vgallet.github.io/images/codecoverageisdangerous.png&#34; alt=&#34;Code Coverage is dangerous&#34;&gt;
-&lt;img src=&#34;https://vgallet.github.io/images/entity_columns.png&#34; alt=&#34;Entity Columns&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://vgallet.github.io/images/codecoverageisdangerous.png&#34; alt=&#34;Code Coverage is dangerous&#34;&gt;&lt;/p&gt;
 &lt;p&gt;When management is asking you to have a high code coverage rate, what is the first thing that comes to your mind? Create automated tests without assertion to have a good code coverage of course! In my humble opinion, this is professional misconduct and more of a curse than blessing for the people that are working with the project. First of all, your code coverage is now false and gives you a wrong idea of what part of the code is covered. Some may start a refactoring thinking that the code is well tested. Second of all, tests without assertion are dead weight. They are not bringing any value. The team has to maintain them and furthermore executing those tests is time consuming and resource consuming.&lt;/p&gt;
 &lt;p&gt;The most unpleasant part is that our analysis tool to compute code coverage is not able to detect tests without assertion.&lt;/p&gt;
 &lt;p&gt;To take back control here, we can:&lt;/p&gt;
