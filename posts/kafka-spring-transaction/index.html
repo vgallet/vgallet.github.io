@@ -7,11 +7,22 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="The HTML5 Herald" />
-  <meta name="author" content="Victor" />
-  <meta name="generator" content="Hugo 0.68.3" />
+  <meta name="author" content="Victor" /><meta name="generator" content="Hugo 0.61.0" />
     
 
+  <meta property="og:title" content="Take over Legacy: take back control!" />
+<meta property="og:description" content="Take over Legacy: take back control!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://vgallet.github.io/posts/take-over-legacy/" />
+<meta property="og:image" content="https://vgallet.github.io/images/photo-1544383835-bda2bc66a55d.jpeg" />
+<meta property="article:published_time" content="2026-03-06T18:59:04+01:00" />
+<meta property="article:modified_time" content="2026-03-06T18:59:04+01:00" />
 
+  <meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://vgallet.github.io/images/photo-1544383835-bda2bc66a55d.jpeg"/>
+
+<meta name="twitter:title" content="Take over Legacy: take back control!"/>
+<meta name="twitter:description" content="Take over Legacy: take back control!"/>
 
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" />
@@ -196,7 +207,7 @@ o.s.t.i.TransactionInterceptor           : Completing transaction for [spring.tr
 o.s.j.d.DataSourceTransactionManager     : Initiating transaction commit
 o.s.j.d.DataSourceTransactionManager     : Committing JDBC transaction on Connection [HikariProxyConnection@737186320 wrapping org.postgresql.jdbc.PgConnection@5911dd25]
 o.s.j.d.DataSourceTransactionManager     : Releasing JDBC Connection [HikariProxyConnection@737186320 wrapping org.postgresql.jdbc.PgConnection@5911dd25] after transaction
-</code></pre><p>In this case, an application&rsquo;s crash at the right time may cause a loss in the database update.</p>
+</code></pre><p>In this case, an application's crash at the right time may cause a loss in the database update.</p>
 <h2 id="appendices">Appendices</h2>
 <h3 id="kafka-transaction">Kafka Transaction</h3>
 <p>Kafka Transaction was designed for the <code>consume-process-produce</code> pattern.
@@ -235,16 +246,16 @@ It mutates the record to be larger than the request size limit set into the <cod
 A <a href="https://www.testcontainers.org/modules/toxiproxy/">toxiproxy</a> container is used to cut the bandwidth of the kafka node.</p>
 <h3 id="avoid-poison-pill">Avoid Poison Pill</h3>
 <p>Using the <code>ErrorHandlingDeserializer</code> with delegates key and value deserializer.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">  <span style="color:#66d9ef">kafka</span>:
-    <span style="color:#66d9ef">consumer</span>:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">  kafka:
+    consumer:
       <span style="color:#75715e"># Configures the Spring Kafka ErrorHandlingDeserializer that delegates to the &#39;real&#39; deserializers</span>
-      <span style="color:#66d9ef">key-deserializer</span>: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
-      <span style="color:#66d9ef">value-deserializer</span>: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
 
-      <span style="color:#66d9ef">properties</span>:
+      properties:
         <span style="color:#75715e"># Delegate deserializers</span>
-        <span style="color:#66d9ef">spring.deserializer.key.delegate.class</span>: org.apache.kafka.common.serialization.StringDeserializer
-        <span style="color:#66d9ef">spring.deserializer.value.delegate.class</span>: org.apache.kafka.common.serialization.StringDeserializer
+        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+        spring.deserializer.value.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
 </code></pre></div><p>Now, when either the key or value delegate fails to deserialize a poison pill, the <code>ErrorHandlingDeserializer</code> returns a null value and adds a <code>DeserializationException</code> in a header containing the cause and the raw bytes.</p>
 <p>If the <code>ConsumerRecord</code> contains a <code>DeserializationException</code> header for either the key or the value, the container’s <code>ErrorHandler</code> is called with the failed <code>ConsumerRecord</code>, and the record is not passed to the listener (the class or method annotated with <code>@KafkaListener</code>).</p>
 <p>By default, the container’s error handler is the <code>SeekToCurrentErrorHandler</code>. By configuring the <code>LoggingErrorHandler</code>, we can log the content of the poison pill.</p>
@@ -260,6 +271,10 @@ A <a href="https://www.testcontainers.org/modules/toxiproxy/">toxiproxy</a> cont
             <a href="https://vgallet.github.io/posts/code-review/"><i class="fa fa-chevron-circle-left"></i> Why you should stop doing code reviews!</a>
         </li>
         
+        
+        <li>
+            <a href="https://vgallet.github.io/posts/take-over-legacy/">Take over Legacy: take back control! <i class="fa fa-chevron-circle-right"></i> </a>
+        </li>
         
     </ul>
 </section>

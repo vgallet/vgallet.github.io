@@ -1,0 +1,225 @@
+<!doctype html>
+
+<html lang="en-us">
+
+<head>
+  <title>VGA</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="The HTML5 Herald" />
+  <meta name="author" content="Victor" /><meta name="generator" content="Hugo 0.61.0" />
+    
+
+  <meta property="og:title" content="Take over Legacy: take back control!" />
+<meta property="og:description" content="Take over Legacy: take back control!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://vgallet.github.io/posts/take-over-legacy/" />
+<meta property="og:image" content="https://vgallet.github.io/images/photo-1544383835-bda2bc66a55d.jpeg" />
+<meta property="article:published_time" content="2026-03-06T18:59:04+01:00" />
+<meta property="article:modified_time" content="2026-03-06T18:59:04+01:00" />
+
+  <meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://vgallet.github.io/images/photo-1544383835-bda2bc66a55d.jpeg"/>
+
+<meta name="twitter:title" content="Take over Legacy: take back control!"/>
+<meta name="twitter:description" content="Take over Legacy: take back control!"/>
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" />
+  <script src="https://kit.fontawesome.com/b76b73e8e8.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda" />
+  <link rel="stylesheet" type="text/css" href="/css/styles.css" /></head>
+
+<body>
+  <div id="container">
+    <header>
+      <h1>
+                <a href="/">VGA</a>
+            </h1>
+
+      <ul id="social-media">
+             <li>
+               <a href="https://github.com/vgallet" title="GitHub">
+               <i class="fab fa-github fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://twitter.com/GalletVictor" title="Twitter">
+               <i class="fab fa-twitter fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://linkedin.com/in/%f0%9f%8f%80-%f0%9f%92%89%f0%9f%92%89victor-gallet-047285109" title="LinkedIn">
+               <i class="fab fa-linkedin fa-lg"></i>
+               </a>
+             </li>
+             <li>
+               <a href="https://stackoverflow.com/users/4787113/victor-gallet" title="StackOverflow">
+               <i class="fab fa-stack-overflow fa-lg"></i>
+               </a>
+             </li>
+      </ul>
+      
+    </header>
+
+    
+<nav>
+    <ul>
+        
+    </ul>
+</nav>
+
+    <main>
+
+
+
+
+<article>
+
+    <h1>Take over Legacy: take back control!</h1>
+
+    
+        <aside>
+    <ul>
+        <li>
+            <time class="post-date" datetime="2026-03-06T18:59:04&#43;01:00">Mar 6, 2026</time>
+        </li>
+        
+        <li>
+            Categories:
+            <em>
+                
+                    
+                    <a href="/categories/craft">craft</a>
+                
+                    , 
+                    <a href="/categories/legacy">legacy</a>
+                
+            </em>
+        </li>
+        
+
+        
+
+        <li>8 minutes read</li>
+    </ul>
+</aside>
+
+    
+
+    <h2 id="introduction">Introduction</h2>
+<p>I always like to work with legacy applications. First of all, it means that the application is currently being used and running in production. Maybe I’m not working with the most hyped technology nor framework but it means that I’m bringing value to final users and I’m contributing to improve their user experience. In addition, working with a legacy application is most of the time a wide-ranging challenge. With technical problems comes human and company challenges and in my opinion, this is where AI code generators find their limits.</p>
+<p>So how do we know we are facing a legacy application or legacy code? There are some classic hints:</p>
+<ul>
+<li>some famous code smells like primitive obsession, large class, long parameter list… etc.</li>
+<li>no or few automated tests.</li>
+<li>some old-fashioned technologies with security issues that are hard to update.</li>
+<li>and more.</li>
+</ul>
+<p>Some others symptoms may ring a bell too:</p>
+<ul>
+<li>a production release is seen as risky and it’s a special event for the team</li>
+<li>coding a new feature leads to a regression in other functionalities of the application</li>
+<li>developer's estimations look huge event for a small change</li>
+<li>when you ask your Product Owner at what price they would be willing to give up on a new feature</li>
+</ul>
+<p>It’s a non-exhaustive list and each developer or team could have a different point of view of what is legacy code. DORA’s metrics are a good way to start.</p>
+<p>A lot of people may think that a good way to get rid of a legacy application is to rewrite it from scratch. In fact, what makes us think that our problems dealing with a legacy application are only based on technology. Write code smells, don’t write automated tests are practices not related to the technology used. What makes us think that this time, the code will be cleaner despite the fact that the team hasn't changed its practices?</p>
+<p>Rewriting from scratch is, from my humble point of view, a bad idea. In fact, the team has to take back control of the application by changing its practices and using software crafting.</p>
+<h2 id="my-experience">My experience</h2>
+<p>Here's my current experience of a legacy project where I have worked for one year and where we are working to take back control.</p>
+<p><strong>Disclaimer!</strong></p>
+<p>I’m not writing this post to shame people. Its purpose is only to highlight issues to improve.</p>
+<h3 id="automated-test-yes-but-without-assertion">Automated test yes! But without assertion!</h3>
+<p><img src="/images/codecoverageisdangerous.png" alt="Code Coverage is dangerous">
+<img src="/images/entity_columns.png" alt="Entity Columns"></p>
+<p>When management is asking you to have a high code coverage rate, what is the first thing that comes to your mind? Create automated tests without assertion to have a good code coverage of course! In my humble opinion, this is professional misconduct and more of a curse than blessing for the people that are working with the project. First of all, your code coverage is now false and gives you a wrong idea of what part of the code is covered. Some may start a refactoring thinking that the code is well tested. Second of all, tests without assertion are dead weight. They are not bringing any value. The team has to maintain them and furthermore executing those tests is time consuming and resource consuming.</p>
+<p>The most unpleasant part is that our analysis tool to compute code coverage is not able to detect tests without assertion.</p>
+<p>To take back control here, we can:</p>
+<ul>
+<li>delete all the tests without assertion. It will lead to less code to compile, to execute and to maintain and the code coverage rate will now give a real value.</li>
+<li>Another solution is to fix the tests without assertion. Understand what those tests are doing, complete the scenario and add relevant assertions. It’s time consuming, but an important task.</li>
+</ul>
+<p>It’s not finished yet! We need to consider that even the tests with assertions are not relevant. To ensure that our tests are robust and reliable, we can rely on mutation testing. It gives a good view of our test’s quality.
+Finally, it’s really important to take care of our test code base as much as our production code base.</p>
+<h3 id="a-bug--a-test-">a bug == a test !</h3>
+<p>Writing a test to start fixing a bug is a practice that should be widespread between developers. It enables you to reproduce the bug and makes sure it won’t occur again.</p>
+<p>This is common sense but unfortunately, I had to hammer it home during recent discussions. Some developers were claiming that the code is already covered by some tests, so there was no need to write a new test.</p>
+<h3 id="technical-migration">Technical migration</h3>
+<p>Taking back control also means migrating to modern and battle-tested technologies. Popular technologies are also well known by the developers and most of the time improve their developer experience. Popular technologies enable us to hire more easily.
+In our case, the application was built using the framework Apache TomEE. This framework was a real pain to work with. It lacks documentation and online resources. It is complex to deal with external properties. It is difficult to write integration tests and to integrate it with the Java ecosystem. So, we decided to migrate to the framework Spring Boot.</p>
+<p>In order to migrate and to take back control, we decided to migrate endpoint by endpoint. Each migrated endpoint should be migrated with a successfully running test. By migrating one endpoint at a time, we had to pull the dependencies, transform some classes to Spring bean, upgrade libraries, and make sure the application is still running properly during the migration. Doing things this way let us build a solid base of functional tests.</p>
+<p>This migration was long and tough but having working tests at each baby step let us move forward calmly ensuring that we were going into the right direction. During the migration from OpenJPA towardsHibernate, there was one thing that took my breath away! Hibernate was failing to start because an annotated class with @Entity had two fields annotated with the same @Column! Hibernate was totally right to fail because of this…OpenJPA let it go.</p>
+<p><img src="/images/entity_columns.png" alt="Entity Columns"></p>
+<p>To sum up, it means that we had in our database a column of a table that was used by two different fields of the same Java entity.</p>
+<h3 id="a-fresh-look">A fresh look?</h3>
+<p>Working with a legacy application also means taking ownership of it and understanding it. The deeper you go, the more you are able to understand how and why some things have been developed and means you are able to change or improve it. For instance, the build of the Docker image is made on a CI where the version of a dependency was added manually. I tried to understand why this dependency was mandatory and I realized that this dependency was in fact empty and totally unnecessary! A classic example of a cargo cult.</p>
+<h3 id="stability-versus-speed">Stability versus Speed?</h3>
+<p>Dealing with a legacy application usually means working with a fragile application and people tend to test, test again and test again and again to make sure the new version won’t break anything. The team fears side effects and each deployment is seen as a special event. It’s easy to understand this way of doing but in fact it suffers from bias.</p>
+<p>The book “Accelerate: The Science of Lean Software and DevOps: Building and Scaling High Performing Technology Organizations defines four metrics:</p>
+<ul>
+<li>two metrics of speed:  lead time and deployment frequency.</li>
+<li>two metrics of stability: mean time to repair (MTTR) and change failure rate.</li>
+</ul>
+<p>And the most important thing to know is that those metrics change together. One can not increase its stability without increasing its speed and the opposite is also true. It’s a common misconception that increasing deployment frequency compromises stability. The Book’s research denies this myth and demonstrates that continuous integration, testing, automation and continuous deployment improves velocity and reliability.</p>
+<h3 id="some-best-practices">Some best practices</h3>
+<p>Taking back control is not only about technical topics. It goes with practice and continuous improvement. For example, here’s a list of some best practices we put in place:</p>
+<ul>
+<li>pair programming sessions,</li>
+<li>thorough code review,</li>
+<li>mentoring to help staff master writing automated tests,</li>
+<li>mentoring to deal with legacy code and code that is hard to unit test using golden master testing method,</li>
+<li>a weekly session to discuss our technical debt and how to get rid of it,</li>
+<li>supporting staff to adapt to best practices through sharing at talks and conferences.</li>
+</ul>
+<p>Moreover, it’s important to focus on people who really want to improve. It could be a waste of time and really frustrating to invest time and energy without output.</p>
+<h3 id="what-about-ai">What about AI?</h3>
+<p>I would like to finish this post about the impact of AI. AI enables us to understand and work with functions even 2000 lines long. AI enables us to clean up and to support our test code base. However, AI is not a silver bullet. It needs to be assisted by best practices, work in baby steps and with generated code that should always be verified. It’s easy to ask AI to generate a test suite over legacy code but be careful with the results! While our AI takes its inspiration from the existing code, it is mandatory to prepare it with best practices and examples.</p>
+<p>Using AI to work with a complex legacy code base is like working with a 4-year-old child! You always have to repeat the context, force it to stay focused, remind it what the goal is, and always verify the output.</p>
+
+
+</article>
+
+
+<section class="post-nav">
+    <ul>
+        
+        <li>
+            <a href="https://vgallet.github.io/posts/kafka-spring-transaction/"><i class="fa fa-chevron-circle-left"></i> Spring Kafka Transaction Sample</a>
+        </li>
+        
+        
+    </ul>
+</section>
+    
+
+
+
+
+
+</main>
+    <footer>
+        <h6> |
+            Rendered by <a href="https://gohugo.io" title="Hugo">Hugo</a> |
+            <a href="https://vgallet.github.io/index.xml">Subscribe </a></h6>
+    </footer>
+</div>
+<script src="/js/scripts.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-153662880-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+</body>
+
+</html>
+
